@@ -1,0 +1,43 @@
+@keyframes float-a {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  33% { transform: translateY(-10px) rotate(0.4deg); }
+  66% { transform: translateY(-5px) rotate(-0.3deg); }
+}
+
+@keyframes float-b {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  40% { transform: translateY(-14px) rotate(-0.5deg); }
+  70% { transform: translateY(-6px) rotate(0.3deg); }
+}
+
+@keyframes float-c {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  30% { transform: translateY(-8px) rotate(0.6deg); }
+  60% { transform: translateY(-12px) rotate(-0.2deg); }
+}
+
+@keyframes float-d {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(0.3deg); }
+}
+
+@keyframes float-e {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  35% { transform: translateY(-7px) rotate(-0.4deg); }
+  65% { transform: translateY(-13px) rotate(0.5deg); }
+}
+
+.float-card-1 { animation: float-a 6s ease-in-out infinite; }
+.float-card-2 { animation: float-b 7.5s ease-in-out infinite 1.2s; }
+.float-card-3 { animation: float-c 5.8s ease-in-out infinite 0.6s; }
+.float-card-4 { animation: float-d 8.2s ease-in-out infinite 2s; }
+.float-card-5 { animation: float-e 6.6s ease-in-out infinite 0.3s; }
+
+.testimonials-visible .float-card {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .float-card { animation: none !important; }
+}

@@ -1,0 +1,75 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-background: #ffffff;
+  --color-foreground: #111111;
+  --font-sans: var(--font-inter);
+  --font-serif: var(--font-playfair-display);
+}
+
+body {
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans);
+}
+
+/* Scroll animation base */
+.fade-up {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+}
+
+.fade-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Hero scroll animation */
+.hero-fade-up.hero-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Footer scroll animation */
+.footer-visible {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+.footer-visible .footer-fade {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* CTA Banner 1 scroll animation */
+.cta1-visible .cta1-left,
+.cta1-visible .cta1-right {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.cta1-no-transform .cta1-left,
+.cta1-no-transform .cta1-right {
+  transform: none;
+}
+
+/* CTA Banner 2 scroll animation */
+.cta2-visible .cta2-content {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.cta2-no-transform .cta2-content {
+  transform: none;
+}
+
+/* Horizontal scroll container */
+.scroll-x-container {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.scroll-x-container::-webkit-scrollbar {
+  display: none;
+}

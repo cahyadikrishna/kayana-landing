@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+import Button from "@/components/ui/Button";
 
 const cards = [
   {
@@ -46,10 +47,10 @@ export default function RecentFeed() {
         <div className="fade-up flex flex-col md:flex-row gap-12 md:gap-0">
           {/* Left column */}
           <div className="md:w-1/2">
-            <span className="block font-sans text-xs uppercase tracking-widest text-white/40">
+            <span className="block text-xs uppercase tracking-widest text-white/40">
               [003]
             </span>
-            <span className="block font-sans text-xs uppercase tracking-widest text-white/40 mt-1">
+            <span className="block text-xs uppercase tracking-widest text-white/40 mt-1">
               Our Work
             </span>
             <h2 className="mt-6 font-serif text-4xl md:text-5xl lg:text-6xl text-white leading-tight">
@@ -66,25 +67,20 @@ export default function RecentFeed() {
 
           {/* Right column */}
           <div className="md:w-1/2 flex flex-col items-start justify-end">
-            <p className="font-sans text-sm text-white/50 leading-relaxed max-w-xs">
+            <p className="text-sm text-white/50 leading-relaxed max-w-xs">
               Embark on a visual journey through our graduation moments captured
               with creativity and precision. Each image in our portfolio reflects
               our dedication to preserving life&apos;s beauty and significance.
             </p>
-            <div className="flex items-center gap-3 mt-6">
-              <a
+            <div className="mt-6">
+              <Button
                 href="#projects"
-                className="rounded-full border border-white/30 px-6 py-2.5 font-sans text-sm text-white hover:bg-white/10 transition-colors"
+                variant="ghost"
+                color="light"
+                icon="arrow-up-right"
               >
-                Explore More →
-              </a>
-              <a
-                href="#projects"
-                className="flex h-10 w-10 items-center justify-center rounded-full bg-white text-black text-sm"
-                aria-label="Explore more"
-              >
-                ↗
-              </a>
+                Explore More
+              </Button>
             </div>
           </div>
         </div>
@@ -123,7 +119,7 @@ export default function RecentFeed() {
                   {featuredPills.map((pill) => (
                     <span
                       key={pill}
-                      className="rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white text-xs px-3 py-1 font-sans"
+                      className="rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white text-xs px-3 py-1"
                     >
                       {pill}
                     </span>
@@ -137,21 +133,21 @@ export default function RecentFeed() {
                   {card.title}
                 </h3>
                 <p
-                  className={`font-sans text-white/60 text-xs leading-relaxed mb-4 line-clamp-2 ${
+                  className={`text-white/60 text-xs leading-relaxed mb-4 line-clamp-2 ${
                     i > 0 ? "hidden md:block" : ""
                   }`}
                 >
                   {card.description}
                 </p>
-                <button
-                  type="button"
-                  className="w-full rounded-full border border-white/30 bg-transparent text-white font-sans text-xs py-2.5 flex items-center justify-between px-4 hover:bg-white/10 transition-colors duration-200"
+                <Button
+                  variant="ghost"
+                  color="light"
+                  size="sm"
+                  icon="chevron-right"
+                  className="w-full justify-between px-4 uppercase tracking-widest"
                 >
-                  <span className="uppercase tracking-widest">
-                    More Details
-                  </span>
-                  <span>›</span>
-                </button>
+                  More Details
+                </Button>
               </div>
             </div>
           ))}

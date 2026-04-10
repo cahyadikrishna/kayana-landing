@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import Button from "@/components/ui/Button";
 
 export default function CtaBanner2() {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -38,7 +39,7 @@ export default function CtaBanner2() {
         className="max-w-screen-xl mx-auto px-6 md:px-16"
       >
         <div className="cta2-content text-center mx-auto max-w-3xl flex flex-col items-center opacity-0 translate-y-6 transition-all duration-700 ease-out">
-          <span className="inline-block border border-black/20 rounded-full px-4 py-1.5 font-sans text-xs uppercase tracking-widest text-black/50">
+          <span className="inline-block border border-black/20 rounded-full px-4 py-1.5 text-xs uppercase tracking-widest text-black/50">
             One Last Thing
           </span>
 
@@ -54,19 +55,17 @@ export default function CtaBanner2() {
             finally be done — and we&apos;ll make sure you can see it.
           </p>
 
-          <a
+          <Button
             href="/contact"
-            className="group inline-flex items-center rounded-full border border-black/20 overflow-hidden hover:border-black/40 transition-colors duration-200 mt-10"
+            variant="ghost"
+            color="dark"
+            icon="arrow-right"
+            className="mt-10"
           >
-            <span className="px-8 py-3.5 font-sans font-semibold text-sm tracking-widest text-black whitespace-nowrap uppercase bg-transparent group-hover:bg-black/5 transition-colors duration-200">
-              LET&apos;S CAPTURE IT
-            </span>
-            <span className="w-11 h-11 bg-black flex items-center justify-center text-white text-base">
-              →
-            </span>
-          </a>
+            Let&apos;s Capture It
+          </Button>
 
-          <p className="mt-4 font-sans text-xs text-black/30 tracking-wide">
+          <p className="mt-4 text-xs text-black/30 tracking-wide">
             No commitment. Just a conversation.
           </p>
         </div>

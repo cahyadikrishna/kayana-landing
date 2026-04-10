@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import Button from "@/components/ui/Button";
 
 const navLinks = ["About Us", "Projects", "Services", "Terms & Conditions"];
 
@@ -37,15 +38,15 @@ export default function Footer() {
           {/* Left — CTA headline */}
           <div className="md:w-2/3">
             <div className="mb-6">
-              <span className="block font-sans text-xs uppercase tracking-widest text-white/30">
+              <span className="block text-xs uppercase tracking-widest text-white/30">
                 [005]
               </span>
-              <span className="block font-sans text-xs uppercase tracking-widest text-white/30 mt-1">
+              <span className="block text-xs uppercase tracking-widest text-white/30 mt-1">
                 Contact Us
               </span>
             </div>
 
-            <h2 className="font-sans text-4xl md:text-5xl lg:text-6xl xl:text-7xl leading-tight tracking-tight text-white">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl leading-tight tracking-tight text-white">
               <span
                 className="block footer-fade opacity-0 translate-y-4 transition-all duration-700"
                 style={{ transitionDelay: "100ms" }}
@@ -58,17 +59,15 @@ export default function Footer() {
                 style={{ transitionDelay: "200ms" }}
               >
                 vision{" "}
-                <a
+                <Button
                   href="#contact"
-                  className="group inline-flex items-center align-middle mx-1 md:mx-3 rounded-full border border-white/20 overflow-hidden"
+                  variant="ghost"
+                  color="light"
+                  icon="arrow-right"
+                  className="align-middle mx-1 md:mx-3"
                 >
-                  <span className="px-4 py-1.5 md:px-5 md:py-2 bg-white/10 text-white font-sans font-semibold text-xs md:text-sm tracking-wide whitespace-nowrap group-hover:bg-white/20 transition-colors duration-200">
-                    BOOK A SESSION
-                  </span>
-                  <span className="w-8 h-8 md:w-10 md:h-10 bg-white flex items-center justify-center text-black text-sm border-l border-white/20">
-                    →
-                  </span>
-                </a>{" "}
+                  Book a Session
+                </Button>{" "}
                 with
               </span>
               <span
@@ -85,20 +84,20 @@ export default function Footer() {
             className="md:w-1/3 flex flex-col items-start md:items-end justify-center gap-2 footer-fade opacity-0 translate-y-4 transition-all duration-700"
             style={{ transitionDelay: "300ms" }}
           >
-            <p className="font-sans text-sm text-white/50">
+            <p className="text-sm text-white/50">
               Bandung, Indonesia
             </p>
             <a
               href="https://wa.me/6281234567890"
               target="_blank"
               rel="noopener noreferrer"
-              className="font-sans text-sm text-white/50 hover:text-white transition-colors duration-200"
+              className="text-sm text-white/50 hover:text-white transition-colors duration-200"
             >
               +62 812-3456-7890
             </a>
             <a
               href="mailto:hello@kayanamoment.com"
-              className="font-sans text-sm text-white/50 hover:text-white transition-colors duration-200"
+              className="text-sm text-white/50 hover:text-white transition-colors duration-200"
             >
               hello@kayanamoment.com
             </a>
@@ -106,7 +105,7 @@ export default function Footer() {
               href="https://instagram.com/kayanamoment"
               target="_blank"
               rel="noopener noreferrer"
-              className="font-sans text-sm text-white/50 hover:text-white transition-colors duration-200"
+              className="text-sm text-white/50 hover:text-white transition-colors duration-200"
             >
               @kayanamoment
             </a>
@@ -146,7 +145,7 @@ export default function Footer() {
               <a
                 key={link}
                 href={`#${link.toLowerCase().replace(/\s+/g, "-")}`}
-                className="font-sans text-xs md:text-sm text-white/40 hover:text-white/80 transition-colors duration-200 cursor-pointer"
+                className="text-xs md:text-sm text-white/40 hover:text-white/80 transition-colors duration-200 cursor-pointer"
               >
                 {link}
               </a>
@@ -154,7 +153,7 @@ export default function Footer() {
           </div>
 
           {/* Right — copyright */}
-          <p className="font-sans text-xs text-white/30">
+          <p className="text-xs text-white/30">
             ©Kayana 2025. All Rights Reserved.
           </p>
         </div>

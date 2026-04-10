@@ -13,6 +13,12 @@ body {
   font-family: var(--font-sans);
 }
 
+button {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
 /* Scroll animation base */
 .fade-up {
   opacity: 0;

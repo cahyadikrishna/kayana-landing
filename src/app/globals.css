@@ -7,6 +7,12 @@
   --font-serif: var(--font-playfair-display);
 }
 
+/* ─── Base ────────────────────────────────────────────────────────────────── */
+
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   background: var(--color-background);
   color: var(--color-foreground);
@@ -19,11 +25,90 @@ button {
   line-height: inherit;
 }
 
-/* Scroll animation base */
+/* ─── Page Load Keyframes ─────────────────────────────────────────────────── */
+
+@keyframes luxury-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes nav-drop {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes gentle-fade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes scroll-drift {
+  0%, 100% {
+    opacity: 0.4;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 0.85;
+    transform: translateY(7px);
+  }
+}
+
+/* ─── Page Load Classes ───────────────────────────────────────────────────── */
+
+.anim-nav {
+  animation: nav-drop 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.anim-hero-media {
+  animation: gentle-fade 1.1s ease-out 0.05s both;
+}
+
+.anim-headline-1 {
+  animation: luxury-reveal 0.75s cubic-bezier(0.22, 1, 0.36, 1) 0.25s both;
+}
+
+.anim-headline-2 {
+  animation: luxury-reveal 0.75s cubic-bezier(0.22, 1, 0.36, 1) 0.42s both;
+}
+
+.anim-cta-load {
+  animation: luxury-reveal 0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.65s both;
+}
+
+.anim-pills {
+  animation: gentle-fade 0.65s ease-out 0.78s both;
+}
+
+.anim-preview-cards {
+  animation: gentle-fade 0.7s ease-out 1s both;
+}
+
+/* ─── Scroll Indicator ────────────────────────────────────────────────────── */
+
+.scroll-indicator {
+  animation: scroll-drift 2.4s cubic-bezier(0.45, 0, 0.55, 1) infinite 1.8s;
+}
+
+/* ─── Scroll Animations ───────────────────────────────────────────────────── */
+
+/* Elegant fade-up — primary scroll reveal */
 .fade-up {
   opacity: 0;
-  transform: translateY(32px);
-  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+  transform: translateY(28px);
+  transition: opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .fade-up.visible {
@@ -31,13 +116,25 @@ button {
   transform: translateY(0);
 }
 
-/* Hero scroll animation */
+/* Gentle fade — no movement */
+.fade-in {
+  opacity: 0;
+  transition: opacity 0.75s ease-out;
+}
+
+.fade-in.visible {
+  opacity: 1;
+}
+
+/* ─── Legacy Hero Classes (kept for backward compatibility) ───────────────── */
+
 .hero-fade-up.hero-visible {
   opacity: 1;
   transform: translateY(0);
 }
 
-/* Footer scroll animation */
+/* ─── Footer Scroll Animation ─────────────────────────────────────────────── */
+
 .footer-visible {
   opacity: 1 !important;
   transform: translateY(0) !important;
@@ -48,7 +145,8 @@ button {
   transform: translateY(0);
 }
 
-/* CTA Banner 1 scroll animation */
+/* ─── CTA Banner 1 ────────────────────────────────────────────────────────── */
+
 .cta1-visible .cta1-left,
 .cta1-visible .cta1-right {
   opacity: 1;
@@ -60,7 +158,8 @@ button {
   transform: none;
 }
 
-/* CTA Banner 2 scroll animation */
+/* ─── CTA Banner 2 ────────────────────────────────────────────────────────── */
+
 .cta2-visible .cta2-content {
   opacity: 1;
   transform: translateY(0);
@@ -70,7 +169,75 @@ button {
   transform: none;
 }
 
-/* Horizontal scroll container */
+/* ─── Micro-interaction: Link Underline Reveal ────────────────────────────── */
+
+.link-reveal {
+  position: relative;
+  text-decoration: none;
+}
+
+.link-reveal::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.5;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.link-reveal:hover::after {
+  transform: scaleX(1);
+}
+
+/* ─── Micro-interaction: Portfolio Card Hover ─────────────────────────────── */
+
+/* Outer card — soft lift + shadow deepening */
+.portfolio-card-outer {
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 0.45s ease-out;
+}
+
+.portfolio-card-outer:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 28px 60px rgba(0, 0, 0, 0.45);
+}
+
+/* Inner image wrapper — zoom + grayscale-to-color */
+.portfolio-card-img {
+  transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+              filter 0.65s ease-out;
+  filter: grayscale(18%) brightness(0.9);
+}
+
+.portfolio-card-outer:hover .portfolio-card-img {
+  transform: scale(1.06);
+  filter: grayscale(0%) brightness(1.02);
+}
+
+/* ─── Micro-interaction: Testimonial Scale Reveal ─────────────────────────── */
+
+/* CSS scale property — independent of transform, no conflict with float anim */
+.scale-reveal {
+  scale: 0.97;
+}
+
+.testimonials-visible .scale-reveal {
+  scale: 1.0;
+}
+
+/* ─── Parallax Background ─────────────────────────────────────────────────── */
+
+.parallax-bg {
+  will-change: transform;
+}
+
+/* ─── Horizontal Scroll Container ────────────────────────────────────────── */
+
 .scroll-x-container {
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -78,4 +245,50 @@ button {
 
 .scroll-x-container::-webkit-scrollbar {
   display: none;
+}
+
+/* ─── Reduced Motion ──────────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .anim-nav,
+  .anim-hero-media,
+  .anim-headline-1,
+  .anim-headline-2,
+  .anim-cta-load,
+  .anim-pills,
+  .anim-preview-cards {
+    animation: none !important;
+    opacity: 1;
+    transform: none;
+  }
+
+  .scroll-indicator {
+    animation: none !important;
+    opacity: 0.5;
+  }
+
+  .fade-up,
+  .fade-in {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .scale-reveal {
+    scale: 1;
+    transition: none;
+  }
+
+  .portfolio-card-img {
+    transition: none;
+    filter: none;
+  }
+
+  .portfolio-card-outer {
+    transition: none;
+  }
+
+  .link-reveal::after {
+    transition: none;
+  }
 }

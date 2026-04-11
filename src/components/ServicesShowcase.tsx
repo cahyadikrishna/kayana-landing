@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import "@/styles/services-showcase.css";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 const services = [
   {
@@ -41,6 +42,7 @@ export default function ServicesShowcase() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [prevIndex, setPrevIndex] = useState<number | null>(null);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const scrollRef = useScrollAnimation();
 
   const handleHover = useCallback(
     (i: number) => {
@@ -60,10 +62,10 @@ export default function ServicesShowcase() {
   }, []);
 
   return (
-    <section className="bg-[#111111] py-24 md:py-32 px-6 md:px-16">
+    <section ref={scrollRef} className="bg-[#111111] py-24 md:py-32 px-6 md:px-16">
       <div className="max-w-screen-xl mx-auto">
         {/* Section header */}
-        <div className="flex flex-col md:flex-row gap-8 md:gap-0">
+        <div className="fade-up flex flex-col md:flex-row gap-8 md:gap-0">
           {/* Left labels */}
           <div className="md:w-1/2">
             <span className="block text-xs uppercase tracking-widest text-white/30">
@@ -86,7 +88,7 @@ export default function ServicesShowcase() {
         </div>
 
         {/* Main content */}
-        <div className="mt-16 flex flex-col md:flex-row gap-8 md:gap-12 items-start">
+        <div className="fade-up mt-16 flex flex-col md:flex-row gap-8 md:gap-12 items-start" style={{ transitionDelay: "150ms" }}>
           {/* Left column — service rows */}
           <div className="md:w-[55%] w-full divide-y divide-white/10">
             {services.map((service, i) => {

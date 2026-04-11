@@ -140,8 +140,8 @@ export type ButtonProps = AsAnchor | AsButton;
 // ─── Style helpers ──────────────────────────────────────────────────────────
 
 const ghostStyles: Record<ButtonColor, string> = {
-  light: "border-white/30 text-white hover:bg-white/10",
-  dark: "border-black/20 text-black hover:bg-black/5",
+  light: "border-white/30 text-white hover:bg-white/10 hover:border-white/50",
+  dark: "border-black/20 text-black hover:bg-black/5 hover:border-black/35",
   green: "border-[#25D366] text-[#25D366] hover:bg-[#25D366]/10",
 };
 
@@ -183,9 +183,9 @@ const pillCtaBoxSizeStyles: Record<ButtonSize, string> = {
 };
 
 const solidStyles: Record<ButtonColor, string> = {
-  light: "bg-white text-black hover:bg-white/90",
-  dark: "bg-black text-white hover:bg-black/90",
-  green: "bg-[#25D366] text-white hover:bg-[#1ebe5d]",
+  light: "bg-white text-black hover:bg-white/92 hover:-translate-y-0.5 hover:shadow-md",
+  dark: "bg-black text-white hover:bg-black/85 hover:-translate-y-0.5 hover:shadow-md",
+  green: "bg-[#25D366] text-white hover:bg-[#1ebe5d] hover:-translate-y-0.5 hover:shadow-md",
 };
 
 const solidSizeStyles: Record<ButtonSize, string> = {
@@ -262,16 +262,16 @@ function getContainerClass(
   className: string
 ): string {
   if (variant === "ghost") {
-    return `inline-flex items-center gap-2 rounded-full border transition-colors ${ghostStyles[color]} ${ghostSizeStyles[size]} ${className}`;
+    return `inline-flex items-center gap-2 rounded-full border transition-all duration-300 ${ghostStyles[color]} ${ghostSizeStyles[size]} ${className}`;
   }
   if (variant === "pill-cta") {
-    return `group inline-flex items-center rounded-full border overflow-hidden transition-colors duration-200 ${pillCtaContainerStyles[color]} ${className}`;
+    return `group inline-flex items-center rounded-full border overflow-hidden transition-all duration-300 ${pillCtaContainerStyles[color]} ${className}`;
   }
   if (variant === "solid") {
-    return `inline-flex items-center gap-2 rounded-full transition-colors ${solidStyles[color]} ${solidSizeStyles[size]} ${className}`;
+    return `inline-flex items-center gap-2 rounded-full transition-all duration-300 ${solidStyles[color]} ${solidSizeStyles[size]} ${className}`;
   }
   // icon-only
-  return `flex items-center justify-center rounded-full transition-colors ${iconOnlyStyles[color]} ${iconOnlySizeStyles[size]} ${className}`;
+  return `flex items-center justify-center rounded-full transition-all duration-300 ${iconOnlyStyles[color]} ${iconOnlySizeStyles[size]} ${className}`;
 }
 
 export default function Button({

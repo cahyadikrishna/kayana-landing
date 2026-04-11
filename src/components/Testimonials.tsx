@@ -107,8 +107,8 @@ export default function Testimonials() {
         {testimonials.map((t, i) => (
           <div
             key={t.name}
-            className={`float-card ${t.floatClass} w-full bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl p-6 opacity-0 translate-y-5 transition-all duration-700`}
-            style={{ transitionDelay: `${i * 100}ms` }}
+            className={`float-card scale-reveal ${t.floatClass} w-full bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl p-6 opacity-0 translate-y-5 transition-all duration-700`}
+            style={{ transitionDelay: `${i * 120}ms` }}
           >
             <p className="font-serif italic text-4xl text-white/20 leading-none mb-2">
               &ldquo;
@@ -132,8 +132,8 @@ export default function Testimonials() {
         {testimonials.map((t, i) => (
           <div
             key={t.name}
-            className={`float-card ${t.floatClass} absolute w-72 md:w-80 bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl p-6 md:p-7 opacity-0 translate-y-5 transition-all duration-700`}
-            style={{ ...t.position, transitionDelay: `${i * 100}ms` }}
+            className={`float-card scale-reveal ${t.floatClass} absolute w-72 md:w-80 bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl p-6 md:p-7 opacity-0 translate-y-5 transition-all duration-700`}
+            style={{ ...t.position, transitionDelay: `${i * 120}ms` }}
           >
             <p className="font-serif italic text-4xl text-white/20 leading-none mb-2">
               &ldquo;

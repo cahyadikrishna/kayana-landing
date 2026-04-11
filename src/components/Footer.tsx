@@ -91,13 +91,13 @@ export default function Footer() {
               href="https://wa.me/6281234567890"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-sm text-white/50 hover:text-white transition-colors duration-200"
+              className="link-reveal text-sm text-white/50 hover:text-white transition-all duration-300"
             >
               +62 812-3456-7890
             </a>
             <a
               href="mailto:hello@kayanamoment.com"
-              className="text-sm text-white/50 hover:text-white transition-colors duration-200"
+              className="link-reveal text-sm text-white/50 hover:text-white transition-all duration-300"
             >
               hello@kayanamoment.com
             </a>
@@ -105,7 +105,7 @@ export default function Footer() {
               href="https://instagram.com/kayanamoment"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-sm text-white/50 hover:text-white transition-colors duration-200"
+              className="link-reveal text-sm text-white/50 hover:text-white transition-all duration-300"
             >
               @kayanamoment
             </a>
@@ -145,7 +145,7 @@ export default function Footer() {
               <a
                 key={link}
                 href={`#${link.toLowerCase().replace(/\s+/g, "-")}`}
-                className="text-xs md:text-sm text-white/40 hover:text-white/80 transition-colors duration-200 cursor-pointer"
+                className="link-reveal text-xs md:text-sm text-white/40 hover:text-white/80 transition-all duration-300 cursor-pointer"
               >
                 {link}
               </a>

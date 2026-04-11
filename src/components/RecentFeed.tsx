@@ -43,7 +43,7 @@ export default function RecentFeed() {
   return (
     <section ref={ref} className="bg-[#111111] py-24 md:py-32 px-6 md:px-16">
       <div className="max-w-screen-xl mx-auto">
-        {/* Section header */}
+        {/* Section header — fade-up as a unit */}
         <div className="fade-up flex flex-col md:flex-row gap-12 md:gap-0">
           {/* Left column */}
           <div className="md:w-1/2">
@@ -91,15 +91,16 @@ export default function RecentFeed() {
             Replace each card's image src and content with API response data
             Access token: store in .env.local as NEXT_PUBLIC_INSTAGRAM_TOKEN */}
 
-        {/* Cards grid */}
-        <div className="fade-up grid grid-cols-2 md:grid-cols-4 gap-3 mt-12">
+        {/* Cards grid — each card fades in individually with staggered delays */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-12">
           {cards.map((card, i) => (
             <div
               key={card.title}
-              className="group relative aspect-[3/4] rounded-2xl overflow-hidden cursor-pointer hover:-translate-y-1 transition-transform duration-300"
+              className="fade-up portfolio-card-outer group relative aspect-[3/4] rounded-2xl overflow-hidden cursor-pointer"
+              style={{ transitionDelay: `${i * 150}ms` }}
             >
-              {/* Layer 1 — Background image */}
-              <div className="absolute inset-0 transition-transform duration-700 ease-in-out group-hover:scale-105">
+              {/* Layer 1 — Background image with zoom + color reveal on hover */}
+              <div className="portfolio-card-img absolute inset-0">
                 <Image
                   src={card.image}
                   alt={card.title}

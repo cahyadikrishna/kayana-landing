@@ -89,13 +89,13 @@ export default function Testimonials() {
 
       {/* Section heading */}
       <div className="relative z-10 pt-20 px-8 md:px-16">
-        <span className="block font-sans text-xs uppercase tracking-widest text-white/40 mb-3">
+        <span className="block text-xs uppercase tracking-widest text-white/40 mb-3">
           [What they say]
         </span>
         <h2 className="font-serif font-bold italic text-white text-4xl md:text-5xl lg:text-6xl leading-tight">
           Kind Words.
         </h2>
-        <p className="mt-3 font-sans text-sm text-white/40 max-w-xs">
+        <p className="mt-3 text-sm text-white/40 max-w-xs">
           Every session leaves a story. Here are a few.
         </p>
       </div>
@@ -117,10 +117,10 @@ export default function Testimonials() {
               {t.quote}
             </p>
             <div className="mt-4 mb-3 border-t border-white/10" />
-            <p className="font-sans font-semibold text-white text-sm">
+            <p className="font-semibold text-white text-sm">
               {t.name}
             </p>
-            <p className="font-sans text-white/40 text-xs tracking-wide uppercase mt-0.5">
+            <p className="text-white/40 text-xs tracking-wide uppercase mt-0.5">
               {t.occasion}
             </p>
           </div>
@@ -142,10 +142,10 @@ export default function Testimonials() {
               {t.quote}
             </p>
             <div className="mt-4 mb-3 border-t border-white/10" />
-            <p className="font-sans font-semibold text-white text-sm">
+            <p className="font-semibold text-white text-sm">
               {t.name}
             </p>
-            <p className="font-sans text-white/40 text-xs tracking-wide uppercase mt-0.5">
+            <p className="text-white/40 text-xs tracking-wide uppercase mt-0.5">
               {t.occasion}
             </p>
           </div>

@@ -66,17 +66,17 @@ export default function ServicesShowcase() {
         <div className="flex flex-col md:flex-row gap-8 md:gap-0">
           {/* Left labels */}
           <div className="md:w-1/2">
-            <span className="block font-sans text-xs uppercase tracking-widest text-white/30">
+            <span className="block text-xs uppercase tracking-widest text-white/30">
               [004]
             </span>
-            <span className="block font-sans text-xs uppercase tracking-widest text-white/30 mt-1">
+            <span className="block text-xs uppercase tracking-widest text-white/30 mt-1">
               Services
             </span>
           </div>
 
           {/* Right heading */}
           <div className="md:w-1/2">
-            <p className="font-sans text-3xl md:text-4xl text-white/70 leading-snug">
+            <p className="text-3xl md:text-4xl text-white/70 leading-snug">
               <span className="font-bold text-white">Service</span> is a moment
               that reflecting our ongoing{" "}
               <span className="font-bold text-white">dedication</span> to your
@@ -102,7 +102,7 @@ export default function ServicesShowcase() {
                   }`}
                 >
                   {/* Year */}
-                  <span className="w-20 font-sans text-sm text-white/50 flex-shrink-0">
+                  <span className="w-20 text-sm text-white/50 flex-shrink-0">
                     {service.year}
                   </span>
 
@@ -164,7 +164,7 @@ export default function ServicesShowcase() {
 
               {/* Caption */}
               <div className="px-5 py-4 border-t border-white/10">
-                <p className="font-sans text-sm text-white/50">
+                <p className="text-sm text-white/50">
                   {services[activeIndex].caption}
                 </p>
               </div>

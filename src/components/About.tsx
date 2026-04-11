@@ -121,7 +121,7 @@ export default function About() {
                     started={visible}
                   />
                 </p>
-                <p className="font-sans text-sm md:text-base text-black/50 mt-3 leading-snug max-w-[180px]">
+                <p className="text-sm md:text-base text-black/50 mt-3 leading-snug max-w-[180px]">
                   {stat.label}
                 </p>
               </div>
@@ -141,7 +141,7 @@ export default function About() {
         >
           {/* Left column — label */}
           <div className="md:w-1/3 flex flex-col justify-start pt-1">
-            <span className="inline-block w-fit border border-black/15 rounded-full px-4 py-1.5 font-sans text-xs uppercase tracking-widest text-black/40">
+            <span className="inline-block w-fit border border-black/15 rounded-full px-4 py-1.5 text-xs uppercase tracking-widest text-black/40">
               Why It Matters
             </span>
           </div>
@@ -159,7 +159,7 @@ export default function About() {
               </span>
             </p>
 
-            <p className="mt-6 font-sans text-sm text-black/35 tracking-wide">
+            <p className="mt-6 text-sm text-black/35 tracking-wide">
               — Kayana Moment, Bali
             </p>
           </div>

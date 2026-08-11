@@ -1,37 +1,18 @@
 "use client";
 
-import { useEffect, useRef } from "react";
 import Button from "@/components/ui/Button";
+import { useReveal } from "@/hooks/useScrollAnimation";
 
 const navLinks = ["About Us", "Projects", "Services", "Terms & Conditions"];
 
 export default function Footer() {
-  const footerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const el = footerRef.current;
-    if (!el) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("footer-visible");
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
+  const { ref: footerRef } = useReveal({ threshold: 0.1 });
 
   return (
     <footer className="px-3 py-3 md:px-8 md:py-8">
       <div
         ref={footerRef}
-        className="rounded-2xl bg-[#1a1c18] border border-white/5 overflow-hidden px-6 py-10 md:px-14 md:py-16 opacity-0 translate-y-6 transition-all duration-700 ease-out"
+        className="footer rounded-2xl bg-[#1a1c18] border border-white/5 overflow-hidden px-6 py-10 md:px-14 md:py-16"
       >
         {/* Top zone */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-10">
@@ -48,14 +29,14 @@ export default function Footer() {
 
             <h2 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl leading-tight tracking-tight text-white">
               <span
-                className="block footer-fade opacity-0 translate-y-4 transition-all duration-700"
+                className="block footer-fade"
                 style={{ transitionDelay: "100ms" }}
               >
                 Let&apos;s{" "}
                 <span className="font-serif italic">capture</span> your
               </span>
               <span
-                className="block footer-fade opacity-0 translate-y-4 transition-all duration-700"
+                className="block footer-fade"
                 style={{ transitionDelay: "200ms" }}
               >
                 vision{" "}
@@ -71,7 +52,7 @@ export default function Footer() {
                 with
               </span>
               <span
-                className="block footer-fade opacity-0 translate-y-4 transition-all duration-700"
+                className="block footer-fade"
                 style={{ transitionDelay: "300ms" }}
               >
                 us
@@ -81,7 +62,7 @@ export default function Footer() {
 
           {/* Right — contact details */}
           <div
-            className="md:w-1/3 flex flex-col items-start md:items-end justify-center gap-2 footer-fade opacity-0 translate-y-4 transition-all duration-700"
+            className="md:w-1/3 flex flex-col items-start md:items-end justify-center gap-2 footer-fade"
             style={{ transitionDelay: "300ms" }}
           >
             <p className="text-sm text-white/50">
@@ -117,7 +98,7 @@ export default function Footer() {
 
         {/* Bottom zone */}
         <div
-          className="flex flex-col md:flex-row items-center justify-between gap-6 footer-fade opacity-0 translate-y-4 transition-all duration-700"
+          className="flex flex-col md:flex-row items-center justify-between gap-6 footer-fade"
           style={{ transitionDelay: "500ms" }}
         >
           {/* Left — logo */}

@@ -133,40 +133,68 @@ button {
   transform: translateY(0);
 }
 
-/* ─── Footer Scroll Animation ─────────────────────────────────────────────── */
+/* ─── Section Reveal (unified .visible trigger) ────────────────────────────── */
 
-.footer-visible {
-  opacity: 1 !important;
-  transform: translateY(0) !important;
+/* Footer */
+.footer {
+  opacity: 0;
+  transform: translateY(6);
+  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
 }
-
-.footer-visible .footer-fade {
+.footer .footer-fade {
+  opacity: 0;
+  transform: translateY(4);
+  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+}
+.footer.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.footer.visible .footer-fade {
   opacity: 1;
   transform: translateY(0);
 }
 
-/* ─── CTA Banner 1 ────────────────────────────────────────────────────────── */
-
-.cta1-visible .cta1-left,
-.cta1-visible .cta1-right {
+/* CTA Banner 1 */
+.cta1 .cta1-left,
+.cta1 .cta1-right {
+  opacity: 0;
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+.cta1 .cta1-left {
+  transform: translateX(-5);
+}
+.cta1 .cta1-right {
+  transform: translateX(5);
+}
+.cta1.visible .cta1-left,
+.cta1.visible .cta1-right {
   opacity: 1;
   transform: translateX(0);
 }
 
-.cta1-no-transform .cta1-left,
-.cta1-no-transform .cta1-right {
-  transform: none;
+/* CTA Banner 2 */
+.cta2 .cta2-content {
+  opacity: 0;
+  transform: translateY(6);
+  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
 }
-
-/* ─── CTA Banner 2 ────────────────────────────────────────────────────────── */
-
-.cta2-visible .cta2-content {
+.cta2.visible .cta2-content {
   opacity: 1;
   transform: translateY(0);
 }
 
-.cta2-no-transform .cta2-content {
-  transform: none;
+/* About */
+.about-section .about-stat,
+.about-section .about-quote {
+  opacity: 0;
+  transform: translateY(4);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+.about-section.visible .about-stat,
+.about-section.visible .about-quote {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* ─── Micro-interaction: Link Underline Reveal ────────────────────────────── */
@@ -226,7 +254,7 @@ button {
   scale: 0.97;
 }
 
-.testimonials-visible .scale-reveal {
+.testimonials.visible .scale-reveal {
   scale: 1.0;
 }
 
@@ -289,6 +317,23 @@ button {
   }
 
   .link-reveal::after {
+    transition: none;
+  }
+
+  /* Unified section reveals — show immediately */
+  .footer,
+  .footer .footer-fade,
+  .cta1 .cta1-left,
+  .cta1 .cta1-right,
+  .cta2 .cta2-content,
+  .about-section .about-stat,
+  .about-section .about-quote {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .testimonials.visible .float-card {
     transition: none;
   }
 }

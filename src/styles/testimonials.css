@@ -38,7 +38,7 @@
 .float-card-5 { animation: float-e 10s ease-in-out infinite 0.5s; }
 
 /* Reveal trigger — opacity via transition-all on the card itself */
-.testimonials-visible .float-card {
+.testimonials.visible .float-card {
   opacity: 1;
   transform: translateY(0);
 }

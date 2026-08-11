@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+import { useReveal } from "@/hooks/useScrollAnimation";
 import Button from "@/components/ui/Button";
 
 const cards = [
@@ -38,7 +38,7 @@ const cards = [
 const featuredPills = ["Outdoor Portraits", "Nature", "Memories", "#2023"];
 
 export default function RecentFeed() {
-  const ref = useScrollAnimation();
+  const { ref } = useReveal({ target: ".fade-up", threshold: 0.1 });
 
   return (
     <section ref={ref} className="bg-[#111111] py-24 md:py-32 px-6 md:px-16">

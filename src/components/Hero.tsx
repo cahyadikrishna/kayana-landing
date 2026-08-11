@@ -15,11 +15,6 @@ const categoryPills = [
 
 const previewCards = [
   {
-    title: "Golden Hour at the Quad",
-    subtitle: "Shot at Universitas Indonesia",
-    image: "https://picsum.photos/seed/hero-card-1/128/128",
-  },
-  {
     title: "A Symphony of Toques",
     subtitle: "Shot with Canon R5",
     image: "https://picsum.photos/seed/hero-card-2/128/128",
@@ -131,16 +126,7 @@ export default function Hero() {
       <div className="absolute bottom-48 left-8 md:left-16 lg:left-20 z-10">
         <h1 className="font-serif font-bold text-white text-4xl md:text-7xl lg:text-8xl tracking-tight leading-none">
           <span className="anim-headline-1 block">
-            We make your Graduation
-          </span>
-          <span className="anim-headline-2 block">
-            <span
-              className="not-italic font-normal"
-              style={{ fontFamily: "var(--font-pinyon-script)", fontSize: "1.15em" }}
-            >
-              effortless
-            </span>
-            <span className="italic"> captured.</span>
+            We make your Graduation effortless captured.
           </span>
         </h1>
       </div>

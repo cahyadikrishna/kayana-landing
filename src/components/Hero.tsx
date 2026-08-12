@@ -269,8 +269,8 @@ export default function Hero() {
       </div>
 
       {/* ── Headline — orchestrated load sequence ── */}
-      <div className="absolute bottom-48 left-8 md:left-16 lg:left-20 z-10">
-        <h1 className="font-serif font-bold text-white text-4xl md:text-7xl lg:text-8xl tracking-tight leading-none">
+      <div className="absolute bottom-48 left-8 right-8 md:right-auto md:left-16 lg:left-20 md:w-3/5 z-10">
+        <h1 className="font-serif font-bold text-white text-3xl sm:text-4xl text-center md:text-left md:text-5xl lg:text-6xl tracking-tight leading-tight md:leading-none">
           <span className="anim-headline-1 block">
             We make your Graduation effortless captured.
           </span>
@@ -278,12 +278,12 @@ export default function Hero() {
       </div>
 
       {/* ── Bottom bar: pills (left) + cards (right) ── */}
-      <div className="absolute bottom-8 left-8 md:left-16 lg:left-20 right-8 md:right-16 lg:right-20 z-10 flex justify-between">
+      <div className="absolute bottom-24 md:bottom-8 left-8 md:left-16 lg:left-20 right-8 md:right-16 lg:right-20 z-10 flex justify-center md:justify-between">
 
         {/* Category tag pills */}
-        <div className="anim-pills flex flex-col gap-2">
+        <div className="anim-pills flex flex-col gap-2 items-center md:items-start">
           {categoryPills.map((row, i) => (
-            <div key={i} className="flex flex-wrap gap-2">
+            <div key={i} className="flex flex-wrap gap-2 justify-center md:justify-start">
               {row.map((pill) => (
                 <span
                   key={pill}

@@ -13,12 +13,12 @@ export default function CtaBanner1() {
         className="cta1 max-w-screen-xl mx-auto px-6 md:px-16 flex flex-col md:flex-row md:items-end gap-10"
       >
         {/* Left column */}
-        <div className="md:w-1/2 cta1-left">
+        <div className="md:w-3/5 cta1-left">
           <span className="inline-block border border-black/20 rounded-full px-4 py-1.5 text-xs uppercase tracking-widest text-black/50">
             About Us
           </span>
 
-          <h2 className="mt-6 font-serif font-bold text-4xl md:text-5xl lg:text-6xl leading-tight text-[#111111] max-w-lg">
+          <h2 className="mt-6 font-serif font-bold text-3xl md:text-4xl lg:text-5xl leading-tight text-[#111111]">
             The moments that
             <br />
             mark the end of one

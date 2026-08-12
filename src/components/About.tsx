@@ -114,16 +114,11 @@ export default function About() {
             <p className="font-serif italic text-2xl md:text-3xl lg:text-4xl xl:text-5xl text-black leading-snug tracking-tight max-w-3xl">
               &ldquo;They&apos;ve already crossed the stage, held their scrolls,
               and smiled for the last time as students. Their moments are
-              captured —{" "}
-              <span className="text-black/35">beautifully, forever.</span>
-              <br className="hidden md:block" />{" "}
-              <span className="font-bold">
-                Now it&apos;s your turn.&rdquo;
-              </span>
+              captured beautifully, forever. Now it&apos;s your turn.&rdquo;
             </p>
 
             <p className="mt-6 text-sm text-black/35 tracking-wide">
-              — Kayana Moment, Bali
+              — Kayana Moment
             </p>
           </div>
         </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import Button from "@/components/ui/Button";
+import SectionLabel from "@/components/ui/SectionLabel";
 import { useReveal } from "@/hooks/useScrollAnimation";
 
 export default function CtaBanner1() {
@@ -14,9 +15,7 @@ export default function CtaBanner1() {
       >
         {/* Left column */}
         <div className="md:w-3/5 cta1-left">
-          <span className="inline-block border border-black/20 rounded-full px-4 py-1.5 text-xs uppercase tracking-widest text-black/50">
-            About Us
-          </span>
+          <SectionLabel>About Us</SectionLabel>
 
           <h2 className="mt-6 font-serif font-bold text-3xl md:text-4xl lg:text-5xl leading-tight text-[#111111]">
             The moments that

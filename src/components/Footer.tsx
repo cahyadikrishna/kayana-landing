@@ -2,6 +2,7 @@
 
 import Button from "@/components/ui/Button";
 import { useReveal } from "@/hooks/useScrollAnimation";
+import SectionLabel from "./ui/SectionLabel";
 
 const navLinks = ["About Us", "Projects", "Services", "Terms & Conditions"];
 
@@ -17,45 +18,17 @@ export default function Footer() {
         {/* Top zone */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-10">
           {/* Left — CTA headline */}
-          <div className="md:w-2/3">
-            <div className="mb-6">
-              <span className="block text-xs uppercase tracking-widest text-white/30">
-                [005]
-              </span>
-              <span className="block text-xs uppercase tracking-widest text-white/30 mt-1">
-                Contact Us
-              </span>
-            </div>
+          <div className="md:w-1/2">
+            <SectionLabel color="dark" className="mb-3">
+              Contact Us
+            </SectionLabel>
 
-            <h2 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl leading-tight tracking-tight text-white">
+            <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl xl:text-7xl leading-tight tracking-tight text-white">
               <span
                 className="block footer-fade"
                 style={{ transitionDelay: "100ms" }}
               >
-                Let&apos;s{" "}
-                <span className="font-serif italic">capture</span> your
-              </span>
-              <span
-                className="block footer-fade"
-                style={{ transitionDelay: "200ms" }}
-              >
-                vision{" "}
-                <Button
-                  href="#contact"
-                  variant="ghost"
-                  color="light"
-                  icon="arrow-right"
-                  className="align-middle mx-1 md:mx-3"
-                >
-                  Book a Session
-                </Button>{" "}
-                with
-              </span>
-              <span
-                className="block footer-fade"
-                style={{ transitionDelay: "300ms" }}
-              >
-                us
+                Let&apos;s capture your vision with us
               </span>
             </h2>
           </div>
@@ -66,10 +39,10 @@ export default function Footer() {
             style={{ transitionDelay: "300ms" }}
           >
             <p className="text-sm text-white/50">
-              Bandung, Indonesia
+              Bali, Indonesia
             </p>
             <a
-              href="https://wa.me/6281234567890"
+              href="https://wa.me/6289606620616"
               target="_blank"
               rel="noopener noreferrer"
               className="link-reveal text-sm text-white/50 hover:text-white transition-all duration-300"
@@ -103,18 +76,6 @@ export default function Footer() {
         >
           {/* Left — logo */}
           <div className="flex items-center">
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              className="text-white"
-            >
-              <rect x="2" y="2" width="9" height="9" fill="currentColor" />
-              <rect x="13" y="2" width="9" height="9" fill="currentColor" />
-              <rect x="2" y="13" width="9" height="9" fill="currentColor" />
-              <rect x="13" y="13" width="9" height="9" fill="currentColor" />
-            </svg>
             <span className="ml-2 font-serif italic text-white text-base">
               Kayana Moment
             </span>
@@ -135,7 +96,7 @@ export default function Footer() {
 
           {/* Right — copyright */}
           <p className="text-xs text-white/30">
-            ©Kayana 2025. All Rights Reserved.
+            ©Kayana Moment {new Date().getFullYear()}. All Rights Reserved.
           </p>
         </div>
       </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import Button from "@/components/ui/Button";
+import SectionLabel from "@/components/ui/SectionLabel";
 import { useReveal } from "@/hooks/useScrollAnimation";
 
 export default function CtaBanner2() {
@@ -13,9 +14,7 @@ export default function CtaBanner2() {
         className="cta2 max-w-screen-xl mx-auto px-6 md:px-16"
       >
         <div className="cta2-content text-center mx-auto max-w-3xl flex flex-col items-center">
-          <span className="inline-block border border-black/20 rounded-full px-4 py-1.5 text-xs uppercase tracking-widest text-black/50">
-            One Last Thing
-          </span>
+          <SectionLabel>One Last Thing</SectionLabel>
 
           <h2 className="mt-6 font-serif font-bold italic text-3xl md:text-4xl lg:text-5xl xl:text-6xl leading-tight text-[#111111] text-center">
             Don&apos;t let this moment

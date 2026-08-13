@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useReveal } from "@/hooks/useScrollAnimation";
 import Button from "@/components/ui/Button";
+import SectionLabel from "@/components/ui/SectionLabel";
 
 const cards = [
   {
@@ -47,9 +48,9 @@ export default function RecentFeed() {
         <div className="fade-up flex flex-col md:flex-row gap-12 md:gap-0">
           {/* Left column */}
           <div className="md:w-1/2">
-            <span className="block text-xs uppercase tracking-widest text-white/40 mt-1">
+            <SectionLabel color="dark" className="mt-1">
               Our Work
-            </span>
+            </SectionLabel>
             <h2 className="mt-6 font-serif text-2xl md:text-4xl lg:text-5xl text-white leading-tight">
               <span className="font-bold italic">Explore</span>{" "}
               <span className="font-normal">the artistry and</span>

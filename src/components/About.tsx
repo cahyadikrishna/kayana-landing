@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import SectionLabel from "@/components/ui/SectionLabel";
 import { useReveal } from "@/hooks/useScrollAnimation";
 
 const stats = [
@@ -104,9 +105,7 @@ export default function About() {
         <div className="about-quote flex flex-col md:flex-row gap-6 md:gap-0">
           {/* Left column — label */}
           <div className="md:w-1/3 flex flex-col justify-start pt-1">
-            <span className="inline-block w-fit border border-black/15 rounded-full px-4 py-1.5 text-xs uppercase tracking-widest text-black/40">
-              Why It Matters
-            </span>
+            <SectionLabel>Why It Matters</SectionLabel>
           </div>
 
           {/* Right column — quote */}

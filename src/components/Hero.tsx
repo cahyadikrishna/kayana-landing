@@ -251,22 +251,6 @@ export default function Hero() {
               </a>
             ))}
           </div>
-
-          {/* CTA at bottom */}
-          <div className="mt-auto px-6 pb-8">
-            <Button
-              href={`https://wa.me/${WHATSAPP_NUMBER}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              variant="solid"
-              color="green"
-              icon="whatsapp"
-              iconPosition="left"
-              className="w-full justify-center"
-            >
-              Book a Session
-            </Button>
-          </div>
         </div>
       </div>
 

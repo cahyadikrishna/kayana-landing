@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef } from "react";
+import { useReveal } from "@/hooks/useScrollAnimation";
 import "@/styles/testimonials.css";
 
 const testimonials = [
@@ -48,31 +48,12 @@ const testimonials = [
 ];
 
 export default function Testimonials() {
-  const sectionRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const el = sectionRef.current;
-    if (!el) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            el.classList.add("testimonials-visible");
-          }
-        });
-      },
-      { threshold: 0.15 }
-    );
-
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
+  const { ref: sectionRef } = useReveal({ threshold: 0.15 });
 
   return (
     <section
       ref={sectionRef}
-      className="relative overflow-hidden min-h-screen bg-black"
+      className="testimonials relative overflow-hidden min-h-screen bg-black"
     >
       {/* Background image */}
       <Image

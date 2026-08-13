@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Button from "@/components/ui/Button";
 
 const WHATSAPP_NUMBER = "6281234567890"; // replace with actual number
@@ -15,11 +15,6 @@ const categoryPills = [
 
 const previewCards = [
   {
-    title: "Golden Hour at the Quad",
-    subtitle: "Shot at Universitas Indonesia",
-    image: "https://picsum.photos/seed/hero-card-1/128/128",
-  },
-  {
     title: "A Symphony of Toques",
     subtitle: "Shot with Canon R5",
     image: "https://picsum.photos/seed/hero-card-2/128/128",
@@ -31,8 +26,39 @@ const previewCards = [
   },
 ];
 
+function HamburgerIcon({ open }: { open: boolean }) {
+  return (
+    <svg
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      className="text-white"
+      aria-hidden="true"
+    >
+      {open ? (
+        <>
+          <path d="M18 6L6 18" />
+          <path d="M6 6l12 12" />
+        </>
+      ) : (
+        <>
+          <path d="M3 12h18" />
+          <path d="M3 6h18" />
+          <path d="M3 18h18" />
+        </>
+      )}
+    </svg>
+  );
+}
+
 export default function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [stickyCta, setStickyCta] = useState(false);
 
   // Subtle parallax — video moves at 30% of scroll speed
   useEffect(() => {
@@ -59,6 +85,28 @@ export default function Hero() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // Sticky CTA scroll trigger
+  useEffect(() => {
+    const onScroll = () => {
+      setStickyCta(window.scrollY > 80);
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mobileMenuOpen]);
+
   return (
     <section className="relative h-[100svh] w-full overflow-hidden bg-[#2a1a0e]">
       {/* Video background — parallax-bg enables GPU compositing */}
@@ -82,76 +130,160 @@ export default function Hero() {
       <div className="absolute inset-0 bg-black/25" />
 
       {/* ── Nav ── */}
-      <nav className="anim-nav absolute top-0 left-0 right-0 z-10 flex items-center justify-between px-8 md:px-16 lg:px-20 py-6">
+      <nav className="anim-nav absolute top-0 left-0 right-0 z-10 flex items-center justify-between px-6 md:px-16 lg:px-20 py-6">
         <span className="font-serif text-lg italic text-white">
           Kayana Moment
         </span>
 
-        {/* Center: nav links with underline-reveal micro-interaction */}
+        {/* Desktop: center nav links */}
         <div className="hidden md:flex items-center gap-1">
           {navLinks.map((link) => (
             <a
               key={link}
               href={`#${link.toLowerCase().replace(/\s+/g, "-")}`}
-              className="link-reveal text-sm text-white/80 hover:text-white px-4 py-1.5 rounded-full border border-transparent hover:bg-white/10 hover:border-white/20 hover:backdrop-blur-sm transition-all duration-300"
+              className="text-sm text-white/80 hover:text-white px-4 py-1.5 rounded-full border border-transparent hover:bg-white/10 hover:border-white/20 hover:backdrop-blur-sm transition-all duration-300"
             >
               {link}
             </a>
           ))}
         </div>
 
-        {/* Desktop: Book a Session */}
+        {/* Desktop: Book a Session — green, flies to sticky on scroll */}
+        <div
+          className={`hidden md:inline-flex transition-all duration-500 ease-out ${
+            stickyCta
+              ? "opacity-0 scale-75 translate-x-4 translate-y-3 pointer-events-none"
+              : "opacity-100 scale-100 translate-x-0 translate-y-0"
+          }`}
+        >
+          <Button
+            href={`https://wa.me/${WHATSAPP_NUMBER}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            variant="solid"
+            color="green"
+            icon="whatsapp"
+            iconPosition="left"
+          >
+            Book a Session
+          </Button>
+        </div>
+
+        {/* Mobile: hamburger menu toggle */}
+        <button
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          className="flex md:hidden items-center justify-center h-10 w-10 rounded-full border border-white/20 bg-white/10 backdrop-blur-sm transition-colors active:bg-white/20"
+          aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+          aria-expanded={mobileMenuOpen}
+        >
+          <HamburgerIcon open={mobileMenuOpen} />
+        </button>
+      </nav>
+
+      {/* ── Desktop sticky CTA (flying clone) ── */}
+      <div
+        className={`fixed z-50 hidden md:block transition-all duration-500 ease-out ${
+          stickyCta
+            ? "bottom-8 right-8 opacity-100 scale-100 translate-x-0 translate-y-0"
+            : "bottom-8 right-8 opacity-0 scale-75 translate-x-4 -translate-y-3 pointer-events-none"
+        }`}
+      >
         <Button
           href={`https://wa.me/${WHATSAPP_NUMBER}`}
           target="_blank"
           rel="noopener noreferrer"
           variant="solid"
-          color="light"
+          color="green"
           icon="whatsapp"
           iconPosition="left"
-          className="hidden md:inline-flex [&_svg]:text-[#25D366]"
+          className="shadow-lg shadow-black/30 hover:shadow-xl hover:shadow-black/40 hover:-translate-y-0.5 transition-all duration-300"
         >
           Book a Session
         </Button>
+      </div>
 
-        {/* Mobile: circular WhatsApp icon */}
-        <Button
-          href={`https://wa.me/${WHATSAPP_NUMBER}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          variant="icon-only"
-          color="green"
-          icon="whatsapp"
-          className="flex md:hidden"
-          aria-label="Book a session on WhatsApp"
+      {/* ── Mobile Menu Overlay ── */}
+      <div
+        className={`fixed inset-0 z-30 transition-opacity duration-300 md:hidden ${
+          mobileMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+        }`}
+      >
+        {/* Backdrop */}
+        <div
+          className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+          onClick={() => setMobileMenuOpen(false)}
         />
-      </nav>
+        {/* Panel */}
+        <div
+          className={`absolute right-0 top-0 h-full w-[280px] bg-[#2a1a0e]/95 backdrop-blur-xl border-l border-white/10 flex flex-col transition-transform duration-300 ease-out ${
+            mobileMenuOpen ? "translate-x-0" : "translate-x-full"
+          }`}
+        >
+          {/* Panel header */}
+          <div className="flex items-center justify-between px-6 py-6 border-b border-white/10">
+            <span className="font-serif text-lg italic text-white">
+              Menu
+            </span>
+            <button
+              onClick={() => setMobileMenuOpen(false)}
+              className="flex items-center justify-center h-10 w-10 rounded-full border border-white/20 bg-white/10 transition-colors active:bg-white/20"
+              aria-label="Close menu"
+            >
+              <HamburgerIcon open={true} />
+            </button>
+          </div>
+
+          {/* Nav links */}
+          <div className="flex flex-col gap-1 px-6 py-8">
+            {navLinks.map((link, i) => (
+              <a
+                key={link}
+                href={`#${link.toLowerCase().replace(/\s+/g, "-")}`}
+                onClick={() => setMobileMenuOpen(false)}
+                className="text-lg text-white/80 hover:text-white py-3 border-b border-white/10 transition-colors"
+                style={{
+                  animationDelay: `${i * 50}ms`,
+                }}
+              >
+                {link}
+              </a>
+            ))}
+          </div>
+
+          {/* CTA at bottom */}
+          <div className="mt-auto px-6 pb-8">
+            <Button
+              href={`https://wa.me/${WHATSAPP_NUMBER}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              variant="solid"
+              color="green"
+              icon="whatsapp"
+              iconPosition="left"
+              className="w-full justify-center"
+            >
+              Book a Session
+            </Button>
+          </div>
+        </div>
+      </div>
 
       {/* ── Headline — orchestrated load sequence ── */}
-      <div className="absolute bottom-48 left-8 md:left-16 lg:left-20 z-10">
-        <h1 className="font-serif font-bold text-white text-4xl md:text-7xl lg:text-8xl tracking-tight leading-none">
+      <div className="absolute bottom-48 left-8 right-8 md:right-auto md:left-16 lg:left-20 md:w-3/5 z-10">
+        <h1 className="font-serif font-bold text-white text-3xl sm:text-4xl text-center md:text-left md:text-5xl lg:text-6xl tracking-tight leading-tight md:leading-none">
           <span className="anim-headline-1 block">
-            We make your Graduation
-          </span>
-          <span className="anim-headline-2 block">
-            <span
-              className="not-italic font-normal"
-              style={{ fontFamily: "var(--font-pinyon-script)", fontSize: "1.15em" }}
-            >
-              effortless
-            </span>
-            <span className="italic"> captured.</span>
+            We make your Graduation effortless captured.
           </span>
         </h1>
       </div>
 
       {/* ── Bottom bar: pills (left) + cards (right) ── */}
-      <div className="absolute bottom-8 left-8 md:left-16 lg:left-20 right-8 md:right-16 lg:right-20 z-10 flex justify-between">
+      <div className="absolute bottom-24 md:bottom-8 left-8 md:left-16 lg:left-20 right-8 md:right-16 lg:right-20 z-10 flex justify-center md:justify-between">
 
         {/* Category tag pills */}
-        <div className="anim-pills flex flex-col gap-2">
+        <div className="anim-pills flex flex-col gap-2 items-center md:items-start">
           {categoryPills.map((row, i) => (
-            <div key={i} className="flex flex-wrap gap-2">
+            <div key={i} className="flex flex-wrap gap-2 justify-center md:justify-start">
               {row.map((pill) => (
                 <span
                   key={pill}
@@ -218,6 +350,23 @@ export default function Hero() {
             />
           </svg>
         </div>
+      </div>
+
+      {/* ── Mobile sticky CTA — always visible on mobile ── */}
+      <div className="fixed bottom-6 right-6 z-50 md:hidden">
+        <Button
+          href={`https://wa.me/${WHATSAPP_NUMBER}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          variant="solid"
+          color="green"
+          icon="whatsapp"
+          iconPosition="left"
+          size="sm"
+          className="shadow-lg shadow-black/30 hover:shadow-xl hover:shadow-black/40 hover:-translate-y-0.5 transition-all duration-300"
+        >
+          Book a Session
+        </Button>
       </div>
     </section>
   );

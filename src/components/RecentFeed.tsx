@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+import { useReveal } from "@/hooks/useScrollAnimation";
 import Button from "@/components/ui/Button";
 
 const cards = [
@@ -38,7 +38,7 @@ const cards = [
 const featuredPills = ["Outdoor Portraits", "Nature", "Memories", "#2023"];
 
 export default function RecentFeed() {
-  const ref = useScrollAnimation();
+  const { ref } = useReveal({ target: ".fade-up", threshold: 0.1 });
 
   return (
     <section ref={ref} className="bg-[#111111] py-24 md:py-32 px-6 md:px-16">
@@ -47,13 +47,10 @@ export default function RecentFeed() {
         <div className="fade-up flex flex-col md:flex-row gap-12 md:gap-0">
           {/* Left column */}
           <div className="md:w-1/2">
-            <span className="block text-xs uppercase tracking-widest text-white/40">
-              [003]
-            </span>
             <span className="block text-xs uppercase tracking-widest text-white/40 mt-1">
               Our Work
             </span>
-            <h2 className="mt-6 font-serif text-4xl md:text-5xl lg:text-6xl text-white leading-tight">
+            <h2 className="mt-6 font-serif text-2xl md:text-4xl lg:text-5xl text-white leading-tight">
               <span className="font-bold italic">Explore</span>{" "}
               <span className="font-normal">the artistry and</span>
               <br />
@@ -114,20 +111,6 @@ export default function RecentFeed() {
               <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-transparent pointer-events-none" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none" />
 
-              {/* Layer 3 — Category tag pills (card 1 only) */}
-              {card.featured && (
-                <div className="absolute top-4 left-0 right-0 flex flex-wrap justify-center gap-2 px-4">
-                  {featuredPills.map((pill) => (
-                    <span
-                      key={pill}
-                      className="rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white text-xs px-3 py-1"
-                    >
-                      {pill}
-                    </span>
-                  ))}
-                </div>
-              )}
-
               {/* Layer 4 — Bottom content */}
               <div className="absolute bottom-0 left-0 right-0 p-4">
                 <h3 className="font-serif font-bold text-white text-lg leading-snug mb-1 line-clamp-2">
@@ -139,16 +122,7 @@ export default function RecentFeed() {
                   }`}
                 >
                   {card.description}
-                </p>
-                <Button
-                  variant="ghost"
-                  color="light"
-                  size="sm"
-                  icon="chevron-right"
-                  className="w-full justify-between px-4 uppercase tracking-widest"
-                >
-                  More Details
-                </Button>
+                </p>                
               </div>
             </div>
           ))}

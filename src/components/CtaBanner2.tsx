@@ -1,44 +1,18 @@
 "use client";
 
-import { useEffect, useRef } from "react";
 import Button from "@/components/ui/Button";
+import { useReveal } from "@/hooks/useScrollAnimation";
 
 export default function CtaBanner2() {
-  const sectionRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const el = sectionRef.current;
-    if (!el) return;
-
-    const prefersReduced = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            el.classList.add("cta2-visible");
-            if (prefersReduced) {
-              el.classList.add("cta2-no-transform");
-            }
-          }
-        });
-      },
-      { threshold: 0.2 }
-    );
-
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
+  const { ref: sectionRef } = useReveal({ threshold: 0.2 });
 
   return (
     <section className="bg-white py-16 md:py-28">
       <div
         ref={sectionRef}
-        className="max-w-screen-xl mx-auto px-6 md:px-16"
+        className="cta2 max-w-screen-xl mx-auto px-6 md:px-16"
       >
-        <div className="cta2-content text-center mx-auto max-w-3xl flex flex-col items-center opacity-0 translate-y-6 transition-all duration-700 ease-out">
+        <div className="cta2-content text-center mx-auto max-w-3xl flex flex-col items-center">
           <span className="inline-block border border-black/20 rounded-full px-4 py-1.5 text-xs uppercase tracking-widest text-black/50">
             One Last Thing
           </span>

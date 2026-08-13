@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "@/components/ui/Button";
 import { NAV_LINKS } from "@/lib/navigation";
 
@@ -55,34 +55,8 @@ function HamburgerIcon({ open }: { open: boolean }) {
 }
 
 export default function Hero() {
-  const videoRef = useRef<HTMLVideoElement>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [stickyCta, setStickyCta] = useState(false);
-
-  // Subtle parallax — video moves at 30% of scroll speed
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    const prefersReduced = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
-    if (prefersReduced) return;
-
-    let ticking = false;
-
-    const onScroll = () => {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(() => {
-        video.style.transform = `translateY(${window.scrollY * 0.3}px)`;
-        ticking = false;
-      });
-    };
-
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
 
   // Sticky CTA scroll trigger
   useEffect(() => {
@@ -111,25 +85,57 @@ export default function Hero() {
       id="home"
       className="relative h-[100svh] w-full overflow-hidden bg-[#2a1a0e]"
     >
-      {/* Video background — parallax-bg enables GPU compositing */}
-      <video
-        ref={videoRef}
-        autoPlay
-        muted
-        loop
-        playsInline
+      {/* Static background image */}
+      <Image
+        src="/assets/hero-bg-bw.png"
+        alt=""
+        fill
+        priority
+        sizes="100vw"
         aria-hidden="true"
-        poster="https://res.cloudinary.com/dhtysfkix/video/upload/so_10,du_25,w_1280,c_limit,f_auto,q_auto,so_10/KAYANA-LEMMYA_VIDEO_z2hzcu.jpg"
-        className="anim-hero-media parallax-bg absolute inset-0 w-full h-full object-cover"
-      >
-        <source
-          src="https://res.cloudinary.com/dhtysfkix/video/upload/so_10,du_25,w_1280,c_limit,f_auto,q_auto/KAYANA-LEMMYA_VIDEO_z2hzcu.mp4"
-          type="video/mp4"
-        />
-      </video>
+        className="anim-hero-media object-cover"
+      />
 
       {/* Dark overlay */}
       <div className="absolute inset-0 bg-black/25" />
+
+      {/* ── Person cutouts — overlapping trio, staggered slide-up ── */}
+      {/* z order: person 3 (middle, lowest) < person 1 (left) = person 2 (right) */}
+      <div className="pointer-events-none absolute bottom-0 left-1/2 z-[1] h-[38svh] w-[min(95vw,430px)] -translate-x-1/2 md:left-auto md:right-0 md:h-[85%] md:w-[58%] md:translate-x-0 lg:w-[54%] xl:w-[50%]">
+        {/* Person 3 — middle, lowest index */}
+        <div className="absolute bottom-0 left-1/2 z-10 h-full -translate-x-1/2">
+          <Image
+            src="/assets/hero-person-3.png"
+            alt="Graduate in red kebaya"
+            width={4218}
+            height={4450}
+            sizes="(min-width: 768px) 40vw, 60vw"
+            className="anim-person-3 h-full w-max object-cover"
+          />
+        </div>
+        {/* Person 1 — left of person 3, one index higher */}
+        <div className="absolute bottom-0 left-0 z-20 h-[80%]">
+          <Image
+            src="/assets/hero-person-1.png"
+            alt="Graduate holding cap"
+            width={1892}
+            height={3058}
+            sizes="(min-width: 768px) 25vw, 35vw"
+            className="anim-person-1 h-full w-auto"
+          />
+        </div>
+        {/* Person 2 — right of person 3, higher index than person 3 */}
+        <div className="absolute bottom-0 right-0 z-20 h-[84%]">
+          <Image
+            src="/assets/hero-person-2.png"
+            alt="Graduate in black kebaya with sash"
+            width={1540}
+            height={2818}
+            sizes="(min-width: 768px) 25vw, 35vw"
+            className="anim-person-2 h-full w-auto"
+          />
+        </div>
+      </div>
 
       {/* ── Nav ── */}
       <nav className="anim-nav absolute top-0 left-0 right-0 z-10 flex items-center justify-between px-6 md:px-16 lg:px-20 py-6">
@@ -255,8 +261,8 @@ export default function Hero() {
       </div>
 
       {/* ── Headline — orchestrated load sequence ── */}
-      <div className="absolute bottom-48 left-8 right-8 md:right-auto md:left-16 lg:left-20 md:w-3/5 z-10">
-        <h1 className="font-serif font-bold text-white text-3xl sm:text-4xl text-center md:text-left md:text-5xl lg:text-6xl tracking-tight leading-tight md:leading-none">
+      <div className="absolute bottom-[46%] left-8 right-8 md:bottom-48 md:right-auto md:left-16 lg:left-20 md:w-1/2 lg:w-[45%] z-10">
+        <h1 className="font-serif font-bold text-white text-4xl sm:text-5xl text-center md:text-left md:text-6xl lg:text-8xl tracking-tight leading-tight md:leading-none">
           <span className="anim-headline-1 block">
             We make your Graduation effortless captured.
           </span>
@@ -265,22 +271,6 @@ export default function Hero() {
 
       {/* ── Bottom bar: pills (left) + cards (right) ── */}
       <div className="absolute bottom-24 md:bottom-8 left-8 md:left-16 lg:left-20 right-8 md:right-16 lg:right-20 z-10 flex justify-center md:justify-between">
-
-        {/* Category tag pills */}
-        <div className="anim-pills flex flex-col gap-2 items-center md:items-start">
-          {categoryPills.map((row, i) => (
-            <div key={i} className="flex flex-wrap gap-2 justify-center md:justify-start">
-              {row.map((pill) => (
-                <span
-                  key={pill}
-                  className="rounded-full border border-white/30 bg-white/10 backdrop-blur-sm px-4 py-1.5 text-sm text-white"
-                >
-                  {pill}
-                </span>
-              ))}
-            </div>
-          ))}
-        </div>
 
         {/* Preview cards (desktop only) */}
         <div className="anim-preview-cards hidden md:flex gap-3">

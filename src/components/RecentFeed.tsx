@@ -42,7 +42,11 @@ export default function RecentFeed() {
   const { ref } = useReveal({ target: ".fade-up", threshold: 0.1 });
 
   return (
-    <section ref={ref} className="bg-[#111111] py-24 md:py-32 px-6 md:px-16">
+    <section
+      id="projects"
+      ref={ref}
+      className="bg-[#111111] py-24 md:py-32 px-6 md:px-16"
+    >
       <div className="max-w-screen-xl mx-auto">
         {/* Section header — fade-up as a unit */}
         <div className="fade-up flex flex-col md:flex-row gap-12 md:gap-0">

@@ -53,6 +53,7 @@ export default function Testimonials() {
 
   return (
     <section
+      id="testimonials"
       ref={sectionRef}
       className="testimonials relative overflow-hidden min-h-screen bg-black"
     >

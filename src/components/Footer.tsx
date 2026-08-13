@@ -1,16 +1,14 @@
 "use client";
 
-import Button from "@/components/ui/Button";
 import { useReveal } from "@/hooks/useScrollAnimation";
+import { NAV_LINKS } from "@/lib/navigation";
 import SectionLabel from "./ui/SectionLabel";
-
-const navLinks = ["About Us", "Projects", "Services", "Terms & Conditions"];
 
 export default function Footer() {
   const { ref: footerRef } = useReveal({ threshold: 0.1 });
 
   return (
-    <footer className="px-3 py-3 md:px-8 md:py-8">
+    <footer id="contact-us" className="px-3 py-3 md:px-8 md:py-8">
       <div
         ref={footerRef}
         className="footer rounded-2xl bg-[#1a1c18] border border-white/5 overflow-hidden px-6 py-10 md:px-14 md:py-16"
@@ -83,13 +81,13 @@ export default function Footer() {
 
           {/* Center — nav links */}
           <div className="flex flex-wrap justify-center gap-6">
-            {navLinks.map((link) => (
+            {NAV_LINKS.map((link) => (
               <a
-                key={link}
-                href={`#${link.toLowerCase().replace(/\s+/g, "-")}`}
+                key={link.href}
+                href={link.href}
                 className="link-reveal text-xs md:text-sm text-white/40 hover:text-white/80 transition-all duration-300 cursor-pointer"
               >
-                {link}
+                {link.label}
               </a>
             ))}
           </div>

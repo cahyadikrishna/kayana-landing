@@ -3,10 +3,9 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import Button from "@/components/ui/Button";
+import { NAV_LINKS } from "@/lib/navigation";
 
 const WHATSAPP_NUMBER = "6281234567890"; // replace with actual number
-
-const navLinks = ["Home", "Service", "Projects", "Contact Us"];
 
 const categoryPills = [
   ["Outdoor", "Studio"],
@@ -108,7 +107,10 @@ export default function Hero() {
   }, [mobileMenuOpen]);
 
   return (
-    <section className="relative h-[100svh] w-full overflow-hidden bg-[#2a1a0e]">
+    <section
+      id="home"
+      className="relative h-[100svh] w-full overflow-hidden bg-[#2a1a0e]"
+    >
       {/* Video background — parallax-bg enables GPU compositing */}
       <video
         ref={videoRef}
@@ -137,13 +139,13 @@ export default function Hero() {
 
         {/* Desktop: center nav links */}
         <div className="hidden md:flex items-center gap-1">
-          {navLinks.map((link) => (
+          {NAV_LINKS.map((link) => (
             <a
-              key={link}
-              href={`#${link.toLowerCase().replace(/\s+/g, "-")}`}
+              key={link.href}
+              href={link.href}
               className="text-sm text-white/80 hover:text-white px-4 py-1.5 rounded-full border border-transparent hover:bg-white/10 hover:border-white/20 hover:backdrop-blur-sm transition-all duration-300"
             >
-              {link}
+              {link.label}
             </a>
           ))}
         </div>
@@ -235,35 +237,19 @@ export default function Hero() {
 
           {/* Nav links */}
           <div className="flex flex-col gap-1 px-6 py-8">
-            {navLinks.map((link, i) => (
+            {NAV_LINKS.map((link, i) => (
               <a
-                key={link}
-                href={`#${link.toLowerCase().replace(/\s+/g, "-")}`}
+                key={link.href}
+                href={link.href}
                 onClick={() => setMobileMenuOpen(false)}
                 className="text-lg text-white/80 hover:text-white py-3 border-b border-white/10 transition-colors"
                 style={{
                   animationDelay: `${i * 50}ms`,
                 }}
               >
-                {link}
+                {link.label}
               </a>
             ))}
-          </div>
-
-          {/* CTA at bottom */}
-          <div className="mt-auto px-6 pb-8">
-            <Button
-              href={`https://wa.me/${WHATSAPP_NUMBER}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              variant="solid"
-              color="green"
-              icon="whatsapp"
-              iconPosition="left"
-              className="w-full justify-center"
-            >
-              Book a Session
-            </Button>
           </div>
         </div>
       </div>

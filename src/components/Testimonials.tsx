@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import SectionLabel from "@/components/ui/SectionLabel";
 import { useReveal } from "@/hooks/useScrollAnimation";
 import "@/styles/testimonials.css";
 
@@ -70,9 +71,10 @@ export default function Testimonials() {
 
       {/* Section heading */}
       <div className="relative z-10 pt-20 px-8 md:px-16">
-        <span className="block text-xs uppercase tracking-widest text-white/40 mb-3">
-          [What they say]
-        </span>
+        <SectionLabel color="dark" className="mb-3">
+          What they say
+        </SectionLabel>
+        
         <h2 className="font-serif font-bold italic text-white text-4xl md:text-5xl lg:text-6xl leading-tight">
           Kind Words.
         </h2>

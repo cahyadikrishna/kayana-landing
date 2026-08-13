@@ -2,6 +2,7 @@
 
 import Button from "@/components/ui/Button";
 import { useReveal } from "@/hooks/useScrollAnimation";
+import SectionLabel from "./ui/SectionLabel";
 
 const navLinks = ["About Us", "Projects", "Services", "Terms & Conditions"];
 
@@ -18,14 +19,9 @@ export default function Footer() {
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-10">
           {/* Left — CTA headline */}
           <div className="md:w-2/3">
-            <div className="mb-6">
-              <span className="block text-xs uppercase tracking-widest text-white/30">
-                [005]
-              </span>
-              <span className="block text-xs uppercase tracking-widest text-white/30 mt-1">
-                Contact Us
-              </span>
-            </div>
+            <SectionLabel color="dark" className="mb-3">
+              Contact Us
+            </SectionLabel>
 
             <h2 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl leading-tight tracking-tight text-white">
               <span
@@ -66,10 +62,10 @@ export default function Footer() {
             style={{ transitionDelay: "300ms" }}
           >
             <p className="text-sm text-white/50">
-              Bandung, Indonesia
+              Bali, Indonesia
             </p>
             <a
-              href="https://wa.me/6281234567890"
+              href="https://wa.me/6289606620616"
               target="_blank"
               rel="noopener noreferrer"
               className="link-reveal text-sm text-white/50 hover:text-white transition-all duration-300"
@@ -135,7 +131,7 @@ export default function Footer() {
 
           {/* Right — copyright */}
           <p className="text-xs text-white/30">
-            ©Kayana 2025. All Rights Reserved.
+            ©Kayana Moment {new Date().getFullYear()}. All Rights Reserved.
           </p>
         </div>
       </div>

@@ -101,9 +101,9 @@ export default function Hero() {
 
       {/* ── Person cutouts — overlapping trio, staggered slide-up ── */}
       {/* z order: person 3 (middle, lowest) < person 1 (left) = person 2 (right) */}
-      <div className="pointer-events-none absolute bottom-0 left-1/2 z-[1] h-[38svh] w-[min(95vw,430px)] -translate-x-1/2 md:left-auto md:right-0 md:h-[85%] md:w-[58%] md:translate-x-0 lg:w-[54%] xl:w-[50%]">
+      <div className="pointer-events-none absolute bottom-0 left-1/2 z-[1] h-[38svh] w-[min(95vw,430px)] -translate-x-1/2 md:left-auto md:right-0 md:h-[85%] md:w-[58%] md:translate-x-0 lg:w-[50%] xl:w-[40%]">
         {/* Person 3 — middle, lowest index */}
-        <div className="absolute bottom-0 left-1/2 z-10 h-full -translate-x-1/2">
+        <div className="absolute bottom-0 z-10 h-full">
           <Image
             src="/assets/hero-person-3.png"
             alt="Graduate in red kebaya"
@@ -114,7 +114,7 @@ export default function Hero() {
           />
         </div>
         {/* Person 1 — left of person 3, one index higher */}
-        <div className="absolute bottom-0 left-0 z-20 h-[80%]">
+        <div className="absolute bottom-0 left-[-150px] z-20 h-[70%]">
           <Image
             src="/assets/hero-person-1.png"
             alt="Graduate holding cap"
@@ -125,7 +125,7 @@ export default function Hero() {
           />
         </div>
         {/* Person 2 — right of person 3, higher index than person 3 */}
-        <div className="absolute bottom-0 right-0 z-20 h-[84%]">
+        <div className="absolute bottom-0 right-0 z-20 h-[70%]">
           <Image
             src="/assets/hero-person-2.png"
             alt="Graduate in black kebaya with sash"
@@ -264,7 +264,7 @@ export default function Hero() {
       <div className="absolute bottom-[46%] left-8 right-8 md:bottom-48 md:right-auto md:left-16 lg:left-20 md:w-1/2 lg:w-[45%] z-10">
         <h1 className="font-serif font-bold text-white text-4xl sm:text-5xl text-center md:text-left md:text-6xl lg:text-8xl tracking-tight leading-tight md:leading-none">
           <span className="anim-headline-1 block">
-            We make your Graduation effortless captured.
+            We make your Graduation <span className="font-italic">effortless</span> captured.
           </span>
         </h1>
       </div>

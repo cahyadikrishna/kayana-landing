@@ -7,11 +7,6 @@ import { NAV_LINKS } from "@/lib/navigation";
 
 const WHATSAPP_NUMBER = "6281234567890"; // replace with actual number
 
-const categoryPills = [
-  ["Outdoor", "Studio"],
-  ["Candid", "Formal", "Events"],
-];
-
 const previewCards = [
   {
     title: "A Symphony of Toques",
@@ -99,41 +94,104 @@ export default function Hero() {
       {/* Dark overlay */}
       <div className="absolute inset-0 bg-black/25" />
 
-      {/* ── Person cutouts — overlapping trio, staggered slide-up ── */}
-      {/* z order: person 3 (middle, lowest) < person 1 (left) = person 2 (right) */}
-      <div className="pointer-events-none absolute bottom-0 left-1/2 z-[1] h-[38svh] w-[min(95vw,430px)] -translate-x-1/2 md:left-auto md:right-0 md:h-[85%] md:w-[58%] md:translate-x-0 lg:w-[50%] xl:w-[40%]">
-        {/* Person 3 — middle, lowest index */}
-        <div className="absolute bottom-0 z-10 h-full">
-          <Image
-            src="/assets/hero-person-3.png"
-            alt="Graduate in red kebaya"
-            width={4218}
-            height={4450}
-            sizes="(min-width: 768px) 40vw, 60vw"
-            className="anim-person-3 h-full w-max object-cover"
-          />
+      {/* ── Hero content: two-column layout ── */}
+      <div className="relative z-10 flex flex-col md:flex-row h-full w-full">
+        {/* Left column — headline, preview cards, scroll indicator */}
+        <div className="flex flex-col justify-end md:justify-between px-8 md:px-16 lg:pl-20 lg:pr-10 pt-24 md:pt-28 pb-20 md:pb-8 w-full md:w-1/2 lg:w-[45%]">
+          {/* Headline */}
+          <h1 className="anim-headline-1 font-serif font-bold text-white text-4xl sm:text-5xl text-center md:text-left md:text-6xl lg:text-8xl tracking-tight leading-tight md:leading-none">
+            We make your Graduation <span className="font-italic">effortless</span> captured.
+          </h1>
+
+          {/* Preview cards (desktop only) */}
+          <div className="anim-preview-cards hidden md:flex gap-3 mt-8">
+            {previewCards.map((card) => (
+              <div
+                key={card.title}
+                className="flex min-w-[240px] items-center gap-3 rounded-2xl border border-white/20 bg-white/10 p-3 backdrop-blur-md"
+              >
+                <div className="relative h-16 w-16 flex-shrink-0 overflow-hidden rounded-xl">
+                  <Image
+                    src={card.image}
+                    alt={card.title}
+                    fill
+                    className="object-cover"
+                    sizes="64px"
+                  />
+                </div>
+                <div className="min-w-0">
+                  <p className="text-sm font-semibold text-white leading-snug line-clamp-2">
+                    {card.title}
+                  </p>
+                  <p className="text-xs text-white/50 mt-0.5">
+                    {card.subtitle}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Scroll indicator */}
+          <div className="scroll-indicator flex flex-col items-center md:items-start gap-2 mt-6 pointer-events-none">
+            <span className="text-white/40 text-[10px] tracking-[0.2em] uppercase">
+              Scroll
+            </span>
+            <svg
+              width="14"
+              height="22"
+              viewBox="0 0 14 22"
+              fill="none"
+              className="text-white/45"
+              aria-hidden="true"
+            >
+              <path
+                d="M7 2v14M2 11l5 6 5-6"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </div>
         </div>
-        {/* Person 1 — left of person 3, one index higher */}
-        <div className="absolute bottom-0 left-[-150px] z-20 h-[70%]">
-          <Image
-            src="/assets/hero-person-1.png"
-            alt="Graduate holding cap"
-            width={1892}
-            height={3058}
-            sizes="(min-width: 768px) 25vw, 35vw"
-            className="anim-person-1 h-full w-auto"
-          />
-        </div>
-        {/* Person 2 — right of person 3, higher index than person 3 */}
-        <div className="absolute bottom-0 right-0 z-20 h-[70%]">
-          <Image
-            src="/assets/hero-person-2.png"
-            alt="Graduate in black kebaya with sash"
-            width={1540}
-            height={2818}
-            sizes="(min-width: 768px) 25vw, 35vw"
-            className="anim-person-2 h-full w-auto"
-          />
+
+        {/* Right column — person assets */}
+        <div className="pointer-events-none absolute md:relative bottom-0 right-0 w-full md:w-1/2 lg:w-[55%] h-full">
+          {/* Person 3 — middle, lowest z */}
+          <div className="absolute bottom-0 z-10 h-full left-1/2 -translate-x-1/2">
+            <Image
+              src="/assets/hero-person-3.png"
+              alt="Graduate in red kebaya"
+              width={4218}
+              height={4450}
+              sizes="(min-width: 768px) 40vw, 60vw"
+              className="anim-person-3 h-full w-max object-cover"
+            />
+          </div>
+
+          {/* Person 1 — left, higher z */}
+          <div className="absolute bottom-0 left-0 z-20 h-[70%]">
+            <Image
+              src="/assets/hero-person-1.png"
+              alt="Graduate holding cap"
+              width={1892}
+              height={3058}
+              sizes="(min-width: 768px) 25vw, 35vw"
+              className="anim-person-1 h-full w-auto"
+            />
+          </div>
+
+          {/* Person 2 — right, higher z */}
+          <div className="absolute bottom-0 right-0 z-20 h-[70%]">
+            <Image
+              src="/assets/hero-person-2.png"
+              alt="Graduate in black kebaya with sash"
+              width={1540}
+              height={2818}
+              sizes="(min-width: 768px) 25vw, 35vw"
+              className="anim-person-2 h-full w-auto"
+            />
+          </div>
         </div>
       </div>
 
@@ -257,74 +315,6 @@ export default function Hero() {
               </a>
             ))}
           </div>
-        </div>
-      </div>
-
-      {/* ── Headline — orchestrated load sequence ── */}
-      <div className="absolute bottom-[46%] left-8 right-8 md:bottom-48 md:right-auto md:left-16 lg:left-20 md:w-1/2 lg:w-[45%] z-10">
-        <h1 className="font-serif font-bold text-white text-4xl sm:text-5xl text-center md:text-left md:text-6xl lg:text-8xl tracking-tight leading-tight md:leading-none">
-          <span className="anim-headline-1 block">
-            We make your Graduation <span className="font-italic">effortless</span> captured.
-          </span>
-        </h1>
-      </div>
-
-      {/* ── Bottom bar: pills (left) + cards (right) ── */}
-      <div className="absolute bottom-24 md:bottom-8 left-8 md:left-16 lg:left-20 right-8 md:right-16 lg:right-20 z-10 flex justify-center md:justify-between">
-
-        {/* Preview cards (desktop only) */}
-        <div className="anim-preview-cards hidden md:flex gap-3">
-          {previewCards.map((card) => (
-            <div
-              key={card.title}
-              className="flex min-w-[240px] items-center gap-3 rounded-2xl border border-white/20 bg-white/10 p-3 backdrop-blur-md"
-            >
-              <div className="relative h-16 w-16 flex-shrink-0 overflow-hidden rounded-xl">
-                <Image
-                  src={card.image}
-                  alt={card.title}
-                  fill
-                  className="object-cover"
-                  sizes="64px"
-                />
-              </div>
-              <div className="min-w-0">
-                <p className="text-sm font-semibold text-white leading-snug line-clamp-2">
-                  {card.title}
-                </p>
-                <p className="text-xs text-white/50 mt-0.5">
-                  {card.subtitle}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
-
-      </div>
-
-      {/* ── Scroll Indicator — gentle bounce loop ── */}
-      {/* Outer div handles centering; inner div handles animation */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 pointer-events-none">
-        <div className="scroll-indicator flex flex-col items-center gap-2">
-          <span className="text-white/40 text-[10px] tracking-[0.2em] uppercase">
-            Scroll
-          </span>
-          <svg
-            width="14"
-            height="22"
-            viewBox="0 0 14 22"
-            fill="none"
-            className="text-white/45"
-            aria-hidden="true"
-          >
-            <path
-              d="M7 2v14M2 11l5 6 5-6"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
         </div>
       </div>
 

@@ -54,6 +54,17 @@ button {
   to   { opacity: 1; }
 }
 
+@keyframes person-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(90px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @keyframes scroll-drift {
   0%, 100% {
     opacity: 0.4;
@@ -93,6 +104,19 @@ button {
 
 .anim-preview-cards {
   animation: gentle-fade 0.7s ease-out 1s both;
+}
+
+/* Hero person cutouts — staggered bottom-to-top entrance */
+.anim-person-3 {
+  animation: person-slide-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
+}
+
+.anim-person-1 {
+  animation: person-slide-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.45s both;
+}
+
+.anim-person-2 {
+  animation: person-slide-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.7s both;
 }
 
 /* ─── Scroll Indicator ────────────────────────────────────────────────────── */
@@ -284,7 +308,10 @@ button {
   .anim-headline-2,
   .anim-cta-load,
   .anim-pills,
-  .anim-preview-cards {
+  .anim-preview-cards,
+  .anim-person-1,
+  .anim-person-2,
+  .anim-person-3 {
     animation: none !important;
     opacity: 1;
     transform: none;

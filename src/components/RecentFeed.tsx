@@ -1,138 +1,118 @@
 "use client";
 
 import Image from "next/image";
+import { useState } from "react";
 import { useReveal } from "@/hooks/useScrollAnimation";
 import Button from "@/components/ui/Button";
+import Divider from "@/components/ui/Divider";
+import Pill from "@/components/ui/Pill";
+import Section from "@/components/ui/Section";
 import SectionLabel from "@/components/ui/SectionLabel";
 
 const cards = [
   {
     title: "Golden Hour Ceremonies",
-    description:
-      "Capturing the warmth of achievement as graduates walk across the stage bathed in afternoon light.",
+    category: "Ceremony",
     image: "https://picsum.photos/seed/graduation1/600/800",
-    featured: true,
   },
   {
-    title: "A Robe\u2019s Serene Silhouette",
-    description:
-      "Still moments of reflection before the celebration begins.",
+    title: "A Robe’s Serene Silhouette",
+    category: "Portrait",
     image: "https://picsum.photos/seed/graduation2/600/800",
-    featured: false,
   },
   {
     title: "Moments Framed in Joy",
-    description:
-      "Candid laughter and pride captured between the formalities.",
+    category: "Candid",
     image: "https://picsum.photos/seed/graduation3/600/800",
-    featured: false,
   },
   {
     title: "The Last Bell, First Chapter",
-    description:
-      "Where one journey ends and a lifetime of possibility begins.",
+    category: "Portrait",
     image: "https://picsum.photos/seed/graduation4/600/800",
-    featured: false,
   },
 ];
 
-const featuredPills = ["Outdoor Portraits", "Nature", "Memories", "#2023"];
+const filters = ["All", ...Array.from(new Set(cards.map((card) => card.category)))];
 
 export default function RecentFeed() {
-  const { ref } = useReveal({ target: ".fade-up", threshold: 0.1 });
+  const { ref } = useReveal({ threshold: 0.1 });
+  const [activeFilter, setActiveFilter] = useState("All");
+
+  const visibleCards =
+    activeFilter === "All" ? cards : cards.filter((card) => card.category === activeFilter);
 
   return (
-    <section
-      id="projects"
-      ref={ref}
-      className="bg-[#111111] py-24 md:py-32 px-6 md:px-16"
-    >
-      <div className="max-w-screen-xl mx-auto">
-        {/* Section header — fade-up as a unit */}
-        <div className="fade-up flex flex-col md:flex-row gap-12 md:gap-0">
-          {/* Left column */}
-          <div className="md:w-1/2">
-            <SectionLabel color="dark" className="mt-1">
-              Our Work
-            </SectionLabel>
-            <h2 className="mt-6 font-serif text-2xl md:text-4xl lg:text-5xl text-white leading-tight">
-              <span className="font-bold italic">Explore</span>{" "}
-              <span className="font-normal">the artistry and</span>
-              <br />
-              <span className="font-normal">precision behind </span>
-              <span className="font-bold italic">our</span>
-              <br />
-              <span className="font-bold italic">portfolio</span>{" "}
-              <span className="font-normal">of timeless photography</span>
-            </h2>
-          </div>
-
-          {/* Right column */}
-          <div className="md:w-1/2 flex flex-col items-start justify-end">
-            <p className="text-sm text-white/50 leading-relaxed max-w-xs">
-              Embark on a visual journey through our graduation moments captured
-              with creativity and precision. Each image in our portfolio reflects
-              our dedication to preserving life&apos;s beauty and significance.
-            </p>
-            <div className="mt-6">
-              <Button
-                href="#projects"
-                variant="ghost"
-                color="light"
-                icon="arrow-up-right"
-              >
-                Explore More
-              </Button>
-            </div>
-          </div>
+    <Section id="projects" tone="ink" ref={ref}>
+      {/* Section header row */}
+      <div className="reveal flex flex-col gap-10 md:flex-row md:items-end md:justify-between">
+        <div className="md:w-1/2">
+          <SectionLabel tone="ink" index={2}>
+            Our Work
+          </SectionLabel>
+          <h2 className="type-title mt-6">
+            The artistry behind a portfolio of <em>timeless</em> photographs
+          </h2>
         </div>
 
-        {/* TODO: Replace hardcoded cards with Instagram Basic Display API
-            Endpoint: GET https://graph.instagram.com/me/media
-            Fields: id, caption, media_type, media_url, permalink, thumbnail_url
-            Replace each card's image src and content with API response data
-            Access token: store in .env.local as NEXT_PUBLIC_INSTAGRAM_TOKEN */}
-
-        {/* Cards grid — each card fades in individually with staggered delays */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-12">
-          {cards.map((card, i) => (
-            <div
-              key={card.title}
-              className="fade-up portfolio-card-outer group relative aspect-[3/4] rounded-2xl overflow-hidden cursor-pointer"
-              style={{ transitionDelay: `${i * 150}ms` }}
-            >
-              {/* Layer 1 — Background image with zoom + color reveal on hover */}
-              <div className="portfolio-card-img absolute inset-0">
-                <Image
-                  src={card.image}
-                  alt={card.title}
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 50vw, 25vw"
-                />
-              </div>
-
-              {/* Layer 2 — Gradient overlays */}
-              <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-transparent pointer-events-none" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none" />
-
-              {/* Layer 4 — Bottom content */}
-              <div className="absolute bottom-0 left-0 right-0 p-4">
-                <h3 className="font-serif font-bold text-white text-lg leading-snug mb-1 line-clamp-2">
-                  {card.title}
-                </h3>
-                <p
-                  className={`text-white/60 text-xs leading-relaxed mb-4 line-clamp-2 ${
-                    i > 0 ? "hidden md:block" : ""
-                  }`}
-                >
-                  {card.description}
-                </p>                
-              </div>
-            </div>
-          ))}
+        <div className="flex flex-col items-start gap-6 md:w-1/3">
+          <p className="type-caption text-paper/60">
+            A visual journey through graduation moments captured with creativity and
+            precision — each frame preserving the weight of the day.
+          </p>
+          <Button href="#projects" tone="ink">
+            Explore more
+          </Button>
         </div>
       </div>
-    </section>
+
+      <Divider tone="ink" className="mt-12 mb-8" />
+
+      {/* Filters */}
+      <div className="reveal mb-8 flex flex-wrap gap-2" style={{ "--i": 1 } as React.CSSProperties}>
+        {filters.map((filter) => (
+          <Pill
+            key={filter}
+            tone="ink"
+            active={activeFilter === filter}
+            onClick={() => setActiveFilter(filter)}
+          >
+            {filter}
+          </Pill>
+        ))}
+      </div>
+
+      {/* TODO: Replace hardcoded cards with Instagram Basic Display API
+          Endpoint: GET https://graph.instagram.com/me/media
+          Fields: id, caption, media_type, media_url, permalink, thumbnail_url
+          Replace each card's image src and content with API response data
+          Access token: store in .env.local as NEXT_PUBLIC_INSTAGRAM_TOKEN */}
+
+      {/* Catalog grid — image first, caption beneath, no chrome */}
+      <div className="grid grid-cols-2 gap-x-2 gap-y-8 md:grid-cols-4">
+        {visibleCards.map((card, i) => (
+          <figure
+            key={card.title}
+            className="reveal group"
+            style={{ "--i": i + 2 } as React.CSSProperties}
+          >
+            <div className="relative aspect-[3/4] overflow-hidden">
+              <Image
+                src={card.image}
+                alt={card.title}
+                fill
+                className="media-zoom object-cover"
+                sizes="(max-width: 768px) 50vw, 25vw"
+              />
+            </div>
+            <figcaption className="mt-3 flex items-baseline justify-between gap-3">
+              <span className="type-caption">{card.title}</span>
+              <span className="type-meta shrink-0 text-paper/50">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+    </Section>
   );
 }

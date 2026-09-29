@@ -1,36 +1,214 @@
 @import "tailwindcss";
 
+/*
+ * Kayana Design System — tokens.
+ * Source of truth: DESIGN.md. Tailwind's default palettes, radii, shadows,
+ * blurs, font sizes and weights are wiped on purpose: only the values below
+ * generate utilities, so off-system styles fail to exist instead of drifting.
+ */
+
 @theme inline {
-  --color-background: #ffffff;
-  --color-foreground: #111111;
-  --font-sans: var(--font-inter);
-  --font-serif: var(--font-playfair-display);
+  --font-*: initial;
+  --font-display: var(--font-fraunces), "Cormorant Garamond", Georgia, serif;
+  --font-sans: var(--font-inter), "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+@theme static {
+  /* Colors — strictly achromatic. Tints on ink use opacity: text-paper/60. */
+  --color-*: initial;
+  --color-transparent: transparent;
+  --color-current: currentColor;
+  --color-paper: #ffffff;
+  --color-ink: #0a0a0a;
+  --color-ink-pure: #000000;
+  --color-graphite: #767676;
+  --color-smoke: #b3b3b3;
+  --color-ash: #cccccc;
+
+  /* Type scale — pair with the type-* utilities below, not raw text-* */
+  --text-*: initial;
+  --text-display: clamp(3rem, 8vw, 6.25rem);
+  --text-display--line-height: 0.95;
+  --text-display--letter-spacing: -0.01em;
+  --text-title: clamp(2.25rem, 5vw, 4.5rem);
+  --text-title--line-height: 1;
+  --text-title--letter-spacing: -0.01em;
+  --text-quote: clamp(1.5rem, 2.4vw, 2.25rem);
+  --text-quote--line-height: 1.2;
+  --text-quote--letter-spacing: -0.005em;
+  --text-heading: 1.375rem;
+  --text-heading--line-height: 1.44;
+  --text-heading--letter-spacing: 0.02em;
+  --text-subheading: 1.25rem;
+  --text-subheading--line-height: 1.4;
+  --text-subheading--letter-spacing: 0.02em;
+  --text-body: 1rem;
+  --text-body--line-height: 1.64;
+  --text-body--letter-spacing: 0.008em;
+  --text-caption: 0.875rem;
+  --text-caption--line-height: 1.8;
+  --text-caption--letter-spacing: 0.01em;
+  --text-meta: 0.8125rem;
+  --text-meta--line-height: 1.31;
+  --text-meta--letter-spacing: 0;
+
+  /* Weights — display serif goes down to 100; sans never exceeds 400 */
+  --font-weight-*: initial;
+  --font-weight-thin: 100;
+  --font-weight-extralight: 200;
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+
+  /* Shape & elevation — zero radius except pills, no shadows, no blur */
+  --radius-*: initial;
+  --radius-pill: 9999px;
+  --shadow-*: initial;
+  --inset-shadow-*: initial;
+  --drop-shadow-*: initial;
+  --text-shadow-*: initial;
+  --blur-*: initial;
+
+  /* Layout */
+  --spacing-section: clamp(4rem, 9vw, 5.625rem);
+  --spacing-element: 5px;
+  --container-page: 80rem;
+
+  /* Motion — one easing, four durations (see DESIGN.md › Motion) */
+  --ease-*: initial;
+  --ease-editorial: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-drift: cubic-bezier(0.45, 0, 0.55, 1);
+  --default-transition-duration: 400ms;
+  --default-transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+:root {
+  --duration-fast: 200ms;
+  --duration-base: 400ms;
+  --duration-reveal: 800ms;
+  --duration-slow: 1100ms;
+  --stagger-step: 100ms;
+}
+
+/* ─── Type roles ──────────────────────────────────────────────────────────── */
+
+/* Ceremonial display — one line per page (hero, footer wordmark) */
+@utility type-display {
+  font-family: --theme(--font-display);
+  font-size: var(--text-display);
+  line-height: var(--text-display--line-height);
+  letter-spacing: var(--text-display--letter-spacing);
+  font-weight: var(--font-weight-thin);
+}
+
+/* Section titles, stats, pull quotes */
+@utility type-title {
+  font-family: --theme(--font-display);
+  font-size: var(--text-title);
+  line-height: var(--text-title--line-height);
+  letter-spacing: var(--text-title--letter-spacing);
+  font-weight: var(--font-weight-extralight);
+}
+
+/* Pull quotes & testimonials — the only serif below 48px, never below 24px */
+@utility type-quote {
+  font-family: --theme(--font-display);
+  font-size: var(--text-quote);
+  line-height: var(--text-quote--line-height);
+  letter-spacing: var(--text-quote--letter-spacing);
+  font-weight: var(--font-weight-light);
+}
+
+@utility type-heading {
+  font-family: --theme(--font-sans);
+  font-size: var(--text-heading);
+  line-height: var(--text-heading--line-height);
+  letter-spacing: var(--text-heading--letter-spacing);
+  font-weight: var(--font-weight-light);
+}
+
+@utility type-subheading {
+  font-family: --theme(--font-sans);
+  font-size: var(--text-subheading);
+  line-height: var(--text-subheading--line-height);
+  letter-spacing: var(--text-subheading--letter-spacing);
+  font-weight: var(--font-weight-light);
+}
+
+@utility type-body {
+  font-family: --theme(--font-sans);
+  font-size: var(--text-body);
+  line-height: var(--text-body--line-height);
+  letter-spacing: var(--text-body--letter-spacing);
+  font-weight: var(--font-weight-normal);
+}
+
+@utility type-caption {
+  font-family: --theme(--font-sans);
+  font-size: var(--text-caption);
+  line-height: var(--text-caption--line-height);
+  letter-spacing: var(--text-caption--letter-spacing);
+  font-weight: var(--font-weight-light);
+}
+
+/* Metadata only: eyebrows, pills, counters, dates — never body copy */
+@utility type-meta {
+  font-family: --theme(--font-mono);
+  font-size: var(--text-meta);
+  line-height: var(--text-meta--line-height);
+  letter-spacing: var(--text-meta--letter-spacing);
+  font-weight: var(--font-weight-normal);
+}
+
+/* Page container + gutters */
+@utility container-page {
+  width: 100%;
+  max-width: var(--container-page);
+  margin-inline: auto;
+  padding-inline: 1.5rem;
+
+  @media (width >= 48rem) {
+    padding-inline: 4rem;
+  }
 }
 
 /* ─── Base ────────────────────────────────────────────────────────────────── */
 
-html {
-  scroll-behavior: smooth;
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: --theme(--font-sans);
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
+    font-weight: var(--font-weight-normal);
+  }
+
+  button {
+    font: inherit;
+  }
+
+  ::selection {
+    background: var(--color-ink);
+    color: var(--color-paper);
+  }
+
+  :focus-visible {
+    outline: 1px solid currentColor;
+    outline-offset: 3px;
+  }
 }
 
-body {
-  background: var(--color-background);
-  color: var(--color-foreground);
-  font-family: var(--font-sans);
-}
+/* ─── Page-load choreography (hero only) ──────────────────────────────────── */
 
-button {
-  font-family: inherit;
-  font-size: inherit;
-  line-height: inherit;
-}
-
-/* ─── Page Load Keyframes ─────────────────────────────────────────────────── */
-
-@keyframes luxury-reveal {
+@keyframes rise {
   from {
     opacity: 0;
-    transform: translateY(22px);
+    transform: translateY(24px);
   }
   to {
     opacity: 1;
@@ -38,23 +216,12 @@ button {
   }
 }
 
-@keyframes nav-drop {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes gentle-fade {
+@keyframes fade {
   from { opacity: 0; }
   to   { opacity: 1; }
 }
 
-@keyframes person-slide-up {
+@keyframes person-rise {
   from {
     opacity: 0;
     transform: translateY(90px);
@@ -76,291 +243,119 @@ button {
   }
 }
 
-/* ─── Page Load Classes ───────────────────────────────────────────────────── */
-
-.anim-nav {
-  animation: nav-drop 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+.anim-fade {
+  animation: fade var(--duration-slow) var(--ease-editorial) both;
 }
 
-.anim-hero-media {
-  animation: gentle-fade 1.1s ease-out 0.05s both;
+.anim-rise {
+  animation: rise var(--duration-reveal) var(--ease-editorial) both;
 }
 
-.anim-headline-1 {
-  animation: luxury-reveal 0.75s cubic-bezier(0.22, 1, 0.36, 1) 0.25s both;
+.anim-person {
+  animation: person-rise 900ms var(--ease-editorial) both;
 }
 
-.anim-headline-2 {
-  animation: luxury-reveal 0.75s cubic-bezier(0.22, 1, 0.36, 1) 0.42s both;
+/* Stagger any load animation with style={{ "--i": n }} */
+.anim-fade,
+.anim-rise,
+.anim-person {
+  animation-delay: calc(var(--i, 0) * var(--stagger-step) + 100ms);
 }
-
-.anim-cta-load {
-  animation: luxury-reveal 0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.65s both;
-}
-
-.anim-pills {
-  animation: gentle-fade 0.65s ease-out 0.78s both;
-}
-
-.anim-preview-cards {
-  animation: gentle-fade 0.7s ease-out 1s both;
-}
-
-/* Hero person cutouts — staggered bottom-to-top entrance */
-.anim-person-3 {
-  animation: person-slide-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
-}
-
-.anim-person-1 {
-  animation: person-slide-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.45s both;
-}
-
-.anim-person-2 {
-  animation: person-slide-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.7s both;
-}
-
-/* ─── Scroll Indicator ────────────────────────────────────────────────────── */
 
 .scroll-indicator {
-  animation: scroll-drift 2.4s cubic-bezier(0.45, 0, 0.55, 1) infinite 1.8s;
+  animation: scroll-drift 2.4s var(--ease-drift) infinite 1.8s;
 }
 
-/* ─── Scroll Animations ───────────────────────────────────────────────────── */
+/* ─── Scroll reveal ───────────────────────────────────────────────────────── */
 
-/* Elegant fade-up — primary scroll reveal */
-.fade-up {
+/*
+ * .reveal fades + rises when it (or an ancestor) receives .visible from
+ * useReveal(). Stagger siblings with style={{ "--i": n }}.
+ */
+.reveal {
   opacity: 0;
-  transform: translateY(28px);
-  transition: opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1),
-              transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+  transform: translateY(24px);
+  transition:
+    opacity var(--duration-reveal) var(--ease-editorial),
+    transform var(--duration-reveal) var(--ease-editorial);
+  transition-delay: calc(var(--i, 0) * var(--stagger-step));
 }
 
-.fade-up.visible {
+.reveal.visible,
+.visible .reveal {
   opacity: 1;
   transform: translateY(0);
 }
 
-/* Gentle fade — no movement */
-.fade-in {
-  opacity: 0;
-  transition: opacity 0.75s ease-out;
-}
+/* ─── Micro-interactions ──────────────────────────────────────────────────── */
 
-.fade-in.visible {
-  opacity: 1;
-}
-
-/* ─── Legacy Hero Classes (kept for backward compatibility) ───────────────── */
-
-.hero-fade-up.hero-visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* ─── Section Reveal (unified .visible trigger) ────────────────────────────── */
-
-/* Footer */
-.footer {
-  opacity: 0;
-  transform: translateY(6);
-  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
-}
-.footer .footer-fade {
-  opacity: 0;
-  transform: translateY(4);
-  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
-}
-.footer.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-.footer.visible .footer-fade {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* CTA Banner 1 */
-.cta1 .cta1-left,
-.cta1 .cta1-right {
-  opacity: 0;
-  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-}
-.cta1 .cta1-left {
-  transform: translateX(-5);
-}
-.cta1 .cta1-right {
-  transform: translateX(5);
-}
-.cta1.visible .cta1-left,
-.cta1.visible .cta1-right {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-/* CTA Banner 2 */
-.cta2 .cta2-content {
-  opacity: 0;
-  transform: translateY(6);
-  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
-}
-.cta2.visible .cta2-content {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* About */
-.about-section .about-stat,
-.about-section .about-quote {
-  opacity: 0;
-  transform: translateY(4);
-  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-}
-.about-section.visible .about-stat,
-.about-section.visible .about-quote {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* ─── Micro-interaction: Link Underline Reveal ────────────────────────────── */
-
-.link-reveal {
+/* Hairline underline that draws in from the left */
+.link-underline {
   position: relative;
-  text-decoration: none;
 }
 
-.link-reveal::after {
-  content: '';
+.link-underline::after {
+  content: "";
   position: absolute;
   left: 0;
   bottom: -1px;
   width: 100%;
   height: 1px;
   background: currentColor;
-  opacity: 0.5;
   transform: scaleX(0);
   transform-origin: left center;
-  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform var(--duration-base) var(--ease-editorial);
 }
 
-.link-reveal:hover::after {
+.link-underline:hover::after,
+.group:hover .link-underline::after {
   transform: scaleX(1);
 }
 
-/* ─── Micro-interaction: Portfolio Card Hover ─────────────────────────────── */
-
-/* Outer card — soft lift + shadow deepening */
-.portfolio-card-outer {
-  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
-              box-shadow 0.45s ease-out;
+/* Slow image zoom — the only image hover allowed */
+.media-zoom {
+  transition: transform var(--duration-slow) var(--ease-editorial);
 }
 
-.portfolio-card-outer:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 28px 60px rgba(0, 0, 0, 0.45);
+.group:hover .media-zoom {
+  transform: scale(1.03);
 }
 
-/* Inner image wrapper — zoom + grayscale-to-color */
-.portfolio-card-img {
-  transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1),
-              filter 0.65s ease-out;
-  filter: grayscale(18%) brightness(0.9);
-}
-
-.portfolio-card-outer:hover .portfolio-card-img {
-  transform: scale(1.06);
-  filter: grayscale(0%) brightness(1.02);
-}
-
-/* ─── Micro-interaction: Testimonial Scale Reveal ─────────────────────────── */
-
-/* CSS scale property — independent of transform, no conflict with float anim */
-.scale-reveal {
-  scale: 0.97;
-}
-
-.testimonials.visible .scale-reveal {
-  scale: 1.0;
-}
-
-/* ─── Parallax Background ─────────────────────────────────────────────────── */
-
-.parallax-bg {
-  will-change: transform;
-}
-
-/* ─── Horizontal Scroll Container ────────────────────────────────────────── */
-
+/* Horizontal scroller without scrollbar chrome */
 .scroll-x-container {
   scrollbar-width: none;
-  -ms-overflow-style: none;
 }
 
 .scroll-x-container::-webkit-scrollbar {
   display: none;
 }
 
-/* ─── Reduced Motion ──────────────────────────────────────────────────────── */
+/* ─── Reduced motion ──────────────────────────────────────────────────────── */
 
 @media (prefers-reduced-motion: reduce) {
-  .anim-nav,
-  .anim-hero-media,
-  .anim-headline-1,
-  .anim-headline-2,
-  .anim-cta-load,
-  .anim-pills,
-  .anim-preview-cards,
-  .anim-person-1,
-  .anim-person-2,
-  .anim-person-3 {
-    animation: none !important;
-    opacity: 1;
-    transform: none;
+  html {
+    scroll-behavior: auto;
   }
 
+  .anim-fade,
+  .anim-rise,
+  .anim-person,
   .scroll-indicator {
     animation: none !important;
-    opacity: 0.5;
   }
 
-  .fade-up,
-  .fade-in {
+  .reveal {
     opacity: 1;
     transform: none;
     transition: none;
   }
 
-  .scale-reveal {
-    scale: 1;
+  .link-underline::after,
+  .media-zoom {
     transition: none;
   }
 
-  .portfolio-card-img {
-    transition: none;
-    filter: none;
-  }
-
-  .portfolio-card-outer {
-    transition: none;
-  }
-
-  .link-reveal::after {
-    transition: none;
-  }
-
-  /* Unified section reveals — show immediately */
-  .footer,
-  .footer .footer-fade,
-  .cta1 .cta1-left,
-  .cta1 .cta1-right,
-  .cta2 .cta2-content,
-  .about-section .about-stat,
-  .about-section .about-quote {
-    opacity: 1;
+  .group:hover .media-zoom {
     transform: none;
-    transition: none;
-  }
-
-  .testimonials.visible .float-card {
-    transition: none;
   }
 }

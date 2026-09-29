@@ -1,26 +1,34 @@
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 
-type SectionLabelColor = "light" | "dark";
+type SectionLabelTone = "paper" | "ink";
 
-const colorStyles: Record<SectionLabelColor, string> = {
-  light: "border-black/20 text-black/50",
-  dark: "border-white/20 text-white/50",
+const toneStyles: Record<SectionLabelTone, string> = {
+  paper: "text-graphite",
+  ink: "text-paper/50",
 };
 
+/**
+ * Eyebrow metadata above a section title, e.g. "(01) Our Work".
+ * Mono, no box — it labels content, it isn't a badge (use Pill for that).
+ */
 export default function SectionLabel({
-  color = "light",
+  tone = "paper",
+  index,
   children,
   className = "",
 }: {
-  color?: SectionLabelColor;
+  tone?: SectionLabelTone;
+  /** Section number, rendered as a zero-padded (01) prefix. */
+  index?: number;
   children: ReactNode;
   className?: string;
 }) {
   return (
-    <span
-      className={`inline-block w-fit border rounded-full px-4 py-1.5 text-xs uppercase tracking-widest ${colorStyles[color]} ${className}`}
-    >
+    <p className={`type-meta ${toneStyles[tone]} ${className}`}>
+      {index !== undefined && (
+        <span className="mr-3">({String(index).padStart(2, "0")})</span>
+      )}
       {children}
-    </span>
+    </p>
   );
 }

@@ -2,35 +2,26 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import Button from "@/components/ui/Button";
+import Button, { WhatsAppIcon } from "@/components/ui/Button";
 import { NAV_LINKS } from "@/lib/navigation";
 
 const WHATSAPP_NUMBER = "6281234567890"; // replace with actual number
+const WHATSAPP_HREF = `https://wa.me/${WHATSAPP_NUMBER}`;
 
-const previewCards = [
-  {
-    title: "A Symphony of Toques",
-    subtitle: "Shot with Canon R5",
-    image: "https://picsum.photos/seed/hero-card-2/128/128",
-  },
-  {
-    title: "Last Bell, First Chapter",
-    subtitle: "Shot at IPB University",
-    image: "https://picsum.photos/seed/hero-card-3/128/128",
-  },
+const credits = [
+  { index: "01", title: "A Symphony of Toques", meta: "Canon R5" },
+  { index: "02", title: "Last Bell, First Chapter", meta: "IPB University" },
 ];
 
-function HamburgerIcon({ open }: { open: boolean }) {
+function MenuIcon({ open }: { open: boolean }) {
   return (
     <svg
-      width="24"
-      height="24"
+      width="20"
+      height="20"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      className="text-white"
+      strokeWidth="1.25"
       aria-hidden="true"
     >
       {open ? (
@@ -40,9 +31,8 @@ function HamburgerIcon({ open }: { open: boolean }) {
         </>
       ) : (
         <>
-          <path d="M3 12h18" />
-          <path d="M3 6h18" />
-          <path d="M3 18h18" />
+          <path d="M3 8h18" />
+          <path d="M3 16h18" />
         </>
       )}
     </svg>
@@ -78,7 +68,7 @@ export default function Hero() {
   return (
     <section
       id="home"
-      className="relative h-[100svh] w-full overflow-hidden bg-[#2a1a0e]"
+      className="relative h-[100svh] w-full overflow-hidden bg-ink text-paper"
     >
       {/* Static background image */}
       <Image
@@ -88,84 +78,70 @@ export default function Hero() {
         priority
         sizes="100vw"
         aria-hidden="true"
-        className="anim-hero-media object-cover"
+        className="anim-fade object-cover"
       />
 
-      {/* Dark overlay */}
-      <div className="absolute inset-0 bg-black/25" />
+      {/* Ink overlay for text legibility */}
+      <div className="absolute inset-0 bg-ink-pure/30" />
 
       {/* ── Hero content: two-column layout ── */}
-      <div className="relative z-10 flex flex-col md:flex-row h-full w-full">
-        {/* Left column — headline, preview cards, scroll indicator */}
-        <div className="flex flex-col justify-end md:justify-between px-8 md:px-16 lg:pl-20 lg:pr-10 pt-24 md:pt-28 pb-20 md:pb-8 w-full md:w-1/2 lg:w-[45%]">
-          {/* Headline */}
-          <h1 className="anim-headline-1 font-serif font-bold text-white text-4xl sm:text-5xl text-center md:text-left md:text-6xl lg:text-8xl tracking-tight leading-tight md:leading-none">
-            We make your Graduation <span className="font-italic">effortless</span> captured.
+      <div className="relative z-10 flex h-full w-full flex-col md:flex-row">
+        {/* Left column — headline, credits, scroll indicator */}
+        <div className="relative z-30 flex w-full flex-col justify-start px-6 pt-28 pb-24 md:w-1/2 md:justify-between md:px-16 md:pb-10 lg:w-[45%] lg:pr-10 lg:pl-20">
+          <h1
+            className="anim-rise type-display text-center md:text-left"
+            style={{ "--i": 2 } as React.CSSProperties}
+          >
+            We make your Graduation <em>effortless</em> captured.
           </h1>
 
-          {/* Preview cards (desktop only) */}
-          <div className="anim-preview-cards hidden md:flex gap-3 mt-8">
-            {previewCards.map((card) => (
-              <div
-                key={card.title}
-                className="flex min-w-[240px] items-center gap-3 rounded-2xl border border-white/20 bg-white/10 p-3 backdrop-blur-md"
-              >
-                <div className="relative h-16 w-16 flex-shrink-0 overflow-hidden rounded-xl">
-                  <Image
-                    src={card.image}
-                    alt={card.title}
-                    fill
-                    className="object-cover"
-                    sizes="64px"
-                  />
-                </div>
-                <div className="min-w-0">
-                  <p className="text-sm font-semibold text-white leading-snug line-clamp-2">
-                    {card.title}
-                  </p>
-                  <p className="text-xs text-white/50 mt-0.5">
-                    {card.subtitle}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Scroll indicator */}
-          <div className="scroll-indicator flex flex-col items-center md:items-start gap-2 mt-6 pointer-events-none">
-            <span className="text-white/40 text-[10px] tracking-[0.2em] uppercase">
-              Scroll
-            </span>
-            <svg
-              width="14"
-              height="22"
-              viewBox="0 0 14 22"
-              fill="none"
-              className="text-white/45"
-              aria-hidden="true"
+          <div>
+            {/* Photo credits — catalog-style hairline rows (desktop only) */}
+            <ul
+              className="anim-fade mt-10 hidden max-w-sm md:block"
+              style={{ "--i": 6 } as React.CSSProperties}
             >
-              <path
-                d="M7 2v14M2 11l5 6 5-6"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+              {credits.map((credit) => (
+                <li
+                  key={credit.index}
+                  className="flex items-baseline gap-4 border-t border-paper/25 py-3 last:border-b"
+                >
+                  <span className="type-meta text-paper/50">{credit.index}</span>
+                  <span className="type-caption flex-1">{credit.title}</span>
+                  <span className="type-meta text-paper/50">{credit.meta}</span>
+                </li>
+              ))}
+            </ul>
+
+            {/* Scroll indicator */}
+            <div className="scroll-indicator pointer-events-none mt-8 hidden flex-col items-start gap-2 md:flex">
+              <span className="type-meta text-paper/50">Scroll</span>
+              <svg
+                width="14"
+                height="22"
+                viewBox="0 0 14 22"
+                fill="none"
+                className="text-paper/50"
+                aria-hidden="true"
+              >
+                <path d="M7 2v14M2 11l5 6 5-6" stroke="currentColor" strokeWidth="1" />
+              </svg>
+            </div>
           </div>
         </div>
 
         {/* Right column — person assets */}
-        <div className="pointer-events-none absolute md:relative bottom-0 right-0 w-full md:w-1/2 lg:w-[55%] h-full">
+        <div className="pointer-events-none absolute right-0 bottom-0 h-[55%] w-full md:relative md:h-full md:w-1/2 lg:w-[55%]">
           {/* Person 3 — middle, lowest z */}
-          <div className="absolute bottom-0 z-10 h-full left-1/2 -translate-x-1/2">
+          <div className="absolute bottom-0 left-1/2 z-10 h-full -translate-x-1/2">
             <Image
               src="/assets/hero-person-3.png"
               alt="Graduate in red kebaya"
               width={4218}
               height={4450}
               sizes="(min-width: 768px) 40vw, 60vw"
-              className="anim-person-3 h-full w-max object-cover"
+              className="anim-person h-full w-max object-cover"
+              style={{ "--i": 1 } as React.CSSProperties}
             />
           </div>
 
@@ -177,92 +153,88 @@ export default function Hero() {
               width={1892}
               height={3058}
               sizes="(min-width: 768px) 25vw, 35vw"
-              className="anim-person-1 h-full w-auto"
+              className="anim-person h-full w-auto"
+              style={{ "--i": 3 } as React.CSSProperties}
             />
           </div>
 
           {/* Person 2 — right, higher z */}
-          <div className="absolute bottom-0 right-0 z-20 h-[70%]">
+          <div className="absolute right-0 bottom-0 z-20 h-[70%]">
             <Image
               src="/assets/hero-person-2.png"
               alt="Graduate in black kebaya with sash"
               width={1540}
               height={2818}
               sizes="(min-width: 768px) 25vw, 35vw"
-              className="anim-person-2 h-full w-auto"
+              className="anim-person h-full w-auto"
+              style={{ "--i": 5 } as React.CSSProperties}
             />
           </div>
         </div>
       </div>
 
       {/* ── Nav ── */}
-      <nav className="anim-nav absolute top-0 left-0 right-0 z-10 flex items-center justify-between px-6 md:px-16 lg:px-20 py-6">
-        <span className="font-serif text-lg italic text-white">
+      <nav className="anim-fade absolute top-0 right-0 left-0 z-20 flex items-center justify-between border-b border-paper/20 px-6 py-5 md:px-16 lg:px-20">
+        <a href="#home" className="type-subheading">
           Kayana Moment
-        </span>
+        </a>
 
         {/* Desktop: center nav links */}
-        <div className="hidden md:flex items-center gap-1">
+        <div className="hidden items-center md:flex">
           {NAV_LINKS.map((link) => (
             <a
               key={link.href}
               href={link.href}
-              className="text-sm text-white/80 hover:text-white px-4 py-1.5 rounded-full border border-transparent hover:bg-white/10 hover:border-white/20 hover:backdrop-blur-sm transition-all duration-300"
+              className="link-underline type-caption px-4 text-paper/80 transition-colors hover:text-paper lg:px-[30px]"
             >
               {link.label}
             </a>
           ))}
         </div>
 
-        {/* Desktop: Book a Session — green, flies to sticky on scroll */}
+        {/* Desktop: Book a Session — hands off to the sticky on scroll */}
         <div
-          className={`hidden md:inline-flex transition-all duration-500 ease-out ${
-            stickyCta
-              ? "opacity-0 scale-75 translate-x-4 translate-y-3 pointer-events-none"
-              : "opacity-100 scale-100 translate-x-0 translate-y-0"
+          className={`hidden transition-opacity duration-400 md:inline-flex ${
+            stickyCta ? "pointer-events-none opacity-0" : "opacity-100"
           }`}
         >
           <Button
-            href={`https://wa.me/${WHATSAPP_NUMBER}`}
+            href={WHATSAPP_HREF}
             target="_blank"
             rel="noopener noreferrer"
-            variant="solid"
-            color="green"
-            icon="whatsapp"
-            iconPosition="left"
+            variant="outline"
+            tone="ink"
+            icon={<WhatsAppIcon />}
           >
             Book a Session
           </Button>
         </div>
 
-        {/* Mobile: hamburger menu toggle */}
+        {/* Mobile: menu toggle */}
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="flex md:hidden items-center justify-center h-10 w-10 rounded-full border border-white/20 bg-white/10 backdrop-blur-sm transition-colors active:bg-white/20"
+          className="flex h-10 w-10 items-center justify-center border border-paper/30 transition-colors active:bg-paper/10 md:hidden"
           aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
           aria-expanded={mobileMenuOpen}
         >
-          <HamburgerIcon open={mobileMenuOpen} />
+          <MenuIcon open={mobileMenuOpen} />
         </button>
       </nav>
 
-      {/* ── Desktop sticky CTA (flying clone) ── */}
+      {/* ── Sticky booking CTA — desktop after scroll, always on mobile ── */}
       <div
-        className={`fixed z-50 hidden md:block transition-all duration-500 ease-out ${
+        className={`fixed right-6 bottom-6 z-50 transition-all duration-400 md:right-8 md:bottom-8 ${
           stickyCta
-            ? "bottom-8 right-8 opacity-100 scale-100 translate-x-0 translate-y-0"
-            : "bottom-8 right-8 opacity-0 scale-75 translate-x-4 -translate-y-3 pointer-events-none"
+            ? "opacity-100 md:translate-y-0"
+            : "opacity-100 md:pointer-events-none md:translate-y-3 md:opacity-0"
         }`}
       >
         <Button
-          href={`https://wa.me/${WHATSAPP_NUMBER}`}
+          href={WHATSAPP_HREF}
           target="_blank"
           rel="noopener noreferrer"
           variant="solid"
-          color="green"
-          icon="whatsapp"
-          iconPosition="left"
-          className="shadow-lg shadow-black/30 hover:shadow-xl hover:shadow-black/40 hover:-translate-y-0.5 transition-all duration-300"
+          icon={<WhatsAppIcon />}
         >
           Book a Session
         </Button>
@@ -270,69 +242,47 @@ export default function Hero() {
 
       {/* ── Mobile Menu Overlay ── */}
       <div
-        className={`fixed inset-0 z-30 transition-opacity duration-300 md:hidden ${
-          mobileMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+        className={`fixed inset-0 z-30 transition-opacity duration-400 md:hidden ${
+          mobileMenuOpen ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"
         }`}
       >
         {/* Backdrop */}
         <div
-          className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+          className="absolute inset-0 bg-ink-pure/60"
           onClick={() => setMobileMenuOpen(false)}
         />
         {/* Panel */}
         <div
-          className={`absolute right-0 top-0 h-full w-[280px] bg-[#2a1a0e]/95 backdrop-blur-xl border-l border-white/10 flex flex-col transition-transform duration-300 ease-out ${
+          className={`absolute top-0 right-0 flex h-full w-[280px] flex-col border-l border-paper/20 bg-ink transition-transform duration-400 ${
             mobileMenuOpen ? "translate-x-0" : "translate-x-full"
           }`}
         >
           {/* Panel header */}
-          <div className="flex items-center justify-between px-6 py-6 border-b border-white/10">
-            <span className="font-serif text-lg italic text-white">
-              Menu
-            </span>
+          <div className="flex items-center justify-between border-b border-paper/20 px-6 py-5">
+            <span className="type-meta text-paper/50">Menu</span>
             <button
               onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center justify-center h-10 w-10 rounded-full border border-white/20 bg-white/10 transition-colors active:bg-white/20"
+              className="flex h-10 w-10 items-center justify-center border border-paper/30 transition-colors active:bg-paper/10"
               aria-label="Close menu"
             >
-              <HamburgerIcon open={true} />
+              <MenuIcon open={true} />
             </button>
           </div>
 
           {/* Nav links */}
-          <div className="flex flex-col gap-1 px-6 py-8">
-            {NAV_LINKS.map((link, i) => (
+          <div className="flex flex-col px-6 py-8">
+            {NAV_LINKS.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
                 onClick={() => setMobileMenuOpen(false)}
-                className="text-lg text-white/80 hover:text-white py-3 border-b border-white/10 transition-colors"
-                style={{
-                  animationDelay: `${i * 50}ms`,
-                }}
+                className="type-heading border-b border-paper/20 py-4 text-paper/80 transition-colors hover:text-paper"
               >
                 {link.label}
               </a>
             ))}
           </div>
         </div>
-      </div>
-
-      {/* ── Mobile sticky CTA — always visible on mobile ── */}
-      <div className="fixed bottom-6 right-6 z-50 md:hidden">
-        <Button
-          href={`https://wa.me/${WHATSAPP_NUMBER}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          variant="solid"
-          color="green"
-          icon="whatsapp"
-          iconPosition="left"
-          size="sm"
-          className="shadow-lg shadow-black/30 hover:shadow-xl hover:shadow-black/40 hover:-translate-y-0.5 transition-all duration-300"
-        >
-          Book a Session
-        </Button>
       </div>
     </section>
   );

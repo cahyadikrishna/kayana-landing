@@ -2,102 +2,82 @@
 
 import { useReveal } from "@/hooks/useScrollAnimation";
 import { NAV_LINKS } from "@/lib/navigation";
-import SectionLabel from "./ui/SectionLabel";
+import Divider from "@/components/ui/Divider";
+import Section from "@/components/ui/Section";
+import SectionLabel from "@/components/ui/SectionLabel";
+
+const contacts = [
+  { label: "+62 812-3456-7890", href: "https://wa.me/6289606620616", external: true },
+  { label: "hello@kayanamoment.com", href: "mailto:hello@kayanamoment.com", external: false },
+  { label: "@kayanamoment", href: "https://instagram.com/kayanamoment", external: true },
+];
 
 export default function Footer() {
-  const { ref: footerRef } = useReveal({ threshold: 0.1 });
+  const { ref } = useReveal({ threshold: 0.1 });
 
   return (
-    <footer id="contact-us" className="px-3 py-3 md:px-8 md:py-8">
-      <div
-        ref={footerRef}
-        className="footer rounded-2xl bg-[#1a1c18] border border-white/5 overflow-hidden px-6 py-10 md:px-14 md:py-16"
-      >
-        {/* Top zone */}
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-10">
-          {/* Left — CTA headline */}
-          <div className="md:w-1/2">
-            <SectionLabel color="dark" className="mb-3">
-              Contact Us
-            </SectionLabel>
-
-            <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl xl:text-7xl leading-tight tracking-tight text-white">
-              <span
-                className="block footer-fade"
-                style={{ transitionDelay: "100ms" }}
-              >
-                Let&apos;s capture your vision with us
-              </span>
-            </h2>
-          </div>
-
-          {/* Right — contact details */}
-          <div
-            className="md:w-1/3 flex flex-col items-start md:items-end justify-center gap-2 footer-fade"
-            style={{ transitionDelay: "300ms" }}
-          >
-            <p className="text-sm text-white/50">
-              Bali, Indonesia
-            </p>
-            <a
-              href="https://wa.me/6289606620616"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="link-reveal text-sm text-white/50 hover:text-white transition-all duration-300"
-            >
-              +62 812-3456-7890
-            </a>
-            <a
-              href="mailto:hello@kayanamoment.com"
-              className="link-reveal text-sm text-white/50 hover:text-white transition-all duration-300"
-            >
-              hello@kayanamoment.com
-            </a>
-            <a
-              href="https://instagram.com/kayanamoment"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="link-reveal text-sm text-white/50 hover:text-white transition-all duration-300"
-            >
-              @kayanamoment
-            </a>
-          </div>
+    <Section as="footer" id="contact-us" tone="ink" ref={ref} className="pb-10">
+      {/* Top zone */}
+      <div className="flex flex-col gap-10 md:flex-row md:items-end md:justify-between">
+        <div className="reveal md:w-1/2">
+          <SectionLabel tone="ink" index={5}>
+            Contact Us
+          </SectionLabel>
+          <h2 className="type-title mt-6">
+            Let&apos;s capture your <em>vision</em> with us.
+          </h2>
         </div>
 
-        {/* Divider */}
-        <div className="mt-12 mb-8 border-t border-white/10" />
-
-        {/* Bottom zone */}
         <div
-          className="flex flex-col md:flex-row items-center justify-between gap-6 footer-fade"
-          style={{ transitionDelay: "500ms" }}
+          className="reveal flex flex-col items-start gap-1 md:w-1/3 md:items-end"
+          style={{ "--i": 1 } as React.CSSProperties}
         >
-          {/* Left — logo */}
-          <div className="flex items-center">
-            <span className="ml-2 font-serif italic text-white text-base">
-              Kayana Moment
-            </span>
-          </div>
-
-          {/* Center — nav links */}
-          <div className="flex flex-wrap justify-center gap-6">
-            {NAV_LINKS.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                className="link-reveal text-xs md:text-sm text-white/40 hover:text-white/80 transition-all duration-300 cursor-pointer"
-              >
-                {link.label}
-              </a>
-            ))}
-          </div>
-
-          {/* Right — copyright */}
-          <p className="text-xs text-white/30">
-            ©Kayana Moment {new Date().getFullYear()}. All Rights Reserved.
-          </p>
+          <p className="type-meta mb-2 text-paper/50">Bali, Indonesia</p>
+          {contacts.map((contact) => (
+            <a
+              key={contact.href}
+              href={contact.href}
+              {...(contact.external && { target: "_blank", rel: "noopener noreferrer" })}
+              className="link-underline type-caption text-paper/70 transition-colors hover:text-paper"
+            >
+              {contact.label}
+            </a>
+          ))}
         </div>
       </div>
-    </footer>
+
+      <Divider tone="ink" className="mt-section mb-8" />
+
+      {/* Bottom zone */}
+      <div
+        className="reveal flex flex-col items-center justify-between gap-6 md:flex-row"
+        style={{ "--i": 2 } as React.CSSProperties}
+      >
+        <nav className="flex flex-wrap justify-center gap-6">
+          {NAV_LINKS.map((link) => (
+            <a
+              key={link.href}
+              href={link.href}
+              className="link-underline type-caption text-paper/60 transition-colors hover:text-paper"
+            >
+              {link.label}
+            </a>
+          ))}
+        </nav>
+
+        <p className="type-meta text-paper/40">
+          ©{new Date().getFullYear()} Kayana Moment. All rights reserved.
+        </p>
+      </div>
+
+      {/* End mark — oversized wordmark */}
+      <p
+        aria-hidden="true"
+        className="reveal type-display mt-16 text-center whitespace-nowrap md:text-[11.5vw]"
+        style={{ "--i": 3 } as React.CSSProperties}
+      >
+        Kayana <em>Moment</em>
+      </p>
+    </Section>
   );
 }

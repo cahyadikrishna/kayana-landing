@@ -1,139 +1,99 @@
 "use client";
 
 import Image from "next/image";
+import Divider from "@/components/ui/Divider";
 import SectionLabel from "@/components/ui/SectionLabel";
 import { useReveal } from "@/hooks/useScrollAnimation";
-import "@/styles/testimonials.css";
 
 const testimonials = [
   {
     quote:
-      "Kayana Moment captured everything I didn\u2019t know I needed. The candid shots between the formal ones are my absolute favorites.",
+      "Kayana Moment captured everything I didn’t know I needed. The candid shots between the formal ones are my absolute favorites.",
     name: "Alya Ramadhani",
-    occasion: "Universitas Indonesia \u2014 Class of 2024",
-    position: { top: "40px", left: "4%" },
-    floatClass: "float-card-1",
+    occasion: "Universitas Indonesia — Class of 2024",
   },
   {
     quote:
       "I was nervous in front of the camera but they made it feel completely natural. Every photo tells a real story.",
     name: "Bintang Prasetyo",
-    occasion: "ITB Graduation \u2014 Engineering Faculty",
-    position: { top: "160px", left: "22%" },
-    floatClass: "float-card-2",
+    occasion: "ITB Graduation — Engineering Faculty",
   },
   {
     quote:
       "The golden hour session was beyond anything I imagined. I still get emotional looking at the photos.",
     name: "Sari Kusuma",
-    occasion: "UGM \u2014 Faculty of Medicine, 2023",
-    position: { top: "30px", right: "5%" },
-    floatClass: "float-card-3",
+    occasion: "UGM — Faculty of Medicine, 2023",
   },
   {
     quote:
       "Professional, warm, and incredibly talented. Our whole family cried when we saw the final gallery.",
     name: "Reza & Ibu Hartono",
-    occasion: "Family Session \u2014 Wisuda IPB 2024",
-    position: { bottom: "80px", right: "20%" },
-    floatClass: "float-card-4",
+    occasion: "Family Session — Wisuda IPB 2024",
   },
   {
     quote:
       "Worth every penny. These photos will be on our walls forever. Kayana Moment truly understands the emotion of the day.",
     name: "Nadya Fitriani",
-    occasion: "Universitas Brawijaya \u2014 Class of 2024",
-    position: { bottom: "60px", left: "6%" },
-    floatClass: "float-card-5",
+    occasion: "Universitas Brawijaya — Class of 2024",
   },
 ];
 
 export default function Testimonials() {
-  const { ref: sectionRef } = useReveal({ threshold: 0.15 });
+  const { ref } = useReveal({ threshold: 0.15 });
 
   return (
     <section
       id="testimonials"
-      ref={sectionRef}
-      className="testimonials relative overflow-hidden min-h-screen bg-black"
+      ref={ref}
+      className="relative overflow-hidden bg-ink py-section text-paper"
     >
-      {/* Background image */}
+      {/* Full-bleed photograph carries the atmosphere; a flat ink veil keeps text legible */}
       <Image
         src="https://picsum.photos/seed/gradmoody/1600/900"
-        alt="Moody graduation backdrop"
+        alt=""
+        aria-hidden="true"
         fill
-        className="object-cover object-center"
+        className="object-cover object-center grayscale"
         sizes="100vw"
       />
+      <div className="absolute inset-0 bg-ink/75" />
 
-      {/* Overlays */}
-      <div className="absolute inset-0 bg-black/60 pointer-events-none" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_transparent_30%,_black_100%)] pointer-events-none" />
-
-      {/* Section heading */}
-      <div className="relative z-10 pt-20 px-8 md:px-16">
-        <SectionLabel color="dark" className="mb-3">
-          What they say
-        </SectionLabel>
-        
-        <h2 className="font-serif font-bold italic text-white text-4xl md:text-5xl lg:text-6xl leading-tight">
-          Kind Words.
-        </h2>
-        <p className="mt-3 text-sm text-white/40 max-w-xs">
-          Every session leaves a story. Here are a few.
-        </p>
-      </div>
-
-      {/* Cards — desktop: absolute scattered / mobile: stacked */}
-
-      {/* Mobile stack */}
-      <div className="relative z-10 flex flex-col gap-5 px-6 py-10 md:hidden">
-        {testimonials.map((t, i) => (
-          <div
-            key={t.name}
-            className={`float-card scale-reveal ${t.floatClass} w-full bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl p-6 opacity-0 translate-y-5 transition-all duration-700`}
-            style={{ transitionDelay: `${i * 120}ms` }}
-          >
-            <p className="font-serif italic text-4xl text-white/20 leading-none mb-2">
-              &ldquo;
-            </p>
-            <p className="font-serif italic text-white text-base leading-relaxed">
-              {t.quote}
-            </p>
-            <div className="mt-4 mb-3 border-t border-white/10" />
-            <p className="font-semibold text-white text-sm">
-              {t.name}
-            </p>
-            <p className="text-white/40 text-xs tracking-wide uppercase mt-0.5">
-              {t.occasion}
-            </p>
+      <div className="relative z-10 container-page">
+        {/* Section header row */}
+        <div className="reveal flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+          <div>
+            <SectionLabel tone="ink" index={4}>
+              What They Say
+            </SectionLabel>
+            <h2 className="type-title mt-6">
+              Kind <em>words</em>.
+            </h2>
           </div>
-        ))}
-      </div>
+          <p className="type-caption max-w-xs text-paper/60">
+            Every session leaves a story. Here are a few.
+          </p>
+        </div>
 
-      {/* Desktop scattered */}
-      <div className="hidden md:block relative z-10 w-full min-h-[800px]">
-        {testimonials.map((t, i) => (
-          <div
-            key={t.name}
-            className={`float-card scale-reveal ${t.floatClass} absolute w-72 md:w-80 bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl p-6 md:p-7 opacity-0 translate-y-5 transition-all duration-700`}
-            style={{ ...t.position, transitionDelay: `${i * 120}ms` }}
-          >
-            <p className="font-serif italic text-4xl text-white/20 leading-none mb-2">
-              &ldquo;
-            </p>
-            <p className="font-serif italic text-white text-base leading-relaxed">
-              {t.quote}
-            </p>
-            <div className="mt-4 mb-3 border-t border-white/10" />
-            <p className="font-semibold text-white text-sm">
-              {t.name}
-            </p>
-            <p className="text-white/40 text-xs tracking-wide uppercase mt-0.5">
-              {t.occasion}
-            </p>
-          </div>
-        ))}
+        <Divider tone="ink" className="mt-12" />
+
+        {/* Ruled columns — scroll horizontally past three */}
+        <div className="scroll-x-container -mx-6 flex snap-x snap-mandatory scroll-px-6 overflow-x-auto px-6 md:mx-0 md:scroll-px-0 md:px-0">
+          {testimonials.map((t, i) => (
+            <blockquote
+              key={t.name}
+              className="reveal flex w-[85%] shrink-0 snap-start flex-col border-l border-paper/20 py-10 pr-8 pl-6 first:border-l-0 first:pl-0 md:w-1/3 md:pr-10 md:pl-10"
+              style={{ "--i": Math.min(i, 3) + 1 } as React.CSSProperties}
+            >
+              <p className="type-quote flex-1 italic">&ldquo;{t.quote}&rdquo;</p>
+              <footer className="mt-8">
+                <p className="type-caption">{t.name}</p>
+                <p className="type-meta mt-1 text-paper/50">{t.occasion}</p>
+              </footer>
+            </blockquote>
+          ))}
+        </div>
+
+        <Divider tone="ink" />
       </div>
     </section>
   );

@@ -1,60 +1,6 @@
-import React, { ReactNode } from "react";
+import type { ReactNode } from "react";
 
-// ─── Icon Components ────────────────────────────────────────────────────────
-
-function ArrowRightIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className={className}
-      aria-hidden="true"
-    >
-      <path d="M5 12h14M12 5l7 7-7 7" />
-    </svg>
-  );
-}
-
-function ArrowUpRightIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className={className}
-      aria-hidden="true"
-    >
-      <path d="M7 17L17 7M7 7h10v10" />
-    </svg>
-  );
-}
-
-function ChevronRightIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className={className}
-      aria-hidden="true"
-    >
-      <path d="M9 18l6-6-6-6" />
-    </svg>
-  );
-}
+// ─── Icons ──────────────────────────────────────────────────────────────────
 
 export function WhatsAppIcon({ className }: { className?: string }) {
   return (
@@ -70,52 +16,30 @@ export function WhatsAppIcon({ className }: { className?: string }) {
   );
 }
 
-const iconComponents = {
-  "arrow-right": ArrowRightIcon,
-  "arrow-up-right": ArrowUpRightIcon,
-  "chevron-right": ChevronRightIcon,
-  whatsapp: WhatsAppIcon,
-} as const;
-
-export type ButtonIconName = keyof typeof iconComponents;
-
 // ─── Types ──────────────────────────────────────────────────────────────────
 
 /**
  * variant:
- *   ghost      — outlined pill, transparent bg with hover fill (base style)
- *   pill-cta   — text label + icon in a separate colored box on the right
- *   solid      — solid-fill pill
- *   icon-only  — circle with only an icon, no text
+ *   link    — text + → arrow, no box. The default for every CTA.
+ *   outline — 1px hairline rectangle, inverts on hover. For a single emphasized action.
+ *   solid   — ink fill. RESERVED for the floating "Book a Session" sticky only.
  *
- * color:
- *   light — white text/border, for dark backgrounds
- *   dark  — black text/border, for light backgrounds
- *   green — green fill (WhatsApp mobile)
- *
- * size:
- *   sm — compact (footer pill-cta, small ghost)
- *   md — default
- *   lg — large with uppercase tracking (CtaBanner2 style)
+ * tone: the surface the button sits on.
+ *   paper — ink text on white
+ *   ink   — white text on ink or on dark photography
  */
-export type ButtonVariant = "ghost" | "pill-cta" | "solid" | "icon-only";
-export type ButtonColor = "light" | "dark" | "green";
-export type ButtonSize = "sm" | "md" | "lg";
+export type ButtonVariant = "link" | "outline" | "solid";
+export type ButtonTone = "paper" | "ink";
 
 interface SharedProps {
   variant?: ButtonVariant;
-  color?: ButtonColor;
-  size?: ButtonSize;
-  /** Named icon. For ghost/solid it renders inline; for pill-cta it goes in the icon box. */
-  icon?: ButtonIconName;
-  /** Inline icon placement for ghost/solid variants. Defaults to "right". */
-  iconPosition?: "left" | "right";
+  tone?: ButtonTone;
+  /** Leading glyph (e.g. <WhatsAppIcon />). Replaces the trailing arrow when set. */
+  icon?: ReactNode;
+  /** Show the trailing → arrow. Defaults to true unless an icon is given. */
+  arrow?: boolean;
   children?: ReactNode;
   className?: string;
-  /** Extra classes for the label span in pill-cta variant. */
-  labelClassName?: string;
-  /** Extra classes for the icon box span in pill-cta variant. */
-  iconBoxClassName?: string;
   "aria-label"?: string;
 }
 
@@ -137,167 +61,54 @@ interface AsButton extends SharedProps {
 
 export type ButtonProps = AsAnchor | AsButton;
 
-// ─── Style helpers ──────────────────────────────────────────────────────────
+// ─── Styles ─────────────────────────────────────────────────────────────────
 
-const ghostStyles: Record<ButtonColor, string> = {
-  light: "border-white/30 text-white hover:bg-white/10 hover:border-white/50",
-  dark: "border-black/20 text-black hover:bg-black/5 hover:border-black/35",
-  green: "border-[#25D366] text-[#25D366] hover:bg-[#25D366]/10",
-};
-
-const ghostSizeStyles: Record<ButtonSize, string> = {
-  sm: "px-4 py-2 text-xs",
-  md: "px-6 py-2.5 text-sm",
-  lg: "px-8 py-3.5 text-sm",
-};
-
-const pillCtaContainerStyles: Record<ButtonColor, string> = {
-  light: "border-white/20 hover:border-white/40",
-  dark: "border-black/20 hover:border-black/40",
-  green: "border-[#25D366]/30 hover:border-[#25D366]/60",
-};
-
-const pillCtaLabelStyles: Record<ButtonColor, string> = {
-  light:
-    "text-white bg-white/10 group-hover:bg-white/20 tracking-wide",
-  dark: "text-black bg-transparent group-hover:bg-black/5 tracking-wide",
-  green: "text-[#25D366] bg-transparent group-hover:bg-[#25D366]/5 tracking-wide",
-};
-
-const pillCtaLabelSizeStyles: Record<ButtonSize, string> = {
-  sm: "px-4 py-1.5 text-xs",
-  md: "px-6 py-3 text-sm font-semibold",
-  lg: "px-8 py-3.5 text-sm font-semibold uppercase tracking-widest",
-};
-
-const pillCtaBoxStyles: Record<ButtonColor, string> = {
-  light: "bg-white text-black border-l border-white/20",
-  dark: "bg-black text-white",
-  green: "bg-[#25D366] text-white",
-};
-
-const pillCtaBoxSizeStyles: Record<ButtonSize, string> = {
-  sm: "w-8 h-8",
-  md: "w-10 h-10",
-  lg: "w-11 h-11",
-};
-
-const solidStyles: Record<ButtonColor, string> = {
-  light: "bg-white text-black hover:bg-white/92 hover:-translate-y-0.5 hover:shadow-md",
-  dark: "bg-black text-white hover:bg-black/85 hover:-translate-y-0.5 hover:shadow-md",
-  green: "bg-[#25D366] text-white hover:bg-[#1ebe5d] hover:-translate-y-0.5 hover:shadow-md",
-};
-
-const solidSizeStyles: Record<ButtonSize, string> = {
-  sm: "px-4 py-1.5 text-xs",
-  md: "px-5 py-2 text-sm font-semibold",
-  lg: "px-6 py-2.5 text-sm font-semibold",
-};
-
-const iconOnlyStyles: Record<ButtonColor, string> = {
-  light: "bg-white text-black hover:bg-white/90",
-  dark: "bg-black text-white hover:bg-black/90",
-  green: "bg-[#25D366] text-white hover:bg-[#1ebe5d]",
-};
-
-const iconOnlySizeStyles: Record<ButtonSize, string> = {
-  sm: "h-8 w-8",
-  md: "h-10 w-10",
-  lg: "h-12 w-12",
+const variantStyles: Record<ButtonVariant, Record<ButtonTone, string>> = {
+  link: {
+    paper: "text-ink",
+    ink: "text-paper",
+  },
+  outline: {
+    paper: "border border-ink text-ink px-6 py-3 hover:bg-ink hover:text-paper",
+    ink: "border border-paper/60 text-paper px-6 py-3 hover:bg-paper hover:text-ink hover:border-paper",
+  },
+  solid: {
+    // Hairline keeps the fill legible when the sticky floats over ink sections
+    paper: "bg-ink text-paper border border-paper/25 px-6 py-3 hover:bg-ink-pure",
+    ink: "bg-paper text-ink px-6 py-3 hover:bg-ash",
+  },
 };
 
 // ─── Component ──────────────────────────────────────────────────────────────
 
-function renderContent(
-  variant: ButtonVariant,
-  color: ButtonColor,
-  size: ButtonSize,
-  IconComponent: ((props: { className?: string }) => React.JSX.Element) | null,
-  iconPosition: "left" | "right",
-  labelClassName: string,
-  iconBoxClassName: string,
-  children: ReactNode
-) {
-  if (variant === "ghost" || variant === "solid") {
-    return (
-      <>
-        {IconComponent && iconPosition === "left" && (
-          <IconComponent className="w-4 h-4 flex-shrink-0" />
-        )}
-        {children}
-        {IconComponent && iconPosition === "right" && (
-          <IconComponent className="w-4 h-4 flex-shrink-0" />
-        )}
-      </>
-    );
-  }
-
-  if (variant === "pill-cta") {
-    return (
-      <>
-        <span
-          className={`font-semibold whitespace-nowrap transition-colors duration-200 ${pillCtaLabelStyles[color]} ${pillCtaLabelSizeStyles[size]} ${labelClassName}`}
-        >
-          {children}
-        </span>
-        {IconComponent && (
-          <span
-            className={`flex flex-shrink-0 items-center justify-center ${pillCtaBoxStyles[color]} ${pillCtaBoxSizeStyles[size]} ${iconBoxClassName}`}
-          >
-            <IconComponent className="w-4 h-4" />
-          </span>
-        )}
-      </>
-    );
-  }
-
-  // icon-only
-  return IconComponent ? <IconComponent className="w-5 h-5" /> : null;
-}
-
-function getContainerClass(
-  variant: ButtonVariant,
-  color: ButtonColor,
-  size: ButtonSize,
-  className: string
-): string {
-  if (variant === "ghost") {
-    return `inline-flex items-center gap-2 rounded-full border transition-all duration-300 ${ghostStyles[color]} ${ghostSizeStyles[size]} ${className}`;
-  }
-  if (variant === "pill-cta") {
-    return `group inline-flex items-center rounded-full border overflow-hidden transition-all duration-300 ${pillCtaContainerStyles[color]} ${className}`;
-  }
-  if (variant === "solid") {
-    return `inline-flex items-center gap-2 rounded-full transition-all duration-300 ${solidStyles[color]} ${solidSizeStyles[size]} ${className}`;
-  }
-  // icon-only
-  return `flex items-center justify-center rounded-full transition-all duration-300 ${iconOnlyStyles[color]} ${iconOnlySizeStyles[size]} ${className}`;
-}
-
 export default function Button({
-  variant = "ghost",
-  color = "light",
-  size = "md",
+  variant = "link",
+  tone = "paper",
   icon,
-  iconPosition = "right",
+  arrow,
   children,
   className = "",
-  labelClassName = "",
-  iconBoxClassName = "",
   "aria-label": ariaLabel,
   ...rest
 }: ButtonProps) {
-  const IconComponent = icon ? iconComponents[icon] : null;
-  const containerClass = getContainerClass(variant, color, size, className);
-  const content = renderContent(
-    variant,
-    color,
-    size,
-    IconComponent,
-    iconPosition,
-    labelClassName,
-    iconBoxClassName,
-    children
+  const showArrow = arrow ?? !icon;
+  const containerClass = `group inline-flex items-center gap-2 type-caption transition-colors duration-200 ${variantStyles[variant][tone]} ${className}`;
+
+  const content = (
+    <>
+      {icon && <span className="flex h-4 w-4 shrink-0 [&>svg]:size-full">{icon}</span>}
+      <span className={variant === "link" ? "link-underline" : undefined}>
+        {children}
+      </span>
+      {showArrow && (
+        <span
+          aria-hidden="true"
+          className="ml-element inline-block transition-transform duration-400 group-hover:translate-x-1"
+        >
+          →
+        </span>
+      )}
+    </>
   );
 
   if (rest.href !== undefined) {

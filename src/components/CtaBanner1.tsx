@@ -1,54 +1,38 @@
 "use client";
 
 import Button from "@/components/ui/Button";
+import Section from "@/components/ui/Section";
 import SectionLabel from "@/components/ui/SectionLabel";
 import { useReveal } from "@/hooks/useScrollAnimation";
 
 export default function CtaBanner1() {
-  const { ref: sectionRef } = useReveal({ threshold: 0.2 });
+  const { ref } = useReveal({ threshold: 0.2 });
 
   return (
-    <section className="bg-white py-16 md:py-28">
-      <div
-        ref={sectionRef}
-        className="cta1 max-w-screen-xl mx-auto px-6 md:px-16 flex flex-col md:flex-row md:items-end gap-10"
-      >
-        {/* Left column */}
-        <div className="md:w-3/5 cta1-left">
-          <SectionLabel>About Us</SectionLabel>
+    <Section ref={ref} containerClassName="flex flex-col gap-10 md:flex-row md:items-end">
+      {/* Left column */}
+      <div className="reveal md:w-3/5">
+        <SectionLabel index={3}>Why Us</SectionLabel>
 
-          <h2 className="mt-6 font-serif font-bold text-3xl md:text-4xl lg:text-5xl leading-tight text-[#111111]">
-            The moments that
-            <br />
-            mark the end of one
-            <br />
-            <span className="italic">chapter, and the</span>
-            <br />
-            beginning of everything.
-          </h2>
-        </div>
-
-        {/* Right column */}
-        <div className="md:w-1/2 cta1-right">
-          <p className="text-sm md:text-base text-black/60 leading-relaxed max-w-sm">
-            Your graduation only happens once. The nerves, the laughter, the
-            quiet pride in your parents&apos; eyes — these are the details that
-            disappear fastest. A professional session doesn&apos;t just give you
-            photos. It gives you a way back to exactly how this day felt, for
-            the rest of your life.
-          </p>
-
-          <Button
-            href="/contact"
-            variant="ghost"
-            color="dark"
-            icon="arrow-right"
-            className="mt-8"
-          >
-            Let&apos;s Capture It
-          </Button>
-        </div>
+        <h2 className="type-title mt-6">
+          The moments that mark the end of one <em>chapter</em>, and the beginning of
+          everything.
+        </h2>
       </div>
-    </section>
+
+      {/* Right column */}
+      <div className="reveal md:w-2/5" style={{ "--i": 1 } as React.CSSProperties}>
+        <p className="max-w-sm text-graphite">
+          Your graduation only happens once. The nerves, the laughter, the quiet pride in
+          your parents&apos; eyes — these are the details that disappear fastest. A
+          professional session doesn&apos;t just give you photos. It gives you a way back
+          to exactly how this day felt, for the rest of your life.
+        </p>
+
+        <Button href="#contact-us" className="mt-8">
+          Let&apos;s capture it
+        </Button>
+      </div>
+    </Section>
   );
 }

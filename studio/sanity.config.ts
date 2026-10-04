@@ -21,10 +21,12 @@ export default defineConfig({
   plugins: [
     presentationTool({
       resolve,
+      // Hosted Studio previews production; `sanity dev` reads .env.development → localhost
       previewUrl: {
-        initial: process.env.SANITY_STUDIO_PREVIEW_URL || 'http://localhost:3000',
+        initial: process.env.SANITY_STUDIO_PREVIEW_URL || 'https://kayanamoment.vercel.app',
         previewMode: {enable: '/api/draft-mode/enable'},
       },
+      allowOrigins: ['http://localhost:*', 'https://kayanamoment.vercel.app'],
     }),
     structureTool({structure}),
     visionTool(),

@@ -25,4 +25,8 @@ pnpm deploy     # publish the Studio
 pnpm seed       # create any missing content (pass -- --replace to reset everything)
 ```
 
+## Deploying (Vercel)
+
+Set these Environment Variables in the Vercel project (Production **and** Preview): `NEXT_PUBLIC_SANITY_PROJECT_ID`, `NEXT_PUBLIC_SANITY_DATASET`, `SANITY_API_READ_TOKEN`, `NEXT_PUBLIC_SANITY_STUDIO_URL` (values in `.env.example`). `https://kayanamoment.vercel.app` is already allowed in Sanity CORS and is the Studio's preview URL. When a custom domain is added, run `npx sanity cors add https://<domain> --credentials` and update `studio/sanity.config.ts`.
+
 See `CLAUDE.md` › Content and `DESIGN.md` for conventions.

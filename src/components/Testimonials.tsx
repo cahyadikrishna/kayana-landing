@@ -1,44 +1,19 @@
 "use client";
 
-import Image from "next/image";
 import Divider from "@/components/ui/Divider";
+import Headline from "@/components/ui/Headline";
+import SanityImage from "@/components/ui/SanityImage";
 import SectionLabel from "@/components/ui/SectionLabel";
 import { useReveal } from "@/hooks/useScrollAnimation";
+import type { Testimonial, TestimonialsHeader } from "@/sanity/content";
 
-const testimonials = [
-  {
-    quote:
-      "Kayana Moment captured everything I didn’t know I needed. The candid shots between the formal ones are my absolute favorites.",
-    name: "Alya Ramadhani",
-    occasion: "Universitas Indonesia — Class of 2024",
-  },
-  {
-    quote:
-      "I was nervous in front of the camera but they made it feel completely natural. Every photo tells a real story.",
-    name: "Bintang Prasetyo",
-    occasion: "ITB Graduation — Engineering Faculty",
-  },
-  {
-    quote:
-      "The golden hour session was beyond anything I imagined. I still get emotional looking at the photos.",
-    name: "Sari Kusuma",
-    occasion: "UGM — Faculty of Medicine, 2023",
-  },
-  {
-    quote:
-      "Professional, warm, and incredibly talented. Our whole family cried when we saw the final gallery.",
-    name: "Reza & Ibu Hartono",
-    occasion: "Family Session — Wisuda IPB 2024",
-  },
-  {
-    quote:
-      "Worth every penny. These photos will be on our walls forever. Kayana Moment truly understands the emotion of the day.",
-    name: "Nadya Fitriani",
-    occasion: "Universitas Brawijaya — Class of 2024",
-  },
-];
-
-export default function Testimonials() {
+export default function Testimonials({
+  header,
+  testimonials,
+}: {
+  header: TestimonialsHeader | null;
+  testimonials: Testimonial[];
+}) {
   const { ref } = useReveal({ threshold: 0.15 });
 
   return (
@@ -48,10 +23,9 @@ export default function Testimonials() {
       className="relative overflow-hidden bg-ink py-section text-paper"
     >
       {/* Full-bleed photograph carries the atmosphere; a flat ink veil keeps text legible */}
-      <Image
-        src="https://picsum.photos/seed/gradmoody/1600/900"
+      <SanityImage
+        image={header?.background}
         alt=""
-        aria-hidden="true"
         fill
         className="object-cover object-center grayscale"
         sizes="100vw"
@@ -63,15 +37,13 @@ export default function Testimonials() {
         <div className="reveal flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
             <SectionLabel tone="ink" index={4}>
-              What They Say
+              {header?.eyebrow}
             </SectionLabel>
             <h2 className="type-title mt-6">
-              Kind <em>words</em>.
+              <Headline value={header?.title} />
             </h2>
           </div>
-          <p className="type-caption max-w-xs text-paper/60">
-            Every session leaves a story. Here are a few.
-          </p>
+          <p className="type-caption max-w-xs text-paper/60">{header?.blurb}</p>
         </div>
 
         <Divider tone="ink" className="mt-12" />
@@ -80,7 +52,7 @@ export default function Testimonials() {
         <div className="scroll-x-container -mx-6 flex snap-x snap-mandatory scroll-px-6 overflow-x-auto px-6 md:mx-0 md:scroll-px-0 md:px-0">
           {testimonials.map((t, i) => (
             <blockquote
-              key={t.name}
+              key={t._id}
               className="reveal flex w-[85%] shrink-0 snap-start flex-col border-l border-paper/20 py-10 pr-8 pl-6 first:border-l-0 first:pl-0 md:w-1/3 md:pr-10 md:pl-10"
               style={{ "--i": Math.min(i, 3) + 1 } as React.CSSProperties}
             >

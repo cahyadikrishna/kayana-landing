@@ -1,45 +1,35 @@
 "use client";
 
-import Image from "next/image";
+import { stegaClean } from "next-sanity";
 import { useState } from "react";
 import { useReveal } from "@/hooks/useScrollAnimation";
 import Button from "@/components/ui/Button";
 import Divider from "@/components/ui/Divider";
+import Headline from "@/components/ui/Headline";
 import Pill from "@/components/ui/Pill";
+import SanityImage from "@/components/ui/SanityImage";
 import Section from "@/components/ui/Section";
 import SectionLabel from "@/components/ui/SectionLabel";
+import type { Project, ProjectsHeader } from "@/sanity/content";
 
-const cards = [
-  {
-    title: "Golden Hour Ceremonies",
-    category: "Ceremony",
-    image: "https://picsum.photos/seed/graduation1/600/800",
-  },
-  {
-    title: "A Robe’s Serene Silhouette",
-    category: "Portrait",
-    image: "https://picsum.photos/seed/graduation2/600/800",
-  },
-  {
-    title: "Moments Framed in Joy",
-    category: "Candid",
-    image: "https://picsum.photos/seed/graduation3/600/800",
-  },
-  {
-    title: "The Last Bell, First Chapter",
-    category: "Portrait",
-    image: "https://picsum.photos/seed/graduation4/600/800",
-  },
-];
+const ALL = "All";
 
-const filters = ["All", ...Array.from(new Set(cards.map((card) => card.category)))];
-
-export default function RecentFeed() {
+export default function RecentFeed({
+  header,
+  projects,
+}: {
+  header: ProjectsHeader | null;
+  projects: Project[];
+}) {
   const { ref } = useReveal({ threshold: 0.1 });
-  const [activeFilter, setActiveFilter] = useState("All");
+  const [activeFilter, setActiveFilter] = useState(ALL);
 
-  const visibleCards =
-    activeFilter === "All" ? cards : cards.filter((card) => card.category === activeFilter);
+  // Category titles carry invisible edit markers in preview — compare the clean text
+  const filters = [ALL, ...new Set(projects.map((project) => stegaClean(project.category) ?? ""))];
+  const visibleProjects =
+    activeFilter === ALL
+      ? projects
+      : projects.filter((project) => stegaClean(project.category) === activeFilter);
 
   return (
     <Section id="projects" tone="ink" ref={ref}>
@@ -47,21 +37,25 @@ export default function RecentFeed() {
       <div className="reveal flex flex-col gap-10 md:flex-row md:items-end md:justify-between">
         <div className="md:w-1/2">
           <SectionLabel tone="ink" index={2}>
-            Our Work
+            {header?.eyebrow}
           </SectionLabel>
           <h2 className="type-title mt-6">
-            The artistry behind a portfolio of <em>timeless</em> photographs
+            <Headline value={header?.title} />
           </h2>
         </div>
 
         <div className="flex flex-col items-start gap-6 md:w-1/3">
-          <p className="type-caption text-paper/60">
-            A visual journey through graduation moments captured with creativity and
-            precision — each frame preserving the weight of the day.
-          </p>
-          <Button href="#projects" tone="ink">
-            Explore more
-          </Button>
+          <p className="type-caption text-paper/60">{header?.blurb}</p>
+          {header?.ctaHref && header.ctaLabel && (
+            <Button
+              href={stegaClean(header.ctaHref)}
+              target="_blank"
+              rel="noopener noreferrer"
+              tone="ink"
+            >
+              {header.ctaLabel}
+            </Button>
+          )}
         </div>
       </div>
 
@@ -81,31 +75,25 @@ export default function RecentFeed() {
         ))}
       </div>
 
-      {/* TODO: Replace hardcoded cards with Instagram Basic Display API
-          Endpoint: GET https://graph.instagram.com/me/media
-          Fields: id, caption, media_type, media_url, permalink, thumbnail_url
-          Replace each card's image src and content with API response data
-          Access token: store in .env.local as NEXT_PUBLIC_INSTAGRAM_TOKEN */}
-
       {/* Catalog grid — image first, caption beneath, no chrome */}
       <div className="grid grid-cols-2 gap-x-2 gap-y-8 md:grid-cols-4">
-        {visibleCards.map((card, i) => (
+        {visibleProjects.map((project, i) => (
           <figure
-            key={card.title}
+            key={project._id}
             className="reveal group"
             style={{ "--i": i + 2 } as React.CSSProperties}
           >
             <div className="relative aspect-[3/4] overflow-hidden">
-              <Image
-                src={card.image}
-                alt={card.title}
+              <SanityImage
+                image={project.image}
                 fill
+                aspect={4 / 3}
                 className="media-zoom object-cover"
                 sizes="(max-width: 768px) 50vw, 25vw"
               />
             </div>
             <figcaption className="mt-3 flex items-baseline justify-between gap-3">
-              <span className="type-caption">{card.title}</span>
+              <span className="type-caption">{project.title}</span>
               <span className="type-meta shrink-0 text-paper/50">
                 {String(i + 1).padStart(2, "0")}
               </span>

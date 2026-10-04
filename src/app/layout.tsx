@@ -1,5 +1,7 @@
-import type { Metadata } from "next";
+import { VisualEditing } from "next-sanity/visual-editing";
+import { draftMode } from "next/headers";
 import { Fraunces, Inter, JetBrains_Mono } from "next/font/google";
+import { SanityLive } from "@/sanity/live";
 import "./globals.css";
 
 // Display serif — variable weight (100–900) + optical sizing, used by type-display / type-title
@@ -24,13 +26,7 @@ const jetbrainsMono = JetBrains_Mono({
   weight: "400",
 });
 
-export const metadata: Metadata = {
-  title: "Kayana Moment — Graduation Photography Agency",
-  description:
-    "We make your Graduation effortless captured. Professional graduation photography, portraits, and event coverage.",
-};
-
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -41,6 +37,8 @@ export default function RootLayout({
         className={`${fraunces.variable} ${inter.variable} ${jetbrainsMono.variable} antialiased`}
       >
         {children}
+        <SanityLive />
+        {(await draftMode()).isEnabled && <VisualEditing />}
       </body>
     </html>
   );

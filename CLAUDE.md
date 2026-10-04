@@ -4,10 +4,15 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Commands
 
-- `npm run dev` — start dev server (Next.js)
-- `npm run build` — production build
-- `npm run lint` — run ESLint (flat config, `eslint.config.mjs`)
-- `npm run lint:design` — design-system guard (`scripts/lint-design.mjs`)
+Package manager is **pnpm** (don't add a `package-lock.json`).
+
+- `pnpm dev` — start dev server (Next.js)
+- `pnpm build` — production build
+- `pnpm lint` — run ESLint (flat config, `eslint.config.mjs`)
+- `pnpm lint:design` — design-system guard (`scripts/lint-design.mjs`)
+- `pnpm --dir studio dev` — Sanity Studio on :3333
+- `pnpm --dir studio typegen` — regenerate `src/sanity/types.ts` after changing a schema or query
+- `pnpm --dir studio deploy` — publish the Studio to https://kayanamoment.sanity.studio
 
 No test framework is configured yet.
 
@@ -22,6 +27,17 @@ No test framework is configured yet.
 ## Path Alias
 
 `@/*` maps to `./src/*` (configured in `tsconfig.json`).
+
+## Content (Sanity)
+
+All copy, images, stats, testimonials and contact details live in Sanity (project `ovo94io9`, dataset `production`). Nothing content-like is hard-coded in `src/components/`.
+
+- `studio/` is a standalone Studio with its own `package.json`; it is excluded from the app's tsconfig and ESLint. Schemas are in `studio/schemaTypes/`; singletons are `siteSettings`, `hero`, `about`, `home`.
+- `src/app/page.tsx` runs one query (`HOME_PAGE_QUERY` in `src/sanity/queries.ts`) via `sanityFetch` and passes typed props down. Section components never fetch.
+- `<SanityLive />` in the layout revalidates on publish; draft mode + `<VisualEditing />` power click-to-edit in the Studio's Presentation tool.
+- In draft mode strings carry invisible stega markers: wrap any CMS value used in logic (hrefs, comparisons, keys) in `stegaClean()`. Metadata queries use `stega: false`.
+- Headlines are Portable Text restricted to one italic run — render with `Headline`. Images render with `SanityImage`.
+- Env vars: see `.env.example`. `SANITY_API_READ_TOKEN` is a secret Viewer token.
 
 ## Design system
 

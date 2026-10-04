@@ -116,6 +116,18 @@ Mono metadata, no box. Number the sections in page order.
 <Divider tone="ink" orientation="vertical" /> // ruled columns on ink
 ```
 
+### `Headline` — CMS headline with its one italic accent
+```tsx
+<h2 className="type-title mt-6"><Headline value={header?.title} /></h2>
+```
+Renders a Sanity headline field inline (the caller owns the element and the `type-*` class). The Studio only allows one paragraph with italic as the only mark, so editors cannot add bold, colour or a second accent.
+
+### `SanityImage` — every content image
+```tsx
+<SanityImage image={project.image} fill aspect={4 / 3} sizes="25vw" className="object-cover" />
+```
+`next/image` backed by the Sanity CDN, which applies the editor's crop and hotspot. Pass `aspect` (height ÷ width) with `fill` to crop around the hotspot. Use `preload` on the LCP image only.
+
 ### Recurring patterns
 - **Section header row:** eyebrow plus `type-title` on the left; a short `type-caption` blurb plus a `Button` link on the right, aligned to the bottom. A `Divider` follows. See `RecentFeed.tsx`.
 - **Ruled columns:** equal columns separated by vertical hairlines, with no card chrome. See `About.tsx` (stats) and `Testimonials.tsx` (quotes).
@@ -176,35 +188,39 @@ All motion must collapse under `prefers-reduced-motion`. The global block in `gl
 
 ## 6. Building a new section — recipe
 
+Copy lives in Sanity, not in components. A new section needs: a schema (in `studio/schemaTypes/`, using `defineHeadline` for titles and `rule.max()` on every string), a projection in `HOME_PAGE_QUERY` (`src/sanity/queries.ts`), regenerated types (`pnpm --dir studio typegen`), and a seed entry. The component then only receives props:
+
 ```tsx
 "use client";
 
 import Button from "@/components/ui/Button";
 import Divider from "@/components/ui/Divider";
+import Headline from "@/components/ui/Headline";
 import Section from "@/components/ui/Section";
 import SectionLabel from "@/components/ui/SectionLabel";
 import { useReveal } from "@/hooks/useScrollAnimation";
+import type { ServicesContent } from "@/sanity/content";
 
-export default function Services() {
+export default function Services({ services }: { services: ServicesContent | null }) {
   const { ref } = useReveal();
 
   return (
     <Section id="services" ref={ref}>
       <div className="reveal flex flex-col gap-10 md:flex-row md:items-end md:justify-between">
         <div className="md:w-1/2">
-          <SectionLabel index={6}>Services</SectionLabel>
+          <SectionLabel index={6}>{services?.eyebrow}</SectionLabel>
           <h2 className="type-title mt-6">
-            Every part of the day, <em>considered</em>.
+            <Headline value={services?.title} />
           </h2>
         </div>
-        <Button href="#contact-us">Plan your session</Button>
+        <Button href="#contact-us">{services?.ctaLabel}</Button>
       </div>
 
       <Divider className="mt-12" />
 
       <ul>
-        {services.map((s, i) => (
-          <li key={s.name} className="reveal flex items-baseline gap-6 border-b border-ink py-6"
+        {services?.items?.map((s, i) => (
+          <li key={s._key} className="reveal flex items-baseline gap-6 border-b border-ink py-6"
               style={{ "--i": i + 1 } as React.CSSProperties}>
             <span className="type-meta text-graphite">{String(i + 1).padStart(2, "0")}</span>
             <span className="type-heading flex-1">{s.name}</span>
@@ -217,4 +233,4 @@ export default function Services() {
 }
 ```
 
-Before finishing, run `npm run lint:design`, `npm run lint` and `npm run build`.
+Before finishing, run `pnpm lint:design`, `pnpm lint` and `pnpm build`.

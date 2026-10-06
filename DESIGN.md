@@ -127,7 +127,7 @@ Renders a Sanity headline field inline (the caller owns the element and the `typ
 ```tsx
 <SanityImage image={project.image} fill aspect={4 / 3} sizes="25vw" className="object-cover" />
 ```
-`next/image` backed by the Sanity CDN, which applies the editor's crop and hotspot. Pass `aspect` (height ÷ width) with `fill` to crop around the hotspot. Use `preload` on the LCP image only.
+`next/image` backed by the Sanity CDN, which applies the editor's crop and hotspot. Pass `aspect` (height ÷ width) with `fill` to crop around the hotspot; without `aspect`, a `fill` image is positioned on the hotspot via `object-position`. Use `preload` plus `fetchPriority="high"` on the LCP image only, and `loading="eager"` + `fetchPriority="low"` on other above-the-fold images so they don't compete with it (low also stops React from auto-preloading them).
 
 ### Recurring patterns
 - **Section header row:** eyebrow plus `type-title` on the left; a short `type-caption` blurb plus a `Button` link on the right, aligned to the bottom. A `Divider` follows. See `RecentFeed.tsx`.

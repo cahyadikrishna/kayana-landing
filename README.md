@@ -8,7 +8,10 @@ Next.js 16 site with content managed in Sanity.
 pnpm install
 cp .env.example .env.local   # then fill in SANITY_API_READ_TOKEN
 pnpm dev                     # http://localhost:3000
+pnpm typecheck               # generate Next route types, then tsc --noEmit
 ```
+
+CI (`.github/workflows/ci.yml`) runs on every PR and on pushes to `main`: lint, design lint, typecheck and build for the app, then a Studio typecheck, a typegen drift check on `src/sanity/types.ts`, and a Studio build.
 
 ## Content (Sanity)
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import Divider from "@/components/ui/Divider";
 import Headline from "@/components/ui/Headline";
 import Section from "@/components/ui/Section";
@@ -8,13 +8,16 @@ import SectionLabel from "@/components/ui/SectionLabel";
 import { useReveal } from "@/hooks/useScrollAnimation";
 import type { AboutContent } from "@/sanity/content";
 
+// Renders the real value on the server and without JS; animates 0 → target once `start`
+// flips, unless the visitor prefers reduced motion. null means "show the target".
 function useCountUp(target: number, duration: number, start: boolean) {
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState<number | null>(null);
   const hasRun = useRef(false);
 
   useEffect(() => {
     if (!start || hasRun.current) return;
     hasRun.current = true;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     const startTime = performance.now();
     let raf: number;
@@ -22,17 +25,23 @@ function useCountUp(target: number, duration: number, start: boolean) {
     const tick = (now: number) => {
       const progress = Math.min((now - startTime) / duration, 1);
       const eased = 1 - Math.pow(1 - progress, 3);
-      setCount(Math.round(target * eased));
       if (progress < 1) {
+        setCount(Math.round(target * eased));
         raf = requestAnimationFrame(tick);
+      } else {
+        setCount(null);
       }
     };
 
     raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
+    // An interrupted count (e.g. a live edit to target) snaps to the target instead of freezing
+    return () => {
+      cancelAnimationFrame(raf);
+      setCount(null);
+    };
   }, [start, target, duration]);
 
-  return start ? count : 0;
+  return count ?? target;
 }
 
 function StatNumber({
@@ -47,7 +56,8 @@ function StatNumber({
   const count = useCountUp(value, 1200, started);
   return (
     <>
-      {count.toLocaleString()}
+      {/* Fixed locale so server and client markup match; #10 swaps in the active locale */}
+      {count.toLocaleString("en-US")}
       {suffix}
     </>
   );
@@ -56,10 +66,11 @@ function StatNumber({
 export default function About({ about }: { about: AboutContent | null }) {
   const { ref, isVisible } = useReveal({ threshold: 0.2 });
   const stats = about?.stats ?? [];
+  const titleId = useId();
 
   return (
-    <Section id="about-us" ref={ref} className="overflow-hidden">
-      <SectionLabel index={1} className="reveal">
+    <Section id="about-us" ref={ref} labelledBy={titleId} className="overflow-hidden">
+      <SectionLabel as="h2" id={titleId} index={1} className="reveal">
         {about?.eyebrow}
       </SectionLabel>
 

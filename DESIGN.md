@@ -87,15 +87,16 @@ Density is sparse. Prefer more vertical air to more content.
 ### `Section` — every section starts here
 ```tsx
 const { ref } = useReveal();
-<Section id="services" tone="paper" ref={ref}>…</Section>
+const titleId = useId();
+<Section id="services" tone="paper" ref={ref} labelledBy={titleId}>…<h2 id={titleId}>…</h2></Section>
 ```
-Applies the surface tone, `py-section` and `container-page`. Use `as="footer"` for the footer. A full-bleed photo section (see `Testimonials.tsx`) uses a plain `<section className="relative bg-ink py-section">` plus `container-page`.
+Applies the surface tone, `py-section` and `container-page`. Pass the title's `useId()` as `labelledBy` so the section is a named region. Use `as="footer"` for the footer. A full-bleed photo section (see `Testimonials.tsx`) uses a plain `<section className="relative bg-ink py-section" aria-labelledby={titleId}>` plus `container-page`. Sections sit inside `<main id="main">` in `page.tsx`, after the `SkipLink` and `SiteHeader`; the footer stays outside `main`.
 
 ### `SectionLabel` — eyebrow above a title
 ```tsx
 <SectionLabel index={2} tone="ink">Our Work</SectionLabel>   // → (02) Our Work
 ```
-Mono metadata, no box. Number the sections in page order.
+Mono metadata, no box. Number the sections in page order. The `(01)` index is `aria-hidden`. When a section has no `type-title`, promote the eyebrow to its heading with `as="h2" id={titleId}` (see `About.tsx`).
 
 ### `Button` — text-with-arrow by default
 ```tsx
@@ -152,7 +153,7 @@ One easing and a few durations. Motion should feel like a page settling, never l
 ### Allowed patterns
 | Pattern | How |
 |---|---|
-| **Scroll reveal** (fade + 24px rise) | Add `reveal` to elements inside a section whose root gets `ref` from `useReveal()` |
+| **Scroll reveal** (fade + 24px rise) | Add `reveal` to elements inside a section whose root gets `ref` from `useReveal()`. The hidden state only applies under `html.js`, so content stays visible without JS |
 | **Stagger** | `style={{ "--i": n } as React.CSSProperties}` on `.reveal` / `.anim-*` elements |
 | **Hero load** | `anim-fade` (media, nav), `anim-rise` (headline), `anim-person` (cutouts) |
 | **Underline reveal** | `link-underline` on any text link (built into `Button`) |

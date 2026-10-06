@@ -3,17 +3,36 @@
 import { useReveal } from "@/hooks/useScrollAnimation";
 import { NAV_LINKS } from "@/lib/navigation";
 import Divider from "@/components/ui/Divider";
+import Headline from "@/components/ui/Headline";
 import Section from "@/components/ui/Section";
 import SectionLabel from "@/components/ui/SectionLabel";
+import { stegaClean } from "next-sanity";
+import { whatsappHref, type ContactHeader, type Settings } from "@/sanity/content";
 
-const contacts = [
-  { label: "+62 812-3456-7890", href: "https://wa.me/6289606620616", external: true },
-  { label: "hello@kayanamoment.com", href: "mailto:hello@kayanamoment.com", external: false },
-  { label: "@kayanamoment", href: "https://instagram.com/kayanamoment", external: true },
-];
-
-export default function Footer() {
+export default function Footer({
+  header,
+  settings,
+}: {
+  header: ContactHeader | null;
+  settings: Settings | null;
+}) {
   const { ref } = useReveal({ threshold: 0.1 });
+
+  const email = stegaClean(settings?.email);
+  const instagram = stegaClean(settings?.instagram);
+  const contacts = [
+    { label: settings?.whatsappLabel, href: whatsappHref(settings), external: true },
+    { label: settings?.email, href: email && `mailto:${email}`, external: false },
+    {
+      label: settings?.instagram && `@${settings.instagram}`,
+      href: instagram && `https://instagram.com/${instagram}`,
+      external: true,
+    },
+  ].filter((contact) => contact.label && contact.href);
+
+  // Wordmark: last word of the site name becomes the italic accent
+  const nameWords = (settings?.siteName ?? "").split(" ");
+  const accent = nameWords.length > 1 ? nameWords.pop() : undefined;
 
   return (
     <Section as="footer" id="contact-us" tone="ink" ref={ref} className="pb-10">
@@ -21,10 +40,10 @@ export default function Footer() {
       <div className="flex flex-col gap-10 md:flex-row md:items-end md:justify-between">
         <div className="reveal md:w-1/2">
           <SectionLabel tone="ink" index={5}>
-            Contact Us
+            {header?.eyebrow}
           </SectionLabel>
           <h2 className="type-title mt-6">
-            Let&apos;s capture your <em>vision</em> with us.
+            <Headline value={header?.title} />
           </h2>
         </div>
 
@@ -32,11 +51,11 @@ export default function Footer() {
           className="reveal flex flex-col items-start gap-1 md:w-1/3 md:items-end"
           style={{ "--i": 1 } as React.CSSProperties}
         >
-          <p className="type-meta mb-2 text-paper/50">Bali, Indonesia</p>
+          <p className="type-meta mb-2 text-paper/50">{settings?.location}</p>
           {contacts.map((contact) => (
             <a
               key={contact.href}
-              href={contact.href}
+              href={contact.href ?? undefined}
               {...(contact.external && { target: "_blank", rel: "noopener noreferrer" })}
               className="link-underline type-caption text-paper/70 transition-colors hover:text-paper"
             >
@@ -66,7 +85,7 @@ export default function Footer() {
         </nav>
 
         <p className="type-meta text-paper/40">
-          ©{new Date().getFullYear()} Kayana Moment. All rights reserved.
+          ©{new Date().getFullYear()} {settings?.siteName}. All rights reserved.
         </p>
       </div>
 
@@ -76,7 +95,7 @@ export default function Footer() {
         className="reveal type-display mt-16 text-center whitespace-nowrap md:text-[11.5vw]"
         style={{ "--i": 3 } as React.CSSProperties}
       >
-        Kayana <em>Moment</em>
+        {nameWords.join(" ")} {accent && <em>{accent}</em>}
       </p>
     </Section>
   );

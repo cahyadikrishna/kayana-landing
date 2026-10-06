@@ -1,17 +1,11 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import Button, { WhatsAppIcon } from "@/components/ui/Button";
+import Headline from "@/components/ui/Headline";
+import SanityImage from "@/components/ui/SanityImage";
 import { NAV_LINKS } from "@/lib/navigation";
-
-const WHATSAPP_NUMBER = "6281234567890"; // replace with actual number
-const WHATSAPP_HREF = `https://wa.me/${WHATSAPP_NUMBER}`;
-
-const credits = [
-  { index: "01", title: "A Symphony of Toques", meta: "Canon R5" },
-  { index: "02", title: "Last Bell, First Chapter", meta: "IPB University" },
-];
+import { whatsappHref, type HeroContent, type Settings } from "@/sanity/content";
 
 function MenuIcon({ open }: { open: boolean }) {
   return (
@@ -39,7 +33,15 @@ function MenuIcon({ open }: { open: boolean }) {
   );
 }
 
-export default function Hero() {
+export default function Hero({
+  hero,
+  settings,
+}: {
+  hero: HeroContent | null;
+  settings: Settings | null;
+}) {
+  const bookingHref = whatsappHref(settings);
+  const [left, middle, right] = hero?.cutouts ?? [];
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [stickyCta, setStickyCta] = useState(false);
 
@@ -71,13 +73,12 @@ export default function Hero() {
       className="relative h-[100svh] w-full overflow-hidden bg-ink text-paper"
     >
       {/* Static background image */}
-      <Image
-        src="/assets/hero-bg-bw.png"
+      <SanityImage
+        image={hero?.background}
         alt=""
         fill
-        priority
+        preload
         sizes="100vw"
-        aria-hidden="true"
         className="anim-fade object-cover"
       />
 
@@ -92,7 +93,7 @@ export default function Hero() {
             className="anim-rise type-display text-center md:text-left"
             style={{ "--i": 2 } as React.CSSProperties}
           >
-            We make your Graduation <em>effortless</em> captured.
+            <Headline value={hero?.headline} />
           </h1>
 
           <div>
@@ -101,12 +102,14 @@ export default function Hero() {
               className="anim-fade mt-10 hidden max-w-sm md:block"
               style={{ "--i": 6 } as React.CSSProperties}
             >
-              {credits.map((credit) => (
+              {hero?.credits?.map((credit, i) => (
                 <li
-                  key={credit.index}
+                  key={credit._key}
                   className="flex items-baseline gap-4 border-t border-paper/25 py-3 last:border-b"
                 >
-                  <span className="type-meta text-paper/50">{credit.index}</span>
+                  <span className="type-meta text-paper/50">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
                   <span className="type-caption flex-1">{credit.title}</span>
                   <span className="type-meta text-paper/50">{credit.meta}</span>
                 </li>
@@ -132,39 +135,31 @@ export default function Hero() {
 
         {/* Right column — person assets */}
         <div className="pointer-events-none absolute right-0 bottom-0 h-[55%] w-full md:relative md:h-full md:w-1/2 lg:w-[55%]">
-          {/* Person 3 — middle, lowest z */}
+          {/* Middle — largest, lowest z. The LCP element, so it preloads */}
           <div className="absolute bottom-0 left-1/2 z-10 h-full -translate-x-1/2">
-            <Image
-              src="/assets/hero-person-3.png"
-              alt="Graduate in red kebaya"
-              width={4218}
-              height={4450}
+            <SanityImage
+              image={middle}
+              preload
               sizes="(min-width: 768px) 40vw, 60vw"
               className="anim-person h-full w-max object-cover"
               style={{ "--i": 1 } as React.CSSProperties}
             />
           </div>
 
-          {/* Person 1 — left, higher z */}
+          {/* Left — higher z */}
           <div className="absolute bottom-0 left-0 z-20 h-[70%]">
-            <Image
-              src="/assets/hero-person-1.png"
-              alt="Graduate holding cap"
-              width={1892}
-              height={3058}
+            <SanityImage
+              image={left}
               sizes="(min-width: 768px) 25vw, 35vw"
               className="anim-person h-full w-auto"
               style={{ "--i": 3 } as React.CSSProperties}
             />
           </div>
 
-          {/* Person 2 — right, higher z */}
+          {/* Right — higher z */}
           <div className="absolute right-0 bottom-0 z-20 h-[70%]">
-            <Image
-              src="/assets/hero-person-2.png"
-              alt="Graduate in black kebaya with sash"
-              width={1540}
-              height={2818}
+            <SanityImage
+              image={right}
               sizes="(min-width: 768px) 25vw, 35vw"
               className="anim-person h-full w-auto"
               style={{ "--i": 5 } as React.CSSProperties}
@@ -176,7 +171,7 @@ export default function Hero() {
       {/* ── Nav ── */}
       <nav className="anim-fade absolute top-0 right-0 left-0 z-20 flex items-center justify-between border-b border-paper/20 px-6 py-5 md:px-16 lg:px-20">
         <a href="#home" className="type-subheading">
-          Kayana Moment
+          {settings?.siteName}
         </a>
 
         {/* Desktop: center nav links */}
@@ -198,16 +193,18 @@ export default function Hero() {
             stickyCta ? "pointer-events-none opacity-0" : "opacity-100"
           }`}
         >
-          <Button
-            href={WHATSAPP_HREF}
-            target="_blank"
-            rel="noopener noreferrer"
-            variant="outline"
-            tone="ink"
-            icon={<WhatsAppIcon />}
-          >
-            Book a Session
-          </Button>
+          {bookingHref && (
+            <Button
+              href={bookingHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              variant="outline"
+              tone="ink"
+              icon={<WhatsAppIcon />}
+            >
+              {settings?.bookingLabel}
+            </Button>
+          )}
         </div>
 
         {/* Mobile: menu toggle */}
@@ -222,23 +219,25 @@ export default function Hero() {
       </nav>
 
       {/* ── Sticky booking CTA — desktop after scroll, always on mobile ── */}
-      <div
-        className={`fixed right-6 bottom-6 z-50 transition-all duration-400 md:right-8 md:bottom-8 ${
-          stickyCta
-            ? "opacity-100 md:translate-y-0"
-            : "opacity-100 md:pointer-events-none md:translate-y-3 md:opacity-0"
-        }`}
-      >
-        <Button
-          href={WHATSAPP_HREF}
-          target="_blank"
-          rel="noopener noreferrer"
-          variant="solid"
-          icon={<WhatsAppIcon />}
+      {bookingHref && (
+        <div
+          className={`fixed right-6 bottom-6 z-50 transition-all duration-400 md:right-8 md:bottom-8 ${
+            stickyCta
+              ? "opacity-100 md:translate-y-0"
+              : "opacity-100 md:pointer-events-none md:translate-y-3 md:opacity-0"
+          }`}
         >
-          Book a Session
-        </Button>
-      </div>
+          <Button
+            href={bookingHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            variant="solid"
+            icon={<WhatsAppIcon />}
+          >
+            {settings?.bookingLabel}
+          </Button>
+        </div>
+      )}
 
       {/* ── Mobile Menu Overlay ── */}
       <div

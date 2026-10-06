@@ -2,15 +2,11 @@
 
 import { useEffect, useRef, useState } from "react";
 import Divider from "@/components/ui/Divider";
+import Headline from "@/components/ui/Headline";
 import Section from "@/components/ui/Section";
 import SectionLabel from "@/components/ui/SectionLabel";
 import { useReveal } from "@/hooks/useScrollAnimation";
-
-const stats = [
-  { value: 1000, suffix: "+", label: "Graduation sessions captured across Bali" },
-  { value: 50, suffix: "+", label: "Universities and campuses represented" },
-  { value: 100, suffix: "%", label: "Sessions delivered with care and heart" },
-];
+import type { AboutContent } from "@/sanity/content";
 
 function useCountUp(target: number, duration: number, start: boolean) {
   const [count, setCount] = useState(0);
@@ -57,19 +53,20 @@ function StatNumber({
   );
 }
 
-export default function About() {
+export default function About({ about }: { about: AboutContent | null }) {
   const { ref, isVisible } = useReveal({ threshold: 0.2 });
+  const stats = about?.stats ?? [];
 
   return (
     <Section id="about-us" ref={ref} className="overflow-hidden">
       <SectionLabel index={1} className="reveal">
-        About Us
+        {about?.eyebrow}
       </SectionLabel>
 
       {/* Part 1 — Stats row, columns ruled by hairlines */}
       <div className="mt-10 flex flex-col md:flex-row">
         {stats.map((stat, i) => (
-          <div key={stat.label} className="contents">
+          <div key={stat._key} className="contents">
             {i > 0 && <Divider orientation="vertical" className="hidden md:block" />}
 
             <div
@@ -79,7 +76,11 @@ export default function About() {
               style={{ "--i": i + 1 } as React.CSSProperties}
             >
               <p className="type-title">
-                <StatNumber value={stat.value} suffix={stat.suffix} started={isVisible} />
+                <StatNumber
+                  value={stat.value ?? 0}
+                  suffix={stat.suffix ?? ""}
+                  started={isVisible}
+                />
               </p>
               <p className="type-caption mt-3 max-w-[200px] text-graphite">{stat.label}</p>
             </div>
@@ -92,17 +93,17 @@ export default function About() {
       {/* Part 2 — Closing quote */}
       <div className="reveal flex flex-col gap-6 md:flex-row md:gap-0">
         <div className="md:w-1/3">
-          <SectionLabel>Why It Matters</SectionLabel>
+          <SectionLabel>{about?.quoteEyebrow}</SectionLabel>
         </div>
 
         <div className="md:w-2/3">
           <p className="type-quote max-w-3xl">
-            &ldquo;They&apos;ve already crossed the stage, held their scrolls, and smiled for
-            the last time as students. Their moments are captured <em>beautifully</em>,
-            forever. Now it&apos;s your turn.&rdquo;
+            &ldquo;
+            <Headline value={about?.quote} />
+            &rdquo;
           </p>
 
-          <p className="type-meta mt-6 text-graphite">— Kayana Moment</p>
+          <p className="type-meta mt-6 text-graphite">— {about?.attribution}</p>
         </div>
       </div>
     </Section>

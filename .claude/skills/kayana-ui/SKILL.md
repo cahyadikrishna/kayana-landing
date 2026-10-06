@@ -14,7 +14,8 @@ The Kayana site has a strict design system. Off-system styling breaks the brand 
 
 ## While building
 
-- Compose from `src/components/ui/`: `Section`, `SectionLabel`, `Button`, `Pill`, `Divider`. Don't re-implement them inline.
+- Compose from `src/components/ui/`: `Section`, `SectionLabel`, `Button`, `Pill`, `Divider`, `Headline`, `SanityImage`. Don't re-implement them inline.
+- No hard-coded copy or images: add a Sanity schema + query projection + seed entry and pass content in as props (DESIGN.md › 6). Run `stegaClean()` on any CMS string used in logic (hrefs, comparisons, keys).
 - Set type only through `type-display | type-title | type-quote | type-heading | type-subheading | type-body | type-caption | type-meta`.
 - Colors: `paper`, `ink`, `ink-pure`, `graphite`, `smoke`, `ash` (and opacity tints). Nothing else exists in the theme.
 - Motion: `reveal` class plus `--i` stagger, triggered by `useReveal()` on the section root. Nothing else unless DESIGN.md › Motion allows it.
@@ -25,9 +26,9 @@ The Kayana site has a strict design system. Off-system styling breaks the brand 
 Run all three and fix any failures:
 
 ```bash
-npm run lint:design
-npm run lint
-npm run build
+pnpm lint:design
+pnpm lint
+pnpm build
 ```
 
 Then check the page at mobile (375px) and desktop (1280px) widths.

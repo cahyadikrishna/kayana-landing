@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { VisualEditing } from "next-sanity/visual-editing";
 import { draftMode } from "next/headers";
 import { Fraunces, Inter, JetBrains_Mono } from "next/font/google";
@@ -25,6 +26,13 @@ const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
   weight: "400",
 });
+
+// Defaults for every route; the home page overrides them from Site settings
+export const metadata: Metadata = {
+  title: "Kayana Moment — Graduation Photography Agency",
+  description:
+    "We make your Graduation effortless captured. Professional graduation photography, portraits, and event coverage.",
+};
 
 export default async function RootLayout({
   children,

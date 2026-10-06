@@ -5,6 +5,6 @@ import { token } from "./token";
 // The browser token is only sent to the browser while draft mode is on
 export const { sanityFetch, SanityLive } = defineLive({
   client,
-  serverToken: token,
-  browserToken: token,
+  serverToken: token ?? false,
+  browserToken: token ?? false,
 });

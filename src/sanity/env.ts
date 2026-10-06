@@ -1,19 +1,7 @@
-function assertValue<T>(value: T | undefined, name: string): T {
-  if (value === undefined || value === "") {
-    throw new Error(`Missing environment variable: ${name}`);
-  }
-  return value;
-}
+// Public, non-secret values (also in .env.example) — defaults keep `next build` working without .env.local
+export const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "ovo94io9";
 
-export const projectId = assertValue(
-  process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
-  "NEXT_PUBLIC_SANITY_PROJECT_ID",
-);
-
-export const dataset = assertValue(
-  process.env.NEXT_PUBLIC_SANITY_DATASET,
-  "NEXT_PUBLIC_SANITY_DATASET",
-);
+export const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET || "production";
 
 export const apiVersion = "2026-10-01";
 

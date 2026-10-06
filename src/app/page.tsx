@@ -23,6 +23,17 @@ export default async function Home() {
   const { data } = await sanityFetch({ query: HOME_PAGE_QUERY });
   const { settings, hero, about, home, projects, testimonials } = data;
 
+  // Fail loudly rather than serve a blank page: a failed build keeps the last deploy,
+  // and a failed revalidation keeps serving the last good render.
+  const missing = Object.entries({ settings, hero, about, home })
+    .filter(([, doc]) => !doc)
+    .map(([name]) => name);
+  if (missing.length) {
+    throw new Error(
+      `Sanity content missing: ${missing.join(", ")}. Publish it in the Studio or run \`pnpm --dir studio seed\`.`,
+    );
+  }
+
   return (
     <>
       <Hero hero={hero} settings={settings} />

@@ -1,3 +1,4 @@
+import { stegaClean } from "next-sanity";
 import type { HOME_PAGE_QUERY_RESULT } from "./types";
 
 /** Shapes the section components receive, derived from HOME_PAGE_QUERY. */
@@ -17,5 +18,7 @@ export type HeadlineValue = NonNullable<HeroContent["headline"]>;
 export type SanityImageValue = NonNullable<HeroContent["background"]>;
 
 export function whatsappHref(settings: Settings | null) {
-  return settings?.whatsappNumber ? `https://wa.me/${settings.whatsappNumber}` : undefined;
+  // Stega characters would corrupt the wa.me URL in draft mode
+  const number = stegaClean(settings?.whatsappNumber);
+  return number ? `https://wa.me/${number}` : undefined;
 }

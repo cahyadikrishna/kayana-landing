@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import SkipLink from "@/components/ui/SkipLink";
+import SiteHeader from "@/components/SiteHeader";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
 import RecentFeed from "@/components/RecentFeed";
@@ -36,12 +38,16 @@ export default async function Home() {
 
   return (
     <>
-      <Hero hero={hero} settings={settings} />
-      <About about={about} />
-      <RecentFeed header={home?.projects ?? null} projects={projects} />
-      <CtaBanner1 cta={home?.ctaPrimary ?? null} />
-      <Testimonials header={home?.testimonials ?? null} testimonials={testimonials} />
-      <CtaBanner2 cta={home?.ctaClosing ?? null} />
+      <SkipLink />
+      <SiteHeader settings={settings} />
+      <main id="main" tabIndex={-1} className="focus:outline-none">
+        <Hero hero={hero} />
+        <About about={about} />
+        <RecentFeed header={home?.projects ?? null} projects={projects} />
+        <CtaBanner1 cta={home?.ctaPrimary ?? null} />
+        <Testimonials header={home?.testimonials ?? null} testimonials={testimonials} />
+        <CtaBanner2 cta={home?.ctaClosing ?? null} />
+      </main>
       <Footer header={home?.contact ?? null} settings={settings} />
     </>
   );

@@ -40,7 +40,11 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    // The inline script adds .js before paint so .reveal content stays visible without JS
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
+      </head>
       <body
         className={`${fraunces.variable} ${inter.variable} ${jetbrainsMono.variable} antialiased`}
       >

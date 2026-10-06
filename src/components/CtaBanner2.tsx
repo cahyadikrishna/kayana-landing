@@ -1,5 +1,6 @@
 "use client";
 
+import { useId } from "react";
 import Button from "@/components/ui/Button";
 import Headline from "@/components/ui/Headline";
 import Section from "@/components/ui/Section";
@@ -9,13 +10,14 @@ import type { CtaBlockContent } from "@/sanity/content";
 
 export default function CtaBanner2({ cta }: { cta: CtaBlockContent | null }) {
   const { ref } = useReveal({ threshold: 0.2 });
+  const titleId = useId();
 
   return (
-    <Section ref={ref}>
+    <Section ref={ref} labelledBy={titleId}>
       <div className="reveal mx-auto flex max-w-3xl flex-col items-center text-center">
         <SectionLabel>{cta?.eyebrow}</SectionLabel>
 
-        <h2 className="type-title mt-6">
+        <h2 id={titleId} className="type-title mt-6">
           <Headline value={cta?.title} />
         </h2>
 

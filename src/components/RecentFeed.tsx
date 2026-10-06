@@ -1,7 +1,7 @@
 "use client";
 
 import { stegaClean } from "next-sanity";
-import { useState } from "react";
+import { useId, useState } from "react";
 import { useReveal } from "@/hooks/useScrollAnimation";
 import Button from "@/components/ui/Button";
 import Divider from "@/components/ui/Divider";
@@ -23,6 +23,7 @@ export default function RecentFeed({
 }) {
   const { ref } = useReveal({ threshold: 0.1 });
   const [activeFilter, setActiveFilter] = useState(ALL);
+  const titleId = useId();
 
   // Category titles carry invisible edit markers in preview — compare the clean text
   const filters = [ALL, ...new Set(projects.map((project) => stegaClean(project.category) ?? ""))];
@@ -32,14 +33,14 @@ export default function RecentFeed({
       : projects.filter((project) => stegaClean(project.category) === activeFilter);
 
   return (
-    <Section id="projects" tone="ink" ref={ref}>
+    <Section id="projects" tone="ink" ref={ref} labelledBy={titleId}>
       {/* Section header row */}
       <div className="reveal flex flex-col gap-10 md:flex-row md:items-end md:justify-between">
         <div className="md:w-1/2">
           <SectionLabel tone="ink" index={2}>
             {header?.eyebrow}
           </SectionLabel>
-          <h2 className="type-title mt-6">
+          <h2 id={titleId} className="type-title mt-6">
             <Headline value={header?.title} />
           </h2>
         </div>

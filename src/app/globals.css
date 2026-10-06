@@ -271,18 +271,22 @@
 /*
  * .reveal fades + rises when it (or an ancestor) receives .visible from
  * useReveal(). Stagger siblings with style={{ "--i": n }}.
+ * The hidden state is gated on .js (set in layout.tsx), so without JS content stays visible.
  */
-.reveal {
+.js .reveal {
   opacity: 0;
   transform: translateY(24px);
+}
+
+.reveal {
   transition:
     opacity var(--duration-reveal) var(--ease-editorial),
     transform var(--duration-reveal) var(--ease-editorial);
   transition-delay: calc(var(--i, 0) * var(--stagger-step));
 }
 
-.reveal.visible,
-.visible .reveal {
+.js .reveal.visible,
+.js .visible .reveal {
   opacity: 1;
   transform: translateY(0);
 }
@@ -344,7 +348,8 @@
     animation: none !important;
   }
 
-  .reveal {
+  .reveal,
+  .js .reveal {
     opacity: 1;
     transform: none;
     transition: none;

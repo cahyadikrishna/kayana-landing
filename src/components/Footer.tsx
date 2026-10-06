@@ -2,6 +2,7 @@
 
 import { useReveal } from "@/hooks/useScrollAnimation";
 import { NAV_LINKS } from "@/lib/navigation";
+import { UI } from "@/lib/ui-strings";
 import Divider from "@/components/ui/Divider";
 import Headline from "@/components/ui/Headline";
 import Section from "@/components/ui/Section";
@@ -47,8 +48,8 @@ export default function Footer({
           </h2>
         </div>
 
-        <div
-          className="reveal flex flex-col items-start gap-1 md:w-1/3 md:items-end"
+        <address
+          className="reveal flex flex-col items-start gap-1 not-italic md:w-1/3 md:items-end"
           style={{ "--i": 1 } as React.CSSProperties}
         >
           <p className="type-meta mb-2 text-paper/50">{settings?.location}</p>
@@ -62,7 +63,7 @@ export default function Footer({
               {contact.label}
             </a>
           ))}
-        </div>
+        </address>
       </div>
 
       <Divider tone="ink" className="mt-section mb-8" />
@@ -72,7 +73,7 @@ export default function Footer({
         className="reveal flex flex-col items-center justify-between gap-6 md:flex-row"
         style={{ "--i": 2 } as React.CSSProperties}
       >
-        <nav className="flex flex-wrap justify-center gap-6">
+        <nav aria-label={UI.footerNav} className="flex flex-wrap justify-center gap-6">
           {NAV_LINKS.map((link) => (
             <a
               key={link.href}

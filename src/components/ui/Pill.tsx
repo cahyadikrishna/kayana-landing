@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import type { AnalyticsAttrs } from "@/lib/analytics";
 
 type PillTone = "paper" | "ink";
 
@@ -23,12 +24,15 @@ export default function Pill({
   active = false,
   onClick,
   className = "",
+  analytics,
 }: {
   children: ReactNode;
   tone?: PillTone;
   active?: boolean;
   onClick?: () => void;
   className?: string;
+  /** Tracking attributes from `analyticsAttrs()`. */
+  analytics?: AnalyticsAttrs;
 }) {
   const classes = `inline-flex items-center rounded-pill border px-6 pt-1.5 pb-2 type-meta transition-colors duration-200 ${
     active ? toneStyles[tone].active : toneStyles[tone].base
@@ -36,7 +40,7 @@ export default function Pill({
 
   if (onClick) {
     return (
-      <button type="button" onClick={onClick} aria-pressed={active} className={classes}>
+      <button type="button" onClick={onClick} aria-pressed={active} className={classes} {...analytics}>
         {children}
       </button>
     );

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { VisualEditing } from "next-sanity/visual-editing";
 import { draftMode } from "next/headers";
 import { Fraunces, Inter, JetBrains_Mono } from "next/font/google";
+import Analytics from "@/components/Analytics";
 import { SanityLive } from "@/sanity/live";
 import "./globals.css";
 
@@ -39,6 +40,8 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const isDraft = (await draftMode()).isEnabled;
+
   return (
     // The inline script adds .js before paint so .reveal content stays visible without JS
     <html lang="en" suppressHydrationWarning>
@@ -50,7 +53,7 @@ export default async function RootLayout({
       >
         {children}
         <SanityLive />
-        {(await draftMode()).isEnabled && <VisualEditing />}
+        {isDraft ? <VisualEditing /> : <Analytics />}
       </body>
     </html>
   );

@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import type { AnalyticsAttrs } from "@/lib/analytics";
 
 // ─── Icons ──────────────────────────────────────────────────────────────────
 
@@ -41,6 +42,8 @@ interface SharedProps {
   children?: ReactNode;
   className?: string;
   "aria-label"?: string;
+  /** Tracking attributes from `analyticsAttrs()`. */
+  analytics?: AnalyticsAttrs;
 }
 
 interface AsAnchor extends SharedProps {
@@ -89,6 +92,7 @@ export default function Button({
   children,
   className = "",
   "aria-label": ariaLabel,
+  analytics,
   ...rest
 }: ButtonProps) {
   const showArrow = arrow ?? !icon;
@@ -119,6 +123,7 @@ export default function Button({
         rel={rest.rel}
         aria-label={ariaLabel}
         className={containerClass}
+        {...analytics}
       >
         {content}
       </a>
@@ -131,6 +136,7 @@ export default function Button({
       onClick={rest.onClick}
       aria-label={ariaLabel}
       className={containerClass}
+      {...analytics}
     >
       {content}
     </button>

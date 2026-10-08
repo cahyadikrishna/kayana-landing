@@ -31,7 +31,7 @@ export default function Testimonials({
         image={header?.background}
         alt=""
         fill
-        className="object-cover object-center grayscale"
+        className="object-cover grayscale"
         sizes="100vw"
       />
       <div className="absolute inset-0 bg-ink/75" />

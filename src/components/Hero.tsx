@@ -3,7 +3,8 @@
 import { useId } from "react";
 import Headline from "@/components/ui/Headline";
 import SanityImage from "@/components/ui/SanityImage";
-import type { HeroContent } from "@/sanity/content";
+import type { HeroContent, SanityImageValue } from "@/sanity/content";
+import { croppedDimensions } from "@/sanity/image";
 
 export default function Hero({ hero }: { hero: HeroContent | null }) {
   const titleId = useId();
@@ -20,7 +21,8 @@ export default function Hero({ hero }: { hero: HeroContent | null }) {
         image={hero?.background}
         alt=""
         fill
-        preload
+        loading="eager"
+        fetchPriority="low"
         sizes="100vw"
         className="anim-fade object-cover"
       />
@@ -84,7 +86,8 @@ export default function Hero({ hero }: { hero: HeroContent | null }) {
             <SanityImage
               image={middle}
               preload
-              sizes="(min-width: 768px) 40vw, 60vw"
+              fetchPriority="high"
+              sizes={cutoutSizes(middle, 1)}
               className="anim-person h-full w-max object-cover"
               style={{ "--i": 1 } as React.CSSProperties}
             />
@@ -94,7 +97,9 @@ export default function Hero({ hero }: { hero: HeroContent | null }) {
           <div className="absolute bottom-0 left-0 z-20 h-[70%]">
             <SanityImage
               image={left}
-              sizes="(min-width: 768px) 25vw, 35vw"
+              loading="eager"
+              fetchPriority="low"
+              sizes={cutoutSizes(left, 0.7)}
               className="anim-person h-full w-auto"
               style={{ "--i": 3 } as React.CSSProperties}
             />
@@ -104,7 +109,9 @@ export default function Hero({ hero }: { hero: HeroContent | null }) {
           <div className="absolute right-0 bottom-0 z-20 h-[70%]">
             <SanityImage
               image={right}
-              sizes="(min-width: 768px) 25vw, 35vw"
+              loading="eager"
+              fetchPriority="low"
+              sizes={cutoutSizes(right, 0.7)}
               className="anim-person h-full w-auto"
               style={{ "--i": 5 } as React.CSSProperties}
             />
@@ -113,4 +120,16 @@ export default function Hero({ hero }: { hero: HeroContent | null }) {
       </div>
     </section>
   );
+}
+
+/**
+ * Cutouts are height-driven: the column is 55% of the viewport on mobile and
+ * full height from md, and `scale` is the cutout's share of that column.
+ * Rendered width = height × the cutout's width/height ratio.
+ */
+function cutoutSizes(image: SanityImageValue | undefined, scale: number) {
+  const dimensions = image && croppedDimensions(image);
+  const ratio = dimensions ? dimensions.width / dimensions.height : 1;
+  const vh = (columnHeight: number) => `${Math.round(100 * columnHeight * scale * ratio)}vh`;
+  return `(min-width: 768px) ${vh(1)}, ${vh(0.55)}`;
 }

@@ -3,6 +3,7 @@
 import { stegaClean } from "next-sanity";
 import { useId, useState } from "react";
 import { useReveal } from "@/hooks/useScrollAnimation";
+import { analyticsAttrs } from "@/lib/analytics";
 import Button from "@/components/ui/Button";
 import Divider from "@/components/ui/Divider";
 import Headline from "@/components/ui/Headline";
@@ -53,6 +54,7 @@ export default function RecentFeed({
               target="_blank"
               rel="noopener noreferrer"
               tone="ink"
+              analytics={analyticsAttrs("explore_more_click", {})}
             >
               {header.ctaLabel}
             </Button>
@@ -70,6 +72,12 @@ export default function RecentFeed({
             tone="ink"
             active={activeFilter === filter}
             onClick={() => setActiveFilter(filter)}
+            // Count filter changes, not repeat clicks on the active one
+            analytics={
+              filter === ALL || filter === activeFilter
+                ? undefined
+                : analyticsAttrs("project_filter", { category: filter })
+            }
           >
             {filter}
           </Pill>

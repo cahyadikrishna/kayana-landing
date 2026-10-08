@@ -1,6 +1,7 @@
 "use client";
 
 import { useReveal } from "@/hooks/useScrollAnimation";
+import { analyticsAttrs } from "@/lib/analytics";
 import { NAV_LINKS } from "@/lib/navigation";
 import { UI } from "@/lib/ui-strings";
 import Divider from "@/components/ui/Divider";
@@ -22,9 +23,20 @@ export default function Footer({
   const email = stegaClean(settings?.email);
   const instagram = stegaClean(settings?.instagram);
   const contacts = [
-    { label: settings?.whatsappLabel, href: whatsappHref(settings), external: true },
-    { label: settings?.email, href: email && `mailto:${email}`, external: false },
     {
+      channel: "whatsapp" as const,
+      label: settings?.whatsappLabel,
+      href: whatsappHref(settings),
+      external: true,
+    },
+    {
+      channel: "email" as const,
+      label: settings?.email,
+      href: email && `mailto:${email}`,
+      external: false,
+    },
+    {
+      channel: "instagram" as const,
       label: settings?.instagram && `@${settings.instagram}`,
       href: instagram && `https://instagram.com/${instagram}`,
       external: true,
@@ -58,6 +70,7 @@ export default function Footer({
               key={contact.href}
               href={contact.href ?? undefined}
               {...(contact.external && { target: "_blank", rel: "noopener noreferrer" })}
+              {...analyticsAttrs("contact_click", { channel: contact.channel })}
               className="link-underline type-caption text-paper/70 transition-colors hover:text-paper"
             >
               {contact.label}
@@ -85,9 +98,15 @@ export default function Footer({
           ))}
         </nav>
 
-        <p className="type-meta text-paper/40">
-          ©{new Date().getFullYear()} {settings?.siteName}. All rights reserved.
-        </p>
+        <div className="flex flex-col items-center gap-2 text-center md:items-end md:text-right">
+          <p className="type-meta text-paper/40">
+            ©{new Date().getFullYear()} {settings?.siteName}. All rights reserved.
+          </p>
+          <p className="type-meta text-paper/40">
+            {UI.privacyNote}
+            {email && ` ${UI.privacyQuestions} ${email}`}
+          </p>
+        </div>
       </div>
 
       {/* End mark — oversized wordmark */}

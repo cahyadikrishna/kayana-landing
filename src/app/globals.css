@@ -205,15 +205,12 @@
 
 /* ─── Page-load choreography (hero only) ──────────────────────────────────── */
 
+/* LCP elements must be visible on the first frame: `rise` (headline) and
+ * `person-rise` (cutouts) are transform-only, rise with no fade (see #21). */
+
 @keyframes rise {
-  from {
-    opacity: 0;
-    transform: translateY(24px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { transform: translateY(24px); }
+  to   { transform: translateY(0); }
 }
 
 @keyframes fade {
@@ -222,14 +219,8 @@
 }
 
 @keyframes person-rise {
-  from {
-    opacity: 0;
-    transform: translateY(90px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { transform: translateY(90px); }
+  to   { transform: translateY(0); }
 }
 
 @keyframes scroll-drift {

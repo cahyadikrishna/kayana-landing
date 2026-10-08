@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Button, { WhatsAppIcon } from "@/components/ui/Button";
+import { analyticsAttrs } from "@/lib/analytics";
 import { NAV_LINKS } from "@/lib/navigation";
 import { UI } from "@/lib/ui-strings";
 import { whatsappHref, type Settings } from "@/sanity/content";
@@ -156,6 +157,7 @@ export default function SiteHeader({ settings }: { settings: Settings | null }) 
               variant="outline"
               tone="ink"
               icon={<WhatsAppIcon />}
+              analytics={analyticsAttrs("book_session_click", { placement: "nav" })}
             >
               {settings?.bookingLabel}
             </Button>
@@ -190,6 +192,7 @@ export default function SiteHeader({ settings }: { settings: Settings | null }) 
             rel="noopener noreferrer"
             variant="solid"
             icon={<WhatsAppIcon />}
+            analytics={analyticsAttrs("book_session_click", { placement: "sticky" })}
           >
             {settings?.bookingLabel}
           </Button>

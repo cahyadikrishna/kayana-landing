@@ -1,16 +1,21 @@
 import type { Metadata } from "next";
 import { VisualEditing } from "next-sanity/visual-editing";
 import { draftMode } from "next/headers";
-import { Fraunces, Inter, JetBrains_Mono } from "next/font/google";
+import { Inter, JetBrains_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import { SanityLive } from "@/sanity/live";
 import "./globals.css";
 
-// Display serif — variable weight (100–900) + optical sizing, used by type-display / type-title
-const fraunces = Fraunces({
+// Display serif — self-hosted latin subset, wght 100–300 + opsz 24–144 (see
+// scripts/fonts/build-fraunces.sh). Used by type-display / type-title / type-quote.
+const fraunces = localFont({
+  src: [
+    { path: "./fonts/Fraunces-Roman.woff2", weight: "100 300", style: "normal" },
+    { path: "./fonts/Fraunces-Italic.woff2", weight: "100 300", style: "italic" },
+  ],
   variable: "--font-fraunces",
-  subsets: ["latin"],
-  style: ["normal", "italic"],
-  axes: ["opsz"],
+  display: "swap",
+  adjustFontFallback: "Times New Roman",
 });
 
 // Interface sans — weights 300/400 only (see DESIGN.md)
@@ -20,11 +25,13 @@ const inter = Inter({
   weight: ["300", "400"],
 });
 
-// Metadata mono — eyebrows, pills, counters
+// Metadata mono — eyebrows, pills, counters. Deferred, not removed: no preload (nothing mono is
+// above the fold on mobile), so it's still fetched once the CSS uses it, just not competing at start
 const jetbrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains-mono",
   subsets: ["latin"],
   weight: "400",
+  preload: false,
 });
 
 // Defaults for every route; the home page overrides them from Site settings

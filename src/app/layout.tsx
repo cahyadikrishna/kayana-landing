@@ -39,6 +39,8 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const isDraftMode = (await draftMode()).isEnabled;
+
   return (
     // The inline script adds .js before paint so .reveal content stays visible without JS
     <html lang="en" suppressHydrationWarning>
@@ -49,8 +51,8 @@ export default async function RootLayout({
         className={`${fraunces.variable} ${inter.variable} ${jetbrainsMono.variable} antialiased`}
       >
         {children}
-        <SanityLive />
-        {(await draftMode()).isEnabled && <VisualEditing />}
+        {isDraftMode && <SanityLive />}
+        {isDraftMode && <VisualEditing />}
       </body>
     </html>
   );

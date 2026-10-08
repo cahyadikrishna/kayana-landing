@@ -12,7 +12,7 @@ import { sanityFetch } from "@/sanity/live";
 import { HOME_PAGE_QUERY, SEO_QUERY } from "@/sanity/queries";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const { data } = await sanityFetch({ query: SEO_QUERY, stega: false });
+  const { data } = await sanityFetch({ query: SEO_QUERY, stega: false, tags: ["sanity"] });
 
   return {
     title: data?.seo?.title ?? data?.siteName ?? undefined,
@@ -22,7 +22,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function Home() {
-  const { data } = await sanityFetch({ query: HOME_PAGE_QUERY });
+  const { data } = await sanityFetch({ query: HOME_PAGE_QUERY, tags: ["sanity"] });
   const { settings, hero, about, home, projects, testimonials } = data;
 
   // Fail loudly rather than serve a blank page: a failed build keeps the last deploy,

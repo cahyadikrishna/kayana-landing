@@ -1,5 +1,3 @@
-"use client";
-
 import { useId } from "react";
 import Headline from "@/components/ui/Headline";
 import SanityImage from "@/components/ui/SanityImage";

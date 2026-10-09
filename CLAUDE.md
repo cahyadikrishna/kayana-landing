@@ -55,4 +55,7 @@ Non-negotiables:
 
 ## Fonts
 
-Loaded via `next/font/google` in `src/app/layout.tsx`: Fraunces (`--font-fraunces`, variable + italic + opsz), Inter 300/400 (`--font-inter`), JetBrains Mono 400 (`--font-jetbrains-mono`). They map to the `font-display` / `font-sans` / `font-mono` theme tokens.
+Declared in `src/app/layout.tsx` and mapped to the `font-display` / `font-sans` / `font-mono` theme tokens:
+
+- Fraunces (`--font-fraunces`) is self-hosted via `next/font/local` from `src/app/fonts/Fraunces-{Roman,Italic}.woff2`: a latin subset, wght 100–300, opsz 24–144 (optical sizing stays automatic). Both styles are preloaded. To change the weight range, axes or subset, edit and rerun `scripts/fonts/build-fraunces.sh` (needs python3; installs fonttools into a throwaway venv). It isn't run in CI. Don't use a Fraunces weight above 300, or a size below 24px, without regenerating.
+- Inter 300/400 (`--font-inter`) and JetBrains Mono 400 (`--font-jetbrains-mono`) load via `next/font/google`. Mono has `preload: false` because it isn't above the fold on mobile.

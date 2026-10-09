@@ -10,4 +10,6 @@ export const UI = {
   primaryNav: "Primary",
   footerNav: "Footer",
   testimonialsScroller: "Testimonial quotes",
+  privacyNote: "Anonymous, cookieless visit statistics (Vercel). No personal data is stored.",
+  privacyQuestions: "Questions:",
 } as const;

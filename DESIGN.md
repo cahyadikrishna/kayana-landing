@@ -153,9 +153,9 @@ One easing and a few durations. Motion should feel like a page settling, never l
 ### Allowed patterns
 | Pattern | How |
 |---|---|
-| **Scroll reveal** (fade + 24px rise) | Add `reveal` to elements inside a section whose root gets `ref` from `useReveal()`. The hidden state only applies under `html.js`, so content stays visible without JS |
+| **Scroll reveal** (fade + 24px rise) | Add `reveal` to elements inside a section whose root gets `ref` from `useReveal()`. The hidden state only applies under `html.js`, so content stays visible without JS. Below the fold only: don't use `reveal` on hero/LCP content, which must be visible on the first frame |
 | **Stagger** | `style={{ "--i": n } as React.CSSProperties}` on `.reveal` / `.anim-*` elements |
-| **Hero load** | `anim-fade` (media, nav), `anim-rise` (headline), `anim-person` (cutouts) |
+| **Hero load** | `anim-fade` (background media, nav, credits — never the LCP element), `anim-rise` (headline), `anim-person` (cutouts). The headline and cutouts rise without fading so the LCP paints on the first frame (#21). Never add opacity to `rise` / `person-rise` |
 | **Underline reveal** | `link-underline` on any text link (built into `Button`) |
 | **Arrow nudge** | Built into `Button` |
 | **Slow image zoom** (1.03) | `media-zoom` on an `<Image>` inside a `group` |

@@ -59,7 +59,7 @@ export default async function RootLayout({
         className={`${fraunces.variable} ${inter.variable} ${jetbrainsMono.variable} antialiased`}
       >
         {children}
-        <SanityLive />
+        {isDraft && <SanityLive />}
         {isDraft ? <VisualEditing /> : <Analytics />}
       </body>
     </html>

@@ -34,7 +34,7 @@ All copy, images, stats, testimonials and contact details live in Sanity (projec
 
 - `studio/` is a standalone Studio with its own `package.json`; it is excluded from the app's tsconfig and ESLint. Schemas are in `studio/schemaTypes/`; singletons are `siteSettings`, `hero`, `about`, `home`.
 - `src/app/page.tsx` runs one query (`HOME_PAGE_QUERY` in `src/sanity/queries.ts`) via `sanityFetch` and passes typed props down. Section components never fetch.
-- `<SanityLive />` in the layout revalidates on publish; draft mode + `<VisualEditing />` power click-to-edit in the Studio's Presentation tool.
+- `<SanityLive />` and `<VisualEditing />` render in draft mode only, powering live preview and click-to-edit in the Studio's Presentation tool. Published content is cached indefinitely and refreshed only by the Sanity publish webhook (`/api/revalidate`, `SANITY_REVALIDATE_SECRET`, expires the `sanity` cache tag). There is no time-based fallback; recover a missed delivery by resending it from the webhook log in sanity.io/manage.
 - In draft mode strings carry invisible stega markers: wrap any CMS value used in logic (hrefs, comparisons, keys) in `stegaClean()`. Metadata queries use `stega: false`.
 - Headlines are Portable Text restricted to one italic run — render with `Headline`. Images render with `SanityImage`.
 - Env vars: see `.env.example`. `SANITY_API_READ_TOKEN` is a secret Viewer token.
